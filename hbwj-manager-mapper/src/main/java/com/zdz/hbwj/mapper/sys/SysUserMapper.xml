@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdz.hbwj.mapper.sys.SysUserMapper">
+   
+    <resultMap type="com.zdz.hbwj.pojo.sys.SysUser" id="UserBean">
+        <result property="user_id" column="user_id"/>
+        <result property="user_name" column="user_name"/>
+        <result property="user_pwd" column="user_pwd"/>
+        <result property="user_parent" column="user_parent"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+    </resultMap>
+    
+    <!-- 注册用户 -->
+    <insert id="insertSysUser" useGeneratedKeys="true" keyProperty="user_id"
+        parameterType="com.zdz.hbwj.pojo.sys.SysUser" >          
+       insert into sys_user(user_name,user_pwd,user_parent,status,createTime,updateTime)
+       		values(#{user_name},#{user_pwd},#{user_parent},#{status},#{createTime},#{updateTime});            
+    </insert>
+    
+    <!-- 查找用户 -->
+    <select id="findUserByName" parameterType="java.lang.String"  resultMap="UserBean">
+    	select * from sys_user 
+		 WHERE user_name = #{user_name}
+    </select>
+    
+    <!-- 查找用户所对应的权限 -->
+    <select id="findUserRole" 
+    parameterType="java.lang.String" resultType="java.lang.String">
+    	select C.role_name from sys_user A left join sys_user_role B  
+    	on A.user_id=B.user_id left join sys_role C
+    	 on B.role_id = C.role_id where A.user_name= #{user_name}
+    </select>  
+</mapper>

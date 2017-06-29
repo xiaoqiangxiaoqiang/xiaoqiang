@@ -1,0 +1,128 @@
+html{
+	width:100%;
+	height:100%;
+}
+body{
+	margin: 0;
+	padding: 0;
+	background-image: url(./../images/bg.png);
+	background-size:cover;
+	position: relative;
+	height: 100%;
+}
+article{
+	padding-top: 50px;
+}
+p{
+	margin: 0;
+	padding: 0;
+	color: white;
+	font-size: 24px;
+}
+div.headerMsg{
+	height: 70px;
+	color:aliceblue;
+	line-height: 70px;
+	text-align: center;
+	font-weight:bold;
+	font-size: 28px;
+}
+form{
+	float: left;
+	width: 360px;
+	margin-top:25px;
+	border:1px dotted gray;
+	border-radius: 3px;
+	padding: 20px;
+	background: rgba(240,255,255,0.3);
+}
+form div.item,form p{
+	margin: 15px 25px;
+}
+form label{
+	font-size: 16px;
+	color: white;
+}
+
+div.imgDiv{
+	float: left;
+	width: 30%;
+	height: 400px;
+	margin-left: 22%;
+	margin-right: 40px;
+}
+img.leftImg{
+	width: 100%;
+	height:100%;
+}
+input.textin{
+	border:1px solid gray;
+	width:220px;
+	height: 24px;
+	border-radius: 4px;
+}
+
+input[type="checkbox"]{
+	vertical-align: middle;
+	margin: 0;
+}
+
+span.rem,a.forgetPw{
+	font-size: 12px;
+	color: blanchedalmond;
+	text-decoration: none;
+}
+input.button{
+	width: 110px;
+	height: 30px;
+	border:1px solid gray;
+	border-radius: 3px;
+	text-align: center;
+	background-color: darkslategrey;
+	color: white;
+}
+input.button:hover{
+	background-color: #53868B;
+}
+input.button:active{
+	background-color: darkslategrey;
+}
+input.code{
+	width:100px;
+	margin-right: 15px;
+}
+form.register{
+	display: none;
+}
+span.warming{
+	color: #CC0000;
+	font-size: 12px;
+}
+footer.footer{
+	width: 100%;
+	position: absolute;
+	bottom:0;
+	left:0;
+	height: 60px;
+	text-align: center;
+}
+
+div.footerMsg{
+	text-align: center;
+	color: #999;
+	font-size: 14px;
+}
+label.acceptLab{
+	font-size: 13px;
+}
+a.accept{
+	color:red;
+	font-size: 13px;
+}
+a.accept:hover{
+	cursor:pointer;
+	color: #f43499;
+}
+a.accept:active{
+	color:;
+}
