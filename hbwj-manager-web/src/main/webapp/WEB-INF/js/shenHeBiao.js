@@ -95,12 +95,11 @@ function checkContact(){
 }
 
 function checkDiZhi(){
-  var dizhi="";
   if($("#dizhi2").val()===""||$("#s_province").val()==="省份"||$("#s_city").val()==="地级市"||$("#s_county").val()==="市、县级市"){
     alert("请输入正确地址");
     return false;
   }else{
-    dizhi=$("#s_province").val()+$("#s_city").val()+$("#s_county").val()+$("#dizhi2").val();
+   
     return true;
   }
 }
@@ -109,6 +108,77 @@ function save(){
   if(!checkName()||!checkName2()||!checkId()||!checkContact()||!checkDiZhi()){
     return false;
   }else{
-
+	  var json={};
+	    //获取商家主键信息
+	    json.id =$("#id").val();
+	    //营业执照的类型
+	    json.reserved1=$("#yingyeZhizhao").val();
+		//获取店主的姓名
+	    json.name = $("#name").val();
+		//获取店铺名称
+	    json.name2 = $("#name2").val();
+		//获取省份证照片
+		json.identfy = $("#identfy").val();
+		//获取省份证id
+		json.indentifyId =$("#userId").val();
+		//获取地址
+		json.dizhi=$("#s_province").val()+$("#s_city").val()+$("#s_county").val()+$("#dizhi2").val();
+		//获取上传的商家营业执照
+		json.certificate_url = $("#certificate_url").val();
+		//获取上传的商标授权书照片
+		json.shop_identify = $("#shop_identify").val();
+		//获取店铺类型
+		json.shopType = $("#shopType").val();
+		//获取产品类型
+		json.shopCate = $("#shopCate").html();
+		//获取商家联系方式
+		json.contact = $("#contact").val();
+		//商家实体门面图
+		json.shop_url=$("#shop_url").val();	
+		//后台数据交换的ajax请求url;
+		url="Apply";
+		//ajax请求
+		doAjax(json,url,callback);
   }
+};
+
+//ajax请求服务器
+function doAjax(json,url,callback){
+	$.ajax({
+		type:'POST',
+		url:url,
+		data:json,
+		dataType:'JSON',
+		success:function(data){
+			callback(data);
+		},
+		error:function(){
+		}
+	})
+};
+
+//注册结果
+function callback(data){
+	try{
+		if(data.result==="0"){
+			return swal({
+				title:"申请成功",
+				text:"点击确定直接登录",
+				confirmButtonText:"确定",
+			},function(isConfirm){				
+				alert("sdgsad");
+			});
+
+		}else if(data.result==="1"){
+			returnswal({
+				title:"注册失败",
+				text:"点击确定直接登录",
+				confirmButtonText:"确定",
+			},function(isConfirm){
+			});
+
+		}
+	} catch(e){
+		alert("注册失败："+e);
+	}
 }

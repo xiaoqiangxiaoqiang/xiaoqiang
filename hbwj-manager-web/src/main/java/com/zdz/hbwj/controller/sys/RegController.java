@@ -29,14 +29,28 @@ public class RegController {
 	
 	
 	//进入网站首页
-	@RequestMapping(value="/hbwjR/index",method=RequestMethod.GET)
-	public String index(ModelMap map){
-		
-		return "login";
+	@RequestMapping(value="/hbwj/index",method=RequestMethod.GET)
+	public String index(ModelMap map,HttpServletRequest request,
+				HttpServletResponse response){
+	     String num = request.getParameter("param");
+	     if(num==null || num.equals("")){
+	    	 return "login";
+	     }else{
+	    	 if(num.equals("0")){
+	    		 request.setAttribute("massage", "用户名不存在");
+	    		 return "login";	    		 
+	    	 }else if(num.equals("1")){
+	    		 request.setAttribute("message", "密码不正确");    		
+	    		 return "login";
+	    	 }else{
+	    		 return null;
+	    	 }
+	     }
+				
 		
 	}
 	
-	@RequestMapping(value="/hbwjR/register",method=RequestMethod.POST)
+	@RequestMapping(value="/hbwj/register",method=RequestMethod.POST)
 	@ResponseBody
 	public void  Register(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
@@ -52,7 +66,8 @@ public class RegController {
 			user.setUser_name(phone);
 			user.setUser_pwd(user_pwd);
 			user.setUser_parent("admin");
-			user.setStatus(0);
+			//1:商家正常注册  2:商家申请店铺通过 3:商家申请店铺不通过
+			user.setStatus(1);
 			Date date = new Date();		
 			user.setCreateTime(date);
 			Date date1 = new Date();			
@@ -70,7 +85,7 @@ public class RegController {
 	}
 	
 	//验证手机号码是否被注册
-		@RequestMapping(value="/hbwjR/findFalse")
+		@RequestMapping(value="/hbwj/findFalse")
 		@ResponseBody
 		public void findFalse(HttpServletRequest request,
 				HttpServletResponse response) throws IOException{

@@ -22,6 +22,8 @@ $(document).ready(function(){
 			$("#password").on("keyup",function(){
 				showRight($(this));
 			})
+			
+			
 			//绑定注册事件
 			$("#doRegister").on("click",register);
 			
@@ -97,8 +99,7 @@ function checkPhone(){
 		return;
 	}else{
 		showRight(elem);
-		console.log("send");
-		doAjax({"phoneNum":tel},"/hbwjR/findFalse",resetBtn);
+		doAjax({"phoneNum":tel},"findFalse",resetBtn);
 	}
 
 	
@@ -263,29 +264,9 @@ function register(){
 	var json={};
 	json.phone=$("#phoneNum").val();
 	json.password=$("#passwordReg").val();
-	doAjax(json,"/hbwjR/register",regCallback)
+	doAjax(json,"register",regCallback)
 }
 
-/*//请求登录
-function login(){
-	var username=$("#username").val();
-	var password=$("#password").val();
-	if((/^1[34578][0-9]{9}/.test(username))|| username=="admin"){
-		showRight($("#username"));
-	}else{
-		showError($("#username"),"用户名格式不对");
-		return;
-	}
-	if(password.length<6||password.length>16){
-		showError($("#password"),"密码长度不对");
-	}else{
-		showRight($("#password"));
-	}
-	var json={};
-	json.username=username;
-	json.password=password;
-	doAjax(json,"/hbwj/login",logCallback)
-}*/
 
 
 function logCallback(data){
@@ -311,9 +292,8 @@ function regCallback(data){
 				text:"点击确定直接登录",
 				confirmButtonText:"确定",
 			},function(isConfirm){				
-				location.href="/hbwjR/index";
+				window.location.href="index";
 			});
-
 		}else if(data.result==="1"){
 			returnswal({
 				title:"注册失败",
@@ -321,7 +301,6 @@ function regCallback(data){
 				confirmButtonText:"确定",
 			},function(isConfirm){
 			});
-
 		}
 	} catch(e){
 		alert("注册失败："+e);

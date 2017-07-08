@@ -7,13 +7,13 @@
 <head>
 	<meta charset="UTF-8">
 	<title>货比五家——登录注册页面</title>
-	<link rel="stylesheet" type="text/css" href="/css/sweetalert.css">
-	<link rel="stylesheet" type="text/css" href="/css/dengLuZhuCe.css">
-	<link type="image/x-icon" rel="shortcut icon" href="/images/logo.jpg" />
-	<script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript" src="/js/jquery.cookie.js"></script>
-	<script type="text/javascript" src="/js/dengLuZhuCe.js"></script>
-	<script type="text/javascript" src="/js/sweetalert.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/sweetalert.css">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/dengLuZhuCe.css">
+	<link type="image/x-icon" rel="shortcut icon" href="${ctx}/images/logo.jpg" />
+	<script type="text/javascript" src="${ctx}/js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="${ctx}/js/jquery.cookie.js"></script>
+	<script type="text/javascript" src="${ctx}/js/dengLuZhuCe.js"></script>
+	<script type="text/javascript" src="${ctx}/js/sweetalert.min.js"></script>
 	
 </head>
 <body>
@@ -24,10 +24,10 @@
 	</header>
 	<article>
 		<div class="imgDiv">
-			<img src="/images/bgLeft.jpg" class="leftImg" alt="货比五家">
+			<img src="${ctx}/images/bgLeft.jpg" class="leftImg" alt="货比五家">
 		</div>
 
-		<form class="login" id="login" action="/hbwj/login"  method="post" >
+		<form class="login" id="login" action="${ctx}/hbwj/login"  method="post" >
 			<p>用户登录</p>
 
 			<div class="item">
@@ -98,6 +98,16 @@
 			联系电话：020-29061583
 		</div>		
 	</footer>
+	<c:if test="${ not empty message}">
+		<script type="text/javascript">		  
+		  showError( $("#password"),"密码错误!");		
+	</script>
+	</c:if>
 	
+	<c:if test="${ not empty massage}">
+		<script type="text/javascript">		  
+		  showError( $("#username"),"用户不存在!");		
+	</script>
+	</c:if>
 </body>
 </html>

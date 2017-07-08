@@ -1,9 +1,11 @@
 package com.zdz.hbwj.service.sys.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.zdz.hbwj.mapper.sys.SysUserMapper;
 import com.zdz.hbwj.pojo.sys.SysUser;
@@ -45,6 +47,16 @@ public class SysUserServiceImpl implements SysUserService{
 			return null;
 		}
 		
+	}
+	@Override
+	@Transactional
+	public void updateUserInfo(Map<String, Object> map) {
+		try {
+			sysUserMapper.updateSysUserInfo(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+			
 	}
 
 }

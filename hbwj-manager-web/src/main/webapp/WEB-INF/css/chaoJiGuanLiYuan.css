@@ -1,7 +1,7 @@
 html,body{
 	margin:0;
 	padding:0;
-	background-image: url(/images/bg.png);
+	background-image: url(../images/bg.png);
 	background-size:cover;
 	position: relative;
 	height: 100%;
@@ -67,10 +67,11 @@ div.headerUser{
 	text-align: right;
 }
 div.headerText{
-	line-height: 20px;
-	height: 20px;
+	line-height: 30px;
+	height: 30px;
 	color: aliceblue;
 	font-size:14px;
+	margin-bottom:10px;
 }
 a.exit{
 	color: gray;
@@ -80,6 +81,18 @@ a.exit{
 article div.tabsFrame{
 	width: 100%;
 	border:1px solid white;
+}
+div.searchDiv{
+	line-height:40px;
+	height:40px;
+	margin-left:110px;
+	display:inline-block;
+	font-size:16px;
+}
+input.search{
+	height:25px;
+	width:180px;
+	border-radius:3px;
 }
 table#dg{
 	margin-top: 1px;

@@ -1,6 +1,7 @@
 package com.zdz.hbwj.service.sys;
 
 import java.util.List;
+import java.util.Map;
 
 import com.zdz.hbwj.pojo.sys.SysUser;
 
@@ -14,4 +15,7 @@ public interface SysUserService {
 	
 	//查询用户所对应的权限信息
 	public List<String> findRoles(String user_name);
+	
+	//更新用户的信息
+	public void updateUserInfo(Map<String,Object> map);
 }

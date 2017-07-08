@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.zdz.hbwj.pojo.sys.SysUser;
 
-public class MemberInterceptor implements HandlerInterceptor {
+public class CompanyInterceptor implements HandlerInterceptor {
 
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object arg2, Exception arg3)
@@ -24,18 +24,19 @@ public class MemberInterceptor implements HandlerInterceptor {
 		
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	public boolean preHandle(HttpServletRequest request, 
-			HttpServletResponse response, Object arg2) throws Exception {		
-		//获取请求的路径
+			HttpServletResponse response, Object arg2) throws Exception {
+		 //获取访问的根路径
+		 String path = request.getContextPath();
+		 //获取请求的路径		
 		 HttpSession session =request.getSession();
 		 SysUser  user =  (SysUser) session.getAttribute("user");
 		 if(user!=null){
 			 return true;
 		 }else{
 			 //如何用户session 超时或者不存在则让其返回到登录页面 			 
-			 response.sendRedirect("/hbwjR/index");
+			 response.sendRedirect(path+"/hbwj/index");
 			 return false;
 		 }
 	}

@@ -3,15 +3,16 @@
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
-	http://www.springframework.org/schema/beans/spring-beans.xsd
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	 http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/mvc 
         http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
-        http://www.springframework.org/schema/context 
-        http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+        http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:component-scan base-package="com.zdz.hbwj.controller" />
 	<mvc:annotation-driven />
+	<context:component-scan base-package="com.zdz.hbwj.controller" />
+	
 		
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -19,6 +20,17 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 	
+	
+	<!-- 定义文件上传解析器 -->
+	<bean id="multipartResolver" 
+			class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 设置属性编码 -->
+		<property name="defaultEncoding" value="UTF-8"></property>
+		<!-- 设置文件最大的上传值为 5M -->
+		<property name="maxUploadSize" value="5242880"></property>
+	</bean>
+	
+		
 	<!-- 配置资源映射 -->
 	<mvc:resources location="/WEB-INF/js/" mapping="/js/**"/>
 	<mvc:resources location="/WEB-INF/css/" mapping="/css/**"/>
@@ -26,12 +38,37 @@
 	
 	
 	<!--配置拦截器, 多个拦截器,顺序执行 -->  
-<mvc:interceptors>    
+<mvc:interceptors> 
+	<!-- 公司管理员的拦截器 -->   
      <mvc:interceptor>    
-     
         <mvc:mapping path="/hbwj/enter/admin" />        
-        <bean class="com.zdz.hbwj.interceptor.MemberInterceptor"></bean>    
-    </mvc:interceptor> 
+        <bean class="com.zdz.hbwj.interceptor.CompanyInterceptor"></bean>    
+     </mvc:interceptor>
+     
+     <!-- 公司员工的拦截器 -->
+     <!-- <mvc:interceptor>    
+        <mvc:mapping path="/hbwj/enter/emp" />        
+        <bean class="com.zdz.hbwj.interceptor.EmpInterceptor"></bean>    
+     </mvc:interceptor> -->
+     
+      <!-- 商家店主的管理员拦截器 -->
+     <mvc:interceptor>    
+        <mvc:mapping path="/hbwj/shop/manager" />        
+        <bean class="com.zdz.hbwj.interceptor.ShopInterceptor"></bean>    
+     </mvc:interceptor>
+     
+      <!-- 商家员工拦截器 -->
+     <mvc:interceptor>    
+        <mvc:mapping path="/hbwj/shop/emp" />        
+        <bean class="com.zdz.hbwj.interceptor.ShopEmpInterceptor"></bean>    
+     </mvc:interceptor>
+     
+     <!-- 商家注册审核的页面拦截-->
+     <mvc:interceptor>    
+        <mvc:mapping path="/hbwj/shop/Authority" />        
+        <bean class="com.zdz.hbwj.interceptor.AuthorityInterceptor"></bean>    
+     </mvc:interceptor> 
+    
     <!-- 当设置多个拦截器时，先按顺序调用preHandle方法，然后逆序调用每个拦截器的postHandle和afterCompletion方法 -->  
 </mvc:interceptors> 
 </beans>
