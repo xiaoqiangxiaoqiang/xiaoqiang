@@ -74,7 +74,7 @@ public class LoginController {
 			     		return ;
 			     	}
 			     	if(list.contains("ROLE_COMEmp")){
-			     		//员工管理页面
+			     		//公司员工管理页面
 			     		response.sendRedirect(path+"/hbwj/enter/emp/index");
 			     		return ;
 			     	}

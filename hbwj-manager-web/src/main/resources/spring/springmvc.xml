@@ -55,7 +55,7 @@
         <mvc:mapping path="/hbwj/enter/shoper/*" />        
         <bean class="com.zdz.hbwj.interceptor.ShopInterceptor"></bean>    
      </mvc:interceptor>
-     
+        
       <!-- 商家员工拦截器 -->
      <mvc:interceptor>    
         <mvc:mapping path="/hbwj/enter/shopEmp/*" />        
