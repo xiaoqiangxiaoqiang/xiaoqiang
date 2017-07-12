@@ -11,16 +11,6 @@
 	href="${ctx}/css/chaoJiGuanLiYuan.css">
 <link type="image/x-icon" rel="shortcut icon" href="/images/logo.jpg" />
 <script type="text/javascript" src="${ctx}/js/jquery-3.2.1.min.js"></script>
-<%-- <script type="text/javascript"
-	src="${ctx}/js/easyui/jquery.easyui.min.js"></script>
-<!-- 引入easyUi国际化——中文 -->
-<script type="text/javascript"
-	src="${ctx}/js/easyui/easyui-lang-zh_CN.js" charset="utf-8"></script>
-<!-- 引入easyUi默认的CSS格式--蓝色 -->
-<link rel="stylesheet" type="text/css"
-	href="${ctx}/js/easyui/easyui.css" />
-<!-- 引入easyUi小图标 -->
-<link rel="stylesheet" type="text/css" href="${ctx}/js/easyui/icon.css" /> --%>
 <link rel="stylesheet" type="text/css" href="${ctx}/js/jquery-easyui-1.5.2/themes/default/easyui.css" />
     <link rel="stylesheet" type="text/css" href="${ctx}/js/jquery-easyui-1.5.2/themes/icon.css" />
     <script type="text/javascript" src="${ctx}/js/jquery-easyui-1.5.2/jquery.min.js"></script>
@@ -57,21 +47,21 @@
 	</div>
 
 	<div class="textForm" id="textForm">
-		<div class="item">
-			<label for="formUsername">用户名：</label> <input type="text"
-				id="formUsername" class="textin" spellcheck="false" />
-		</div>
+			<div class="item">
+				<label for="formUsername">用户名：</label>
+				<input type="text" id="formUsername" class="textin" spellcheck="false"/>
+			</div>
 
-		<div class="item">
-			<label for="formPassword">密&ensp;&ensp;码：</label> <input type="text"
-				id="formPassword" class="textin" spellcheck="false" />
-		</div>
+			<div class="item">
+				<label for="formPassword">密&ensp;&ensp;码：</label>
+				<input type="text" id="formPassword" class="textin" spellcheck="false"/>
+			</div>
 
-		<div class=" item divBtn">
-			<button class="button easyui-linkbutton" id="save">保存</button>
-			<button class="button easyui-linkbutton" id="cancle">取消</button>
+			<div class=" item divBtn">
+				<button class="button easyui-linkbutton" id="save">保存<tton>
+				<button class="button easyui-linkbutton" id="cancle">取消<tton>
+			</div>
 		</div>
-	</div>
 
 	<footer class="footer">
 		<div class="footerMsg">
@@ -80,8 +70,5 @@
 			Reserved.<br /> 联系电话：020-29061583
 		</div>
 	</footer>
-
-
-
 </body>
 </html>

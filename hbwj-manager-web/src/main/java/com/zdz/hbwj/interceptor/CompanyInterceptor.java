@@ -36,7 +36,7 @@ public class CompanyInterceptor implements HandlerInterceptor {
 			 return true;
 		 }else{
 			 //如何用户session 超时或者不存在则让其返回到登录页面 			 
-			 response.sendRedirect(path+"/hbwj/index");
+			 response.sendRedirect(path+"/hbwj/enter/index");
 			 return false;
 		 }
 	}

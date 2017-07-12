@@ -112,7 +112,7 @@ function addPanel(title) {
 		$('#userPanel').datagrid({
 			// 编写datagrid数据格式
 			method : "post",
-			url : "admin/findUserList",
+			url : "findUserList",
 			fitColumns : true,
 			autoRowHeight : false,
 			striped : true,
@@ -200,102 +200,132 @@ function addPanel(title) {
 		});
 		$(".datagrid-toolbar").append($("#datagridsearch"));
 		$(".datagrid-toolbar").css("height", "auto");
+		
+		
+		 //商家管理页面内容
+		$('#sellerPanel').datagrid({
+			// 编写datagrid数据格式
+			method : "post",
+			url : "findTShopReviewList",
+			fitColumns : true,
+			autoRowHeight : false,
+			striped : true,
+			loadMsg : "<span style='color:red;'>正在加载数据....</span>",
+			pagination : true,
+			singleSelect : false,
+			checkOnSelect : true,
+			selectOncheck : true,
+			pagination : true,
+			rownumbers : true,
+			pageSize : 10,
+			pageList : [ 10, 20, 30 ],
+			columns : [ [ {
+				field : 'id',
+				title : '用户账号',
+				width : '8%',
+				align : 'center',
+				
+			}, {
+				field : 'name',
+				title : '商家姓名',
+				width : '18%',
+				align : 'left',
+			}, {
+				field : 'indentifyId',
+				title : '商家省份证号',
+				width : '12%',
+				align : 'center',
+
+			},
+
+			{
+				field : 'product_type',
+				title : '产品类型',
+				width : '18%',
+				align : 'center'
+			}, {
+				field : 'chat_info',
+				title : '商家电话',
+				width : '7%',
+				align : 'center',
+
+			}, {
+				field : 'shop_name',
+				title : '商家店名',
+				width : '7%',
+				align : 'center',			
+			} , {
+				field : 'shop_addr',
+				title : '商家地址',
+				width : '7%',
+				align : 'center',			
+			}, {
+				field : 'apply_status',
+				title : '商家审核状态',
+				width : '7%',
+				align : 'center',			
+			} , {
+				field : 'applyTime',
+				title : '申请时间',
+				width : '7%',
+				align : 'center',			
+			}, {
+				field : 'passApply',
+				title : '通过时间',
+				width : '7%',
+				align : 'center',			
+			} ,{
+				field : 'reserved1',
+				title : '营业执照类型',
+				width : '7%',
+				align : 'center',			
+			} 
+			,{
+				field : 'reserved2',
+				title : '未通过原因',
+				width : '7%',
+				align : 'center',			
+			} 
+			] ],
+			loadFilter : function(data) {
+				return {
+					total : data.total,
+					rows : data.rows
+				};
+			},
+			toolbar : [ '-------------------',{
+				text : '店铺审核',
+				iconCls : 'icon-edit',
+				handler : function() {
+					editReview()
+				}
+			}, '--------------------', {
+				text : '查看详情',
+				iconCls : 'icon-cancel',
+				handler : function() {
+					delUser()
+				}
+			} ],
+			onClickRow : function(field, row) {
+				$('#userPanel').datagrid("unselectAll");// 取消选中当前所有行
+				$('#userPanel').datagrid("selectRow", field);// 选中当前点击的行
+
+			},
+		});
+		
 	});
-
-	//时间格式化输出
-	//格式化时间输出
-	function formattime(val) {
-		var year = parseInt(val.year) + 1900;
-		var month = (parseInt(val.month) + 1);
-		month = month > 9 ? month : ('0' + month);
-		var date = parseInt(val.date);
-		date = date > 9 ? date : ('0' + date);
-		var time = year + "年" + month + "月" + date + "日";
-		return time;
-	}
-	
-	var fieldArr = [];
-	switch (title) {
-	case "用户管理":
-		fieldArr = [ {
-			field : 'name',
-			title : '用户名',
-			width : 150,
-			resizable : true,
-			align : 'center'
-		}, {
-			field : 'password',
-			title : '密码',
-			width : 150,
-			resizable : true,
-			align : 'center'
-		}, {
-			field : 'admin',
-			title : '管理员',
-			width : 100,
-			resizable : true,
-			align : 'center'
-		} ];
-		break;
-	case "商家管理":
-		fieldArr = [ {
-			field : 'name',
-			title : '用户名',
-			width : 150,
-			resizable : true,
-			align : 'center'
-		}, {
-			field : 'password',
-			title : '密码',
-			width : 150,
-			resizable : true,
-			align : 'center'
-		}, {
-			field : 'status',
-			title : '状态',
-			width : 100,
-			resizable : true,
-			align : 'center'
-		} ];
-		break;
-	case "信息管理":
-		fieldArr = [ {
-			field : 'name',
-			title : '111',
-			width : 150,
-			resizable : true,
-			align : 'center'
-		}, {
-			field : 'password',
-			title : '222',
-			width : 150,
-			resizable : true,
-			align : 'center'
-		}, {
-			field : 'status',
-			title : '333',
-			width : 100,
-			resizable : true,
-			align : 'center'
-		} ];
-		break;
-	}
-	$('#' + curPanel).datagrid({
-		// url:'datagrid_data.json',
-		height : height - 33 - 40,
-		width : width - 2,
-		singleSelect : true,
-		// rownumbers:true,
-		collapsible : true,
-		// pagination:true,
-		striped : true,
-
-		onDblClickRow : function() {
-			editUser();
-		},
-
-	})
 }
+
+//商家店铺审核
+function  editReview(){
+	//获取某行的主键id便于查找
+	var curRow = $("#sellerPanel").datagrid('getSelected');
+	alert(curRow.id);
+	var id =curRow.id;
+	//转接到商家资料审核页面
+	window.location.href ="reviewShoper?id="+id;
+}
+
 
 //添加用户
 function addUser(){
@@ -348,10 +378,6 @@ function editUser() {
 	}
 }
 
-
-
-
-
 // 删除用户
 function delUser() {
 	var curRow = $("#userPanel").datagrid('getSelected');
@@ -362,7 +388,7 @@ function delUser() {
 			if (r) {
 				var json = {};
 				json.user_id = curRow.user_id;
-				doAjax(json, "admin/deleteSysUser", delCallback);
+				doAjax(json, "deleteSysUser", delCallback);
 			}
 		});
 	}
@@ -408,7 +434,7 @@ function save() {
 		}
 		json.password =password ;
 		json.user_id = user_id;
-		url = "admin/addComShop"; // 添加地址
+		url = "addComShop"; // 添加地址
 	}else{
 	    
 		var row = $("#userPanel").datagrid('getSelected');
@@ -421,7 +447,7 @@ function save() {
 		json.username =userName ;
 		json.password =password ;
 		json.user_id = user_id;
-		url = "admin/updateComShop"; // 修改地址
+		url = "updateComShop"; // 修改地址
 	}
 	doAjax(json, url, addCallback);
 }

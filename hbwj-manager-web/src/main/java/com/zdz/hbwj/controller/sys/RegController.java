@@ -21,15 +21,19 @@ import com.zdz.hbwj.pojo.sys.SysUser;
 import com.zdz.hbwj.service.sys.SysUserService;
 import com.zdz.hbwj.util.Md5Tool;
 
+/***
+ * 
+ * @author Administrator
+ *注册的控制器 进行商家的注册信息的控制器
+ */
 @Controller
+@RequestMapping(value="/hbwj/enter/")
 public class RegController {
 	
 	@Autowired
 	private SysUserService sysUserService;
-	
-	
 	//进入网站首页
-	@RequestMapping(value="/hbwj/index",method=RequestMethod.GET)
+	@RequestMapping("index")
 	public String index(ModelMap map,HttpServletRequest request,
 				HttpServletResponse response){
 	     String num = request.getParameter("param");
@@ -50,7 +54,7 @@ public class RegController {
 		
 	}
 	
-	@RequestMapping(value="/hbwj/register",method=RequestMethod.POST)
+	@RequestMapping("register")
 	@ResponseBody
 	public void  Register(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
@@ -85,7 +89,7 @@ public class RegController {
 	}
 	
 	//验证手机号码是否被注册
-		@RequestMapping(value="/hbwj/findFalse")
+		@RequestMapping("findFalse")
 		@ResponseBody
 		public void findFalse(HttpServletRequest request,
 				HttpServletResponse response) throws IOException{

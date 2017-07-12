@@ -193,7 +193,7 @@
 						clickFn:function(data){
 							var purl="";
 							for(var i=0;i<data.length;i++){
-								 purl += data[i].url+",";
+								purl += ","+data[i].url;
 								$("#identfy").val(purl);
 								 var img ='<img style="display:block; width:100px;height: 100px;" alt="" src="'+data[i].url+'">'
 								$(".div").html($(".div").html()+img);
@@ -212,7 +212,7 @@
 						clickFn:function(data){
 							var purl="";
 							for(var i=0;i<data.length;i++){
-								purl += data[i].url+",";
+								purl += ","+data[i].url;
 								$("#certificate_url").val(purl);
 								 var img ='<img style="display:block; width:100px;height: 100px;" alt="" src="'+data[i].url+'">'
 								$(".div1").html($(".div1").html()+img);
@@ -230,7 +230,7 @@
 						clickFn:function(data){
 							var purl="";
 							for(var i=0;i<data.length;i++){
-								purl += data[i].url+",";
+								purl += ","+data[i].url;
 								$("#shop_identify").val(purl);
 								 var img ='<img style="display:block; width:100px;height: 100px;" alt="" src="'+data[i].url+'">'
 								$(".div2").html($(".div2").html()+img);
@@ -249,7 +249,7 @@
 						clickFn:function(data){
 							var purl="";
 							for(var i=0;i<data.length;i++){
-								purl += data[i].url+",";
+								purl += ","+data[i].url;
 								$("#shop_url").val(purl);
 								 var img ='<img style="display:block; width:100px;height: 100px;" alt="" src="'+data[i].url+'">'
 								$(".div3").html($(".div3").html()+img);

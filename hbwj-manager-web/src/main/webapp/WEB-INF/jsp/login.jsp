@@ -27,7 +27,7 @@
 			<img src="${ctx}/images/bgLeft.jpg" class="leftImg" alt="货比五家">
 		</div>
 
-		<form class="login" id="login" action="${ctx}/hbwj/login"  method="post" >
+		<form class="login" id="login" action="${ctx}/hbwj/enter/login"  method="post" >
 			<p>用户登录</p>
 
 			<div class="item">

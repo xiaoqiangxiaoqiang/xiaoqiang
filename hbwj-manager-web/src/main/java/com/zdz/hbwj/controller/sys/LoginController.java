@@ -20,8 +20,13 @@ import com.zdz.hbwj.service.admin.UserManagerService;
 import com.zdz.hbwj.service.sys.SysUserService;
 import com.zdz.hbwj.util.Md5Tool;
 
+/**
+ * 
+ * @author Administrator
+ *进入网站首页和进入登录页面的控制器
+ */
 @Controller
-@RequestMapping(value="/hbwj/")
+@RequestMapping(value="/hbwj/enter/")
 public class LoginController {
 	@Autowired
 	private SysUserService sysUserService;
@@ -44,13 +49,13 @@ public class LoginController {
 			//判断用户名和密码的正确性
 			if(user==null||user.equals("")){
 				//判断用户不存在
-	     		response.sendRedirect(path+"/hbwj/index?param=0");
+	     		response.sendRedirect(path+"/hbwj/enter/index?param=0");
 	     		return;
 			}else{
 				//密码如果不存在
 				if(!userpwd.equals(user.getUser_pwd())){
 					//员工管理页
-		     		response.sendRedirect(path+"/hbwj/index?param=1");
+		     		response.sendRedirect(path+"/hbwj/enter/index?param=1");
 		     		return;
 				}
 				//用户名和密码都存在
@@ -65,12 +70,12 @@ public class LoginController {
 			     	session.setAttribute("roles", list);
 			     	if(list.contains("ROLE_COMAdmin")){
 			     		//公司管理员页面	     		
-			     		response.sendRedirect(path+"/hbwj/enter/admin");
+			     		response.sendRedirect(path+"/hbwj/enter/admin/index");
 			     		return ;
 			     	}
 			     	if(list.contains("ROLE_COMEmp")){
 			     		//员工管理页面
-			     		response.sendRedirect(path+"/hbwj/enter/emp");
+			     		response.sendRedirect(path+"/hbwj/enter/emp/index");
 			     		return ;
 			     	}
 			     	if(list.contains("ROLE_SHOPAdmin")){
@@ -83,7 +88,7 @@ public class LoginController {
 			     		//商家管理员页面
 			     		if(user.getStatus()==2){
 			     			//重定向到商家管理页面  已经申请商家店铺
-			     			response.sendRedirect(path+"/hbwj/enter/ShopManager");
+			     			response.sendRedirect(path+"/hbwj/enter/shoper/index");
 			     			return ;
 			     		}
 			     		
@@ -96,7 +101,7 @@ public class LoginController {
 			     	if(list.contains("ROLE_SHOPEmp")){
 			     		if(user.getStatus()==4){
 			     			//重定向到商家员工页面
-			     			response.sendRedirect(path+"/hbwj/shop/emp");
+			     			response.sendRedirect(path+"/hbwj/enter/shopEmp/index");
 			     			return ;
 			     		}
 			     		
@@ -112,23 +117,11 @@ public class LoginController {
 
          }
 	
-	
-	//重定向到公司员工页面
-	@RequestMapping("enter/emp")
-	public String enterEmp(ModelMap map){
-			return "companyEmp";
-		}
-	
 		
 	//重定向到错误的页面
 	@RequestMapping("enter/error")
 	public String enterError(ModelMap map){			
 			return "error";
 		}
-   
-	//重定向到商家员工页面
-	@RequestMapping("shop/emp")
-	public String enterShopEmp(ModelMap map){
-			return "shopEmp";
-		}
+ 
 }

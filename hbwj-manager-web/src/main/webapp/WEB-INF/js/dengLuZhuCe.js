@@ -189,14 +189,6 @@ function resetBtn(data){
 		noClick();
 	}		
 }
-/*function resetBtn(data){
-	if(data.result==true){
-		canClick();
-	}else{
-		noClick();
-	}
-}*/
-
 
 //说明该手机已经被注册
 function noClick(){
