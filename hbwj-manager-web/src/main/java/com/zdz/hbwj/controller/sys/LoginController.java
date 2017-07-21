@@ -92,9 +92,13 @@ public class LoginController {
 			     			return ;
 			     		}
 			     		
-			     		//商家提交的商户入驻的资料审核不通过页面
+			     		/**
+			     		 * 商家提交的商户入驻的资料审核不通过页面 状态为3表示 商家已经填写了申请审核的资料
+			     		 * 即在此登录景区只可以查看相应的状态
+			     		 */
+			     		 
 			     		if(user.getStatus()==3){
-			     			response.sendRedirect(path+"/hbwj/enter/ShopFail");
+			     			response.sendRedirect(path+"/hbwj/enter/common/findReviewInfo");
 			     			return ;
 			     		}
 			     	}			     	

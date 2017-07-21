@@ -4,17 +4,18 @@ import java.util.Date;
 
 public class SysUser {
 	
-	private Integer user_id;
+	private String user_id;
 	private String user_name;
 	private String user_pwd;
 	private String user_parent;
 	private Integer status;
 	private Date  createTime;
 	private Date  updateTime;
-	public Integer getUser_id() {
+	
+	public String getUser_id() {
 		return user_id;
 	}
-	public void setUser_id(Integer user_id) {
+	public void setUser_id(String user_id) {
 		this.user_id = user_id;
 	}
 	public String getUser_name() {
@@ -53,9 +54,6 @@ public class SysUser {
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
-	
-	
-	
 	
 	
 	

@@ -17,8 +17,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- 注册用户 -->
     <insert id="insertSysUser" useGeneratedKeys="true" keyProperty="user_id"
         parameterType="com.zdz.hbwj.pojo.sys.SysUser" >          
-       insert into sys_user(user_name,user_pwd,user_parent,status,createTime,updateTime)
-       		values(#{user_name},#{user_pwd},#{user_parent},#{status},#{createTime},#{updateTime});            
+       insert into sys_user(user_id,user_name,user_pwd,user_parent,status,createTime,updateTime)
+       		values(#{user_id},#{user_name},#{user_pwd},#{user_parent},#{status},#{createTime},#{updateTime});            
+    </insert>
+    
+    <!-- 添加员工权限 -->
+	 <insert id="insertSysUserRole"
+        parameterType="com.zdz.hbwj.pojo.sys.UserRole" >          
+       insert into sys_user_role(user_id,role_id)
+       		values(#{user_id},#{role_id});            
     </insert>
     
     <!-- 查找用户 -->

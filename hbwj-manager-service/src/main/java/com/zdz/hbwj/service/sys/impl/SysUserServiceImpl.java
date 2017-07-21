@@ -9,22 +9,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.zdz.hbwj.mapper.sys.SysUserMapper;
 import com.zdz.hbwj.pojo.sys.SysUser;
+import com.zdz.hbwj.pojo.sys.UserRole;
 import com.zdz.hbwj.service.sys.SysUserService;
 
 @Service
+@Transactional
 public class SysUserServiceImpl implements SysUserService{
 
 	@Autowired
 	private SysUserMapper sysUserMapper;
-	@Override
-	public void addSysUser(SysUser user) {
-		
-		try {
+	
+	
+	public void addSysUser(SysUser user,UserRole role) {
 			sysUserMapper.insertSysUser(user);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+			sysUserMapper.insertSysUserRole(role);
 	}
 	@Override
 	public SysUser findSysUser(String user_name) {

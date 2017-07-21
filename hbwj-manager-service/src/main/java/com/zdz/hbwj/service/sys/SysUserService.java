@@ -4,11 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.zdz.hbwj.pojo.sys.SysUser;
+import com.zdz.hbwj.pojo.sys.UserRole;
 
 public interface SysUserService {
 
 	//注册用户
-	public void  addSysUser(SysUser user);
+	public void  addSysUser(SysUser user,UserRole role);
 	
 	//查询用户
 	public SysUser findSysUser(String user_name);

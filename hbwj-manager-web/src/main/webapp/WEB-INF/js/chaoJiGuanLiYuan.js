@@ -80,6 +80,7 @@ function doSearch() {
 	queryParams.user_name = v_userName;
 	$("#userPanel").datagrid('options').queryParams = queryParams;
 	$("#userPanel").datagrid('reload');
+	queryParams.user_name="";
 
 }
 
@@ -90,8 +91,8 @@ function addPanel(title) {
 		var search = '<div class="searchDiv">手机号：<input type="text" class="search" id="user_name" value="" placeholder="请输入手机号码">&nbsp;&nbsp;<input type="button" onclick="doSearch()" value="搜索"></div>';
 	}
 	if (title == "商家管理") {
-		var kk = '<div class="searchDiv">商家状态:<select><option value="0">正常</option><option value="1">商铺审核通过</option><option value="2">商铺审核未通过</option></select></div>&nbsp;&nbsp;<input class="class" type="button" value="搜索">';
-		var search = '<div class="searchDiv">手机号：<input type="text" class="search" value="" placeholder="请输入手机号码"></div>'
+		var kk = '<div class="searchDiv">店铺审核状态:<select  id="status"><option value="0">全部</option><option value="1">待审核</option><option value="2">审核通过</option><option value="3">审核未通过</option></select></div>&nbsp;&nbsp;<input class="class" type="button" onclick="doSearchInfo()" value="搜索">';
+		var search = '<div class="searchDiv">手机号：<input type="text" id="user_name" class="search" value="" placeholder="请输入手机号码"></div>'
 				+ kk;
 	}
 	var contentStr = '' + search + '' + '<table id="' + curPanel + '"></table>'
@@ -261,9 +262,21 @@ function addPanel(title) {
 				align : 'center',			
 			}, {
 				field : 'apply_status',
-				title : '商家审核状态',
+				title : '店铺审核状态',
 				width : '7%',
-				align : 'center',			
+				align : 'center',
+				formatter:function formatPrice(val,row){
+					alert(val);
+					if (val==1){
+						return '待审核';
+					} 
+					if (val==2){
+						return '审核通过';
+					}
+					if (val==3){
+						return '审核不通过';
+					} 
+				},
 			} , {
 				field : 'applyTime',
 				title : '申请时间',
@@ -303,7 +316,7 @@ function addPanel(title) {
 				text : '查看详情',
 				iconCls : 'icon-cancel',
 				handler : function() {
-					delUser()
+					findInfo()
 				}
 			} ],
 			onClickRow : function(field, row) {
@@ -314,6 +327,22 @@ function addPanel(title) {
 		});
 		
 	});
+}
+
+
+//多重条件查询
+function doSearchInfo(){
+	// 获取用户名
+	var v_userName = $("#user_name").val();
+	var v_status = $("#status").val();
+	    alert(v_status);
+	var queryParams = $('#sellerPanel').datagrid('options').queryParams;
+	queryParams.user_name = v_userName;
+	queryParams.apply_status = v_status;
+	$("#sellerPanel").datagrid('options').queryParams = queryParams;
+	$("#sellerPanel").datagrid('reload');
+	queryParams.user_name="";
+	queryParams.apply_status = "";
 }
 
 //商家店铺审核

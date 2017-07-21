@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zdz.hbwj.pojo.sys.SysUser;
+import com.zdz.hbwj.pojo.sys.UserRole;
+import com.zdz.hbwj.service.admin.UserManagerService;
 import com.zdz.hbwj.service.sys.SysUserService;
 import com.zdz.hbwj.util.Md5Tool;
 
@@ -63,10 +66,13 @@ public class RegController {
 		String result = "0";
 		Map< String,Object> map = new  HashMap<String, Object>();
 		ObjectMapper mapper = new ObjectMapper();
-		try {			
+		try {
+			//注册商家用户信息
 			SysUser user = new SysUser();
 			String phone =  request.getParameter("phone");
 			String user_pwd = Md5Tool.getMd5(request.getParameter("password"));
+			String uuid = UUID.randomUUID().toString();
+			user.setUser_id(uuid);
 			user.setUser_name(phone);
 			user.setUser_pwd(user_pwd);
 			user.setUser_parent("admin");
@@ -76,7 +82,13 @@ public class RegController {
 			user.setCreateTime(date);
 			Date date1 = new Date();			
 			user.setUpdateTime(date1);
-			sysUserService.addSysUser(user);
+			
+			//添加用户的角色
+			UserRole role = new UserRole();
+			role.setUser_id(uuid);
+			role.setRole_id(3);
+			//考虑事务回滚
+			sysUserService.addSysUser(user,role);
 			map.put("result",result);			
 			String json = mapper.writeValueAsString(map);
 			out.write(json);
