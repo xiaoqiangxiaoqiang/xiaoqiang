@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +44,16 @@ public class ShoperAdminController {
 		SysUser user = (SysUser) session.getAttribute("user");
 		request.setAttribute("user", user);
 		return "shopAdmin";
+	}
+	
+	@RequestMapping("shoperEmpManager")
+	public String shoperEmpManager(HttpServletRequest request,
+			HttpServletResponse response){
+		HttpSession session = request.getSession();
+		SysUser user = (SysUser) session.getAttribute("user");
+		user.setUser_pwd("");
+		request.setAttribute("user", user);
+		return "shoperEmpManger";
 	}
 	
 	//分页查询商家所属的员工
@@ -123,17 +134,50 @@ public class ShoperAdminController {
 					role.setRole_id(4);
 					sysUserService.addSysUser(user, role);
 						//1:添加用户成功
-					map.put("result",1);			
+					map.put("result","0");			
 					String json = mapper.writeValueAsString(map);
 					out.write(json);
 				} catch (Exception e) {
 					e.printStackTrace();
 					//添加用户失败
-					map.put("result", "2");
+					map.put("result", "1");
 					String json = mapper.writeValueAsString(map);
 					out.write(json);
 				}
 			}
+		
+       //修改员工
+		@RequestMapping("updateSysUser")
+		public void updateSysUser(HttpServletRequest request,
+				  HttpServletResponse response) throws IOException{
+			response.setContentType("application/json; charset=utf-8");
+			PrintWriter out = response.getWriter();
+			Map<String, Object> map = new HashMap<String, Object>();
+			ObjectMapper mapper = new ObjectMapper();
+			try {
+				String user_id = request.getParameter("user_id");
+				String user_name = request.getParameter("username");
+				String user_pwd = Md5Tool.getMd5(request.getParameter("password"));
+
+				SysUser user = new SysUser();
+				user.setUser_id(user_id);
+				user.setUser_name(user_name);
+				user.setUser_pwd(user_pwd);
+				Date date = new Date();
+				user.setUpdateTime(date);
+				userManager.updateSysUserInfo(user);
+				map.put("result","0");
+				String json = mapper.writeValueAsString(map);
+				out.write(json);
+			} catch (Exception e) {
+				map.put("result", "1");
+				String json = mapper.writeValueAsString(map);
+				out.write(json);
+			}
+
+			
+		}
+		
 		
 		
 		//删除员工
@@ -172,7 +216,12 @@ public class ShoperAdminController {
 			SysUser  user1 = sysUserService.findSysUser(user_name);
 			if(user1!=null){
 				//0表示用户名已存在
-				map.put("result",0);			
+				map.put("result","0");			
+				String json = mapper.writeValueAsString(map);
+				out.write(json);
+			}else{
+				//1:表示用户没有被占用
+				map.put("result","1");			
 				String json = mapper.writeValueAsString(map);
 				out.write(json);
 			}

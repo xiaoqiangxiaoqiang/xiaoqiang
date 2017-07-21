@@ -351,8 +351,10 @@ function  editReview(){
 	var curRow = $("#sellerPanel").datagrid('getSelected');
 	alert(curRow.id);
 	var id =curRow.id;
+	//新建一个iframe
+	window.parent().add("商家审核",true,id);
 	//转接到商家资料审核页面
-	window.location.href ="reviewShoper?id="+id;
+/*	window.location.href ="reviewShoper?id="+id;*/
 }
 
 
