@@ -1,0 +1,247 @@
+html,body,p{
+	margin:0;
+	background-color: rgba(243, 245, 245, 0.4);
+}
+div.main{
+	position:relative;
+	padding-bottom:40px;
+}
+p.title{
+	position: relative;
+	text-align: center;
+	margin:10px 0;
+	font-size: 20px;
+	font-weight: bold;
+	font-color:gray;
+}
+p.collapse{
+	display: none;
+	margin: auto;
+	text-align: center;
+	cursor: pointer;
+	color:blue;
+	font-size: 14px;
+}
+p.collapse:hover{
+	text-decoration: underline;
+}
+p#spSellProps_Btn{
+	display: show;
+}
+p.delNotes{
+	color:gray;
+	/*text-align: left;*/
+	font-size: 14px;
+}
+p.sp{
+	margin-top:8px;
+	font-size:16px;
+}
+a.imgLink{
+	font-size: 14px;
+	color: #232121;
+}
+span.imgLink2{
+	color: red;
+}
+div.wrapDiv{
+	text-align: center;
+	margin-bottom: 35px;
+    position: relative;
+}
+div.wrap{
+	display: none;
+	margin: 25px;
+	font-size: 16px;
+}
+div.treeBtn{
+	text-align: center;
+	margin-top: 10px;
+}
+table.table{
+	background:rgba(228, 237, 239, 0.76);
+	/*min-width:1000px;*/
+	margin:auto;
+	border:3px solid #9cafc7;
+	border-radius: 3px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+table#spInfo,table#spSellProps{
+	display: none;
+}
+table#spSellProps td{
+	padding-left: 10px;
+}
+table#spProp{
+	table-layout:fixed;
+	display: none;
+}
+table tr td{
+	position: relative;
+}
+td.leftTd{
+	padding-left: 100px;
+	text-align: right;
+}
+td.rightTd{
+	padding-right: 100px;
+	padding-top: 10px;
+	padding-bottom: 20px;
+	text-align: left;
+}
+span.must{
+	font-size: 20px;
+	margin-right: 6px;
+	color: red;
+	vertical-align: top;
+}
+span.notes{
+	color:red;
+	font-size: small;
+}
+input.button{
+	cursor:pointer;
+}
+input#name{
+	width:260px;
+	height: 18px;
+}
+input#huoHao,input#brand{
+	height: 18px;
+	width: 230px;
+}
+input.price,input.number{
+	width:150px;
+	height: 18px;
+}
+textarea#name{
+	width: 300px;
+	resize: none;
+}
+textarea#details,textarea#extra{
+	width: 400px;
+	resize: none;
+}
+td.key{
+	max-width: 140px;
+	font-size:16px;
+	color:#7d7c7c;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	text-align: right;
+}
+td.value{
+	font-size:16px;
+	color:black;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	text-align: left;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	-o-text-overflow:ellipsis;
+	-moz-text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis
+}
+div.imgDiv{
+	margin:auto;
+	border: 3px solid #9cafc7;
+	border-radius: 3px;
+	background:rgba(228, 237, 239, 0.76);
+	display: none;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+div.imgWrap1{
+	position: relative;
+	border: 5px solid #1d5673;
+	display: inline-block;
+	height: 180px;
+	width: 260px;
+	margin:5px;
+}
+img.img1{
+	cursor: pointer;
+	height: 180px;
+	width: 260px;
+}
+div.imgWrap2{
+	position: relative;
+	border: 5px solid #1d5673;
+	display: inline-block;
+	height: 600px;
+	width: 400px;
+	margin:5px;
+}
+img.img2{
+	cursor: pointer;
+	height: 600px;
+	width: 400px;
+}
+div#imgDiv2{
+    top: 20px;
+    position: absolute;
+    margin-bottom: 60px;
+}
+ul.imgUl{
+	list-style-type:none;
+	display:inline-block;
+	padding:0;
+	margin:0;
+}
+li.imgLi{
+	display:inline-block;
+}
+span.warming{
+	display: none;
+	position: absolute;
+	left:2px;
+	top:33px;
+	color: red;
+	font-size: 14px;
+}
+span.warming1{
+	top:60px;
+}
+span.warming2{
+	top:105px;
+}
+span.warming3{
+	top:32px;
+}
+/* 火狐浏览器 */
+@-moz-document url-prefix() {
+	span.warming{ 
+		top:40px; 
+	}
+	span.warming1{
+		top:92px;
+	}
+	span.warming2{
+		top:148px;
+	}
+}
+span#typeName{
+	font-size:14px;
+	text-decoration:underline;
+	font-weight:bold;
+}
+div.imgDel{
+	width:15px;
+	height:15px;
+	background:url('../images/cancel.png');
+	opacity: 0.6;
+	position: absolute;
+	top:3px;
+	right: 5px;
+	cursor: pointer;
+	display: none;
+}
+div.imgDel:hover{
+	opacity: 1;
+}
+div#bottom{
+	position:absolute;
+	bottom:20px;
+}

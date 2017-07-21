@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdz.hbwj.mapper.shopper.ShoperMapper">
+
+	<!-- 商品类别信息 -->
+	<resultMap type="com.zdz.hbwj.pojo.shop.TShopCat" id="shopBean">
+	    <result property="id" column="id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="name" column="name"/>
+        <result property="status" column="status"/>
+        <result property="sortOrder" column="sort_order"/>
+        <result property="createdtime" column="createdTime"/>
+        <result property="upadtedtime" column="createdTime"/>
+	</resultMap>
+
+	<!-- 商家审核信息 -->
+	<resultMap type="com.zdz.hbwj.pojo.shop.TShopReview" id="reviewBean">
+	    <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="indentifyId" column="indentifyId"/>
+        <result property="shop_type" column="shop_type"/>
+        <result property="product_type" column="product_type"/>
+        <result property="identifyUrlA" column="identifyUrlA"/>
+        <result property="shop_identify" column="shop_identify"/>
+        <result property="certificate_url" column="certificate_url"/>
+        <result property="chat_info" column="chat_info"/>
+        <result property="shop_name" column="shop_name"/>
+        <result property="shop_addr" column="shop_addr"/>
+        <result property="apply_status" column="apply_status"/>
+        <result property="applyTime" column="applyTime"/>
+        <result property="passApply" column="passApply"/>
+        <result property="reserved1" column="reserved1"/>
+        <result property="reserved2" column="reserved2"/>
+        <result property="shop_url" column="shop_url"/>
+	</resultMap>
+
+
+
+	<!-- 显示商品类目信息 -->
+	<select id="findTShopCatList" 
+	      parameterType="java.lang.Integer" 
+	               resultMap="shopBean">
+	     select * from t_shop_cat where parent_id=#{id} 
+	
+	</select>
+
+
+   <!-- 插入商家审核信息 --> 
+  <insert id="insertTShopReview"   
+  				parameterType="com.zdz.hbwj.pojo.shop.TShopReview" >
+  		insert into t_shop_review (id,name,indentifyId,shop_type,
+  		    product_type,identifyUrlA,shop_identify,certificate_url,
+  		    chat_info,shop_name,shop_addr,apply_status,applyTime,
+  		     reserved1,reserved2,shop_url) values(#{id},#{name},#{indentifyId},#{shop_type},
+  		   #{product_type},#{identifyUrlA},#{shop_identify},#{certificate_url},
+  		   #{chat_info},#{shop_name},#{shop_addr},#{apply_status},#{applyTime},
+  		   #{reserved1},#{reserved2},#{shop_url})
+  
+  </insert>
+  
+  <!-- 分页查询商家申请店铺的资料 -->
+   <select id="findReviewByCondition" resultMap="reviewBean" 
+       parameterType="java.util.HashMap">
+   			select * from t_shop_review 
+   			 <where>
+		        <if test="user_name != null and user_name != ''">
+		          and  id like "%"#{user_name}"%"
+		        </if>
+		        <if test="apply_status != null">
+		          and  apply_status =#{apply_status}
+		        </if>
+            </where> limit #{start},#{end}
+   </select>
+   
+   <!-- 查询用户信息的总条数 -->
+    <!-- 分页用户的总条数 -->
+   <select id="findReviewCount" resultType="Integer" 
+      parameterType="java.util.HashMap" >
+   			
+   			select count(*) from t_shop_review
+   			<where>
+		        <if test="user_name != null and user_name != ''">
+		            id like "%"#{user_name}"%"
+		        </if>
+		        <if test="apply_status != null">
+		          and  apply_status =#{apply_status}
+		        </if>
+            </where>
+   </select>
+   
+   
+   <!-- 通过id去查询申请店铺的信息 -->
+   <select id="findReviewInfo" parameterType="java.util.HashMap" 
+   		resultType="com.zdz.hbwj.pojo.shop.TShopReview">
+   		select *from t_shop_review 
+   				<where>
+		        <if test="id != null and id!=''">
+		              id=#{id}
+		        </if>
+            </where>   		
+   </select>
+   
+   <!-- 更新商家申请店铺状态 -->
+   <update id="updateReviewInfo" 
+        parameterType="java.util.HashMap">
+   	   update t_shop_review 
+   	   <set>
+            <if test="apply_status!=null and apply_status !=''">
+                apply_status =#{apply_status},
+            </if>
+            <if test="reserved2!=null and reserved2 !='' ">
+                reserved2 = #{reserved2},         
+            </if>
+             <if test="passApply!=null and passApply !='' ">
+                passApply = #{passApply},         
+            </if>
+        </set>
+   		<where>
+			 <if test="id != null and id!=''">
+			        id=#{id}
+			 </if>
+          </where>
+   </update>
+</mapper>

@@ -1,0 +1,91 @@
+html,body{
+	height:100%;
+	margin:0;
+	padding:0;
+	box-sizing: border-box;
+	background-image: url(./../images/bg.png);
+	background-size:cover;
+}
+div.header{
+	height: 90px;
+	margin-bottom: -90px;
+	position: relative;
+}
+div.container{
+	min-height: 100%;
+	padding:90px 0 60px;
+}
+div.footer{
+	height: 60px;
+	margin-top: -60px;
+}
+
+div.headerMsg{
+	height: 70px;
+	color:aliceblue;
+	line-height: 70px;
+	text-align: center;
+	font-weight:bold;
+	font-size: 28px;
+}
+div.headerUser{
+	text-align: right;
+}
+div.headerText{
+	line-height: 20px;
+	height: 20px;
+	color: aliceblue;
+	font-size:14px;
+}
+a.exit{
+	color: gray;
+	text-decoration: none;
+	margin-left: 25px;
+}
+
+div.footerMsg{
+	text-align: center;
+	color: #999;
+	font-size: 14px;
+}
+
+div.leftSide{
+	float: left;
+	width:10%;
+	display: inline-block;
+}
+li.menuLi{
+	list-style-type: none;
+	text-align: center;
+	height: 30px;
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 30px;
+	background: #e0ecff;
+	margin-bottom: 1px;
+	border: 2px solid #e0ecff;
+	border-radius: 3px;
+	color: #2b4354;
+}
+button.leftBtn{
+	width: 100%;
+	height: 40px;
+	margin:1px auto;
+	font-size: 18px;
+	cursor: pointer;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	background-color: #E0ECFF;
+	border:1px solid #95B8E7;
+}
+button.leftBtn:active{
+	background-color:white;
+}
+div.tabsFrame{
+	width: 100%;
+	border:1px solid white;
+}
+div.content{
+	width: 89.8%;
+	display: inline-block;
+}

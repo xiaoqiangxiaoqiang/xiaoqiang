@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdz.hbwj.mapper.goods.SkuMapper">
+ 
+  <!-- 插入sku -->
+ <insert id="insertSku" parameterType="com.zdz.hbwj.pojo.goods.TSku" >
+    insert into t_sku (sku_id, spu_id, sku_num, 
+      sku_amount, upTime, updateTime, 
+      status, property1, property2, 
+      property3, reserved1, reserved2, 
+      reserved3)
+    values (#{skuId,jdbcType=VARCHAR}, #{spuId,jdbcType=VARCHAR}, #{skuNum,jdbcType=INTEGER}, 
+      #{skuAmount,jdbcType=INTEGER}, #{uptime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER}, #{property1,jdbcType=VARCHAR}, #{property2,jdbcType=VARCHAR}, 
+      #{property3,jdbcType=VARCHAR}, #{reserved1,jdbcType=VARCHAR}, #{reserved2,jdbcType=VARCHAR}, 
+      #{reserved3,jdbcType=VARCHAR})
+  </insert>
+  
+</mapper>

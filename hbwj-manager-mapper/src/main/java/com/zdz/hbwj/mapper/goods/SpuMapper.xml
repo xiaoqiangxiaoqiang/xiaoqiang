@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdz.hbwj.mapper.goods.SpuMapper">
+  
+  <!-- 定义TspuBean -->
+  <resultMap id="TSpuBean" type="com.zdz.hbwj.pojo.goods.TSpu">
+    <id column="spu_id" jdbcType="VARCHAR" property="spuId" />
+    <result column="branch" jdbcType="VARCHAR" property="branch" />
+    <result column="spu_name" jdbcType="VARCHAR" property="spuName" />
+    <result column="cat_id" jdbcType="INTEGER" property="catId" />
+    <result column="sell_amount" jdbcType="INTEGER" property="sellAmount" />
+    <result column="sell_point" jdbcType="VARCHAR" property="sellPoint" />
+    <result column="product_num" jdbcType="VARCHAR" property="productNum" />
+    <result column="oriPrice" jdbcType="BIGINT" property="oriprice" />
+    <result column="nowPrice" jdbcType="BIGINT" property="nowprice" />
+    <result column="product_images" jdbcType="VARCHAR" property="productImages" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="reserved1" jdbcType="VARCHAR" property="reserved1" />
+    <result column="reserved2" jdbcType="VARCHAR" property="reserved2" />
+  </resultMap>
+  
+  
+  <!-- 查询商品的属性的模板 -->
+  <select id="findProperties" parameterType="java.lang.Integer" 
+          resultType="java.lang.String">
+  		select t.sell_properties from t_properties t where cat_id=#{proId} 
+  </select>
+  
+  <!-- 插入TSpu -->
+  <insert id="insertSpu" parameterType="com.zdz.hbwj.pojo.goods.TSpu" >
+    insert into t_spu (spu_id, branch, spu_name, 
+      cat_id, sell_amount, sell_point, 
+      product_num, oriPrice, nowPrice, 
+      product_images, sort, status, 
+      createTime, updateTime, reserved1, 
+      reserved2)
+    values (#{spuId,jdbcType=VARCHAR}, #{branch,jdbcType=VARCHAR}, #{spuName,jdbcType=VARCHAR}, 
+      #{catId,jdbcType=INTEGER}, #{sellAmount,jdbcType=INTEGER}, #{sellPoint,jdbcType=VARCHAR}, 
+      #{productNum,jdbcType=VARCHAR}, #{oriprice,jdbcType=BIGINT}, #{nowprice,jdbcType=BIGINT}, 
+      #{productImages,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, #{reserved1,jdbcType=VARCHAR}, 
+      #{reserved2,jdbcType=VARCHAR})
+  </insert>
+  
+  <!-- 插入TSpuInfo -->
+  <insert id="insertSpuInfo" 
+       parameterType="com.zdz.hbwj.pojo.goods.TSpuInfo" 
+       useGeneratedKeys="true" keyProperty="user_id">
+    insert into t_spu_info (id, spu_id, product_info, 
+      product_param, seller_name, shop_id, 
+      createTime, shoper_name, updateTime, 
+      property1, property2, property3, 
+      reserved1, reserved2, reserved3
+      )
+    values (#{id,jdbcType=INTEGER}, #{spuId,jdbcType=VARCHAR}, #{productInfo,jdbcType=VARCHAR}, 
+      #{productParam,jdbcType=VARCHAR}, #{sellerName,jdbcType=VARCHAR}, #{shopId,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{shoperName,jdbcType=VARCHAR}, #{updatetime,jdbcType=DATE}, 
+      #{property1,jdbcType=VARCHAR}, #{property2,jdbcType=VARCHAR}, #{property3,jdbcType=VARCHAR}, 
+      #{reserved1,jdbcType=VARCHAR}, #{reserved2,jdbcType=VARCHAR}, #{reserved3,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <!-- 模糊查询所有的商家的spu -->
+  <select id="findTSpuList" resultMap="TSpuBean"
+     parameterType="java.util.HashMap">
+  		select * from t_spu t
+   			 <where>
+		        <if test="reserved1 != null and reserved1 != ''">
+		          and  t.reserved1 like "%"#{reserved1}"%"
+		        </if>
+		        <if test="status != null">
+		          and t.status =#{status}
+		        </if>
+		        <if test="product_num != null and product_num!='' ">
+		          and  t.product_num LIKE CONCAT(CONCAT('%',#{product_num}),'%')
+		        </if>
+		        <if test="spu_name != null and spu_name!='' ">
+		          and  t.spu_name LIKE CONCAT(CONCAT('%',#{spu_name}),'%')
+		        </if>
+            </where> limit #{start},#{end}
+  
+  </select>
+  
+  <!-- 查询总条数 -->
+  <select id="findTSpuListCount" resultType="Integer" 
+      parameterType="java.util.HashMap">
+  		select count(*) from t_spu t
+   			 <where>
+		        <if test="reserved1 != null and reserved1 != ''">
+		          and  t.reserved1 like "%"#{reserved1}"%"
+		        </if>
+		        <if test="status != null">
+		          and   t.status =#{status}
+		        </if>
+		        <if test="product_num != null and product_num!='' ">
+		          and  t.product_num LIKE CONCAT(CONCAT('%',#{product_num}),'%')
+		        </if>
+		        <if test="spu_name != null and spu_name!='' ">
+		          and  t.spu_name LIKE CONCAT(CONCAT('%',#{spu_name}),'%')
+		        </if>
+            </where> 
+  </select>
+  
+</mapper>
