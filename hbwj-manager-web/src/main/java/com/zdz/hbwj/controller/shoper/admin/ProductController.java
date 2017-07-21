@@ -430,10 +430,9 @@ public  void  findProductList(HttpServletRequest request,
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-	  	}
+	  	}	
 
+//修改商品信息
+		
 
-
-
-				
 }
