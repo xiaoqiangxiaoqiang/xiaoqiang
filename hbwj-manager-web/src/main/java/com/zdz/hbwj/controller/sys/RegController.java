@@ -57,6 +57,7 @@ public class RegController {
 		
 	}
 	
+	//商家注册
 	@RequestMapping("register")
 	@ResponseBody
 	public void  Register(HttpServletRequest request,
@@ -76,7 +77,7 @@ public class RegController {
 			user.setUser_name(phone);
 			user.setUser_pwd(user_pwd);
 			user.setUser_parent("admin");
-			//1:商家正常注册  2:商家申请店铺通过 3:商家申请店铺不通过
+			//1:商家正常注册  2:提交审核 3:审核通过 4:审核不通过
 			user.setStatus(1);
 			Date date = new Date();		
 			user.setCreateTime(date);

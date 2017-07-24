@@ -43,9 +43,10 @@ public class ShoperAdminController {
 		HttpSession session = request.getSession();
 		SysUser user = (SysUser) session.getAttribute("user");
 		request.setAttribute("user", user);
-		return "shopAdmin";
+		return "shopAdmin/shopAdmin";
 	}
 	
+	//商家管理员进入员工管理功能页面
 	@RequestMapping("shoperEmpManager")
 	public String shoperEmpManager(HttpServletRequest request,
 			HttpServletResponse response){
@@ -53,7 +54,7 @@ public class ShoperAdminController {
 		SysUser user = (SysUser) session.getAttribute("user");
 		user.setUser_pwd("");
 		request.setAttribute("user", user);
-		return "shoperEmpManger";
+		return "shopAdmin/shoperEmpManger";
 	}
 	
 	//分页查询商家所属的员工
@@ -69,8 +70,11 @@ public class ShoperAdminController {
 			try {
 			     //获取插叙条件
 			String user_parent = request.getParameter("user_parent");
+			String user_name = request.getParameter("user_name");
 			map.put("user_parent",user_parent);
 			condition.put("user_parent",user_parent);
+			map.put("user_name",user_name);
+			condition.put("user_name",user_name);
 				//获取dataGrid 的传输的参数的当前页
 			String page1 = request.getParameter("page");
 			    //获取每页显示多少条数据
@@ -122,7 +126,8 @@ public class ShoperAdminController {
 				    user.setUser_name(user_name);
 				    user.setUser_pwd(Md5Tool.getMd5(passWord1));
 				    user.setUser_parent(user_parent);
-				    user.setStatus(4);
+				    //状态为5 表示商家员工
+				    user.setStatus(5);
 				    Date date = new Date();
 				    user.setCreateTime(date);
 				    Date date1 = new Date();

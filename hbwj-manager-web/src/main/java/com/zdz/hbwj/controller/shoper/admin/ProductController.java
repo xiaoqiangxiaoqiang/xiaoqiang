@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zdz.hbwj.mapper.goods.SkuMapper;
+import com.zdz.hbwj.mapper.goods.SpuMapper;
 import com.zdz.hbwj.mapper.shopper.ShoperMapper;
 import com.zdz.hbwj.pojo.goods.TSku;
 import com.zdz.hbwj.pojo.goods.TSpu;
@@ -45,11 +47,11 @@ import net.sf.json.JSONObject;
 @RequestMapping(value="hbwj/enter/product/")
 public class ProductController {
 
-	private static String host = "192.168.40.134";
-	private static Integer port =21;
-	private static String username ="admin";
-	private static String password ="admin";
-	private static String  basePath="/home/admin/images/shoper";
+	private static final String host = "192.168.40.134";
+	private static final Integer port =21;
+	private static final String username ="admin";
+	private static final String password ="admin";
+	private static final String  basePath="/home/admin/images/shoper";
 	
 	@Autowired 
     private ShopService shopService;
@@ -61,7 +63,24 @@ public class ProductController {
 	@Autowired
 	private ShoperMapper shopMapper;
 	
-	@RequestMapping("index")
+	@Autowired
+	private  SpuMapper spuMapper;
+	@Autowired
+	private  SkuMapper skuMapper;
+	
+	
+	
+	
+	
+	//商家管理员进入商品管理的页面
+	@RequestMapping("shoperGoodsManager")
+	public String shoperGoodsManager(HttpServletRequest request,
+			HttpServletResponse response){
+		return "shopAdmin/product/shoperGoodsManager";
+	}
+	
+	//进入添加商品页面
+	/*@RequestMapping("enterProduct")
 	public String  enterProduct(HttpServletRequest request,
 			HttpServletResponse response){
 		HttpSession session =request.getSession();
@@ -70,8 +89,40 @@ public class ProductController {
 		map.put("id", user.getUser_name());
 	 	TShopReview review = shopMapper.findReviewInfo(map);
 	 	request.setAttribute("review", review);
-		return "addProduct";
+		return "shopAdmin/product/addProduct";
+	}*/
+
+	//进入查看商品页面
+	@RequestMapping("lookProduct")
+	public  String lookProduct(HttpServletRequest request, 
+			HttpServletResponse response){
+		 String spuId = request.getParameter("spu_id");
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("spu_id", spuId);
+		TSpu spu = spuMapper.findTSpu(map);
+		TSpuInfo spuInfo = spuMapper.findTSpuInfo(map);
+		List<TSku> list = skuMapper.findTSkuList(map);
+		//数据传输给查看页面
+		request.setAttribute("spu", spu);
+		request.setAttribute("spuInfo", spuInfo);
+		request.setAttribute("list", list);
+		return "shopAdmin/product/viewProduct";
+		
 	}
+	
+	//进入添加商品页面
+	@RequestMapping("lookIframe")
+	public String  lookIframe(HttpServletRequest request,
+			HttpServletResponse response){
+		HttpSession session =request.getSession();
+		SysUser user = (SysUser) session.getAttribute("user");
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("id", user.getUser_name());
+	 	TShopReview review = shopMapper.findReviewInfo(map);
+	 	request.setAttribute("review", review);
+		return "shopAdmin/product/addProduct";
+	}
+	
 	
 	@RequestMapping("loadIframe")
 	public String  loadIframe(HttpServletRequest request,
@@ -79,7 +130,25 @@ public class ProductController {
 		HttpSession session =request.getSession();
 		SysUser user = (SysUser) session.getAttribute("user");
 		request.setAttribute("user_name", user.getUser_name());
-		return "iframe1";
+		return "iframe/iframe1";
+	}
+	
+	//修改商品
+	@RequestMapping("updateProduct")
+	public  String updateProduct(HttpServletRequest request, 
+			HttpServletResponse response){
+		 String spuId = request.getParameter("spu_id");
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("spu_id", spuId);
+		TSpu spu = spuMapper.findTSpu(map);
+		TSpuInfo spuInfo = spuMapper.findTSpuInfo(map);
+		List<TSku> list = skuMapper.findTSkuList(map);
+		//数据传输给查看页面
+		request.setAttribute("spu", spu);
+		request.setAttribute("spuInfo", spuInfo);
+		request.setAttribute("list", list);
+		return "shopAdmin/product/updateProduct";
+		
 	}
 	
 	//商家店员上传商品图片
@@ -124,8 +193,6 @@ public class ProductController {
 			return map;
 		}
 		
-		
-	
 		//商家店铺选择类型
 		@SuppressWarnings({ "unchecked", "rawtypes", "null" })
 		@RequestMapping("loadShopCategroy")
@@ -370,7 +437,8 @@ public class ProductController {
 @RequestMapping("findTSpuList")
 public  void  findProductList(HttpServletRequest request,
 	  			HttpServletResponse response) throws IOException{
-	  		PrintWriter out = response.getWriter();
+	        response.setCharacterEncoding("UTF-8");
+	        PrintWriter out = response.getWriter();
 			Map<String, Object> map = new HashMap<String, Object>();
 			Map<String, Object> map1 = new HashMap<String, Object>();
 			Map<String, Object> condition = new HashMap<String, Object>();
@@ -432,7 +500,6 @@ public  void  findProductList(HttpServletRequest request,
 			}
 	  	}	
 
-//修改商品信息
 		
 
 }

@@ -1,0 +1,125 @@
+html,body{
+	margin:0;
+	padding:0;
+}
+table#addTable,table#editTable{
+	background-color: #f0f8ff;
+	display: none;
+	padding-top: 20px;
+	padding-bottom:10px;
+}
+table#addTable td.leftTd,table#editTable td.leftTd{
+	position: relative;
+	width: 130px;
+	height: 50px;
+	font-size: 16px;
+	text-align: right
+}
+table#addTable td.rightTd,table#editTable td.leftTd{
+	position: relative;
+	height: 50px;
+	width:300px;
+	text-align: left;
+	padding-left: 10px;
+}
+td.bottom{
+	height:40px;
+	text-align: center;
+}
+input.textin{
+	width: 220px;
+	height:25px;
+}
+input#code{
+	width: 110px;
+}
+input.button{
+	cursor: pointer;
+	width: 60px
+}
+span.error{
+	position: absolute;
+	top: 42px;
+	left: 10px;
+	color: red;
+}
+input#getCodeBtn{
+	cursor:not-allowed;
+}
+input#spName{
+	/*height: 20px;*/
+	width:180px;
+	margin-right:5px;
+}
+select#spStatus{
+	margin-right:5px;
+	vertical-align: middle;
+}
+input#spSearch{
+	cursor: pointer;
+	vertical-align: middle;
+}
+div#editKc{
+	display: none;
+	padding:20px;
+	font-size: 16px;
+	background-color: #eff1f3;
+}
+table td.tableHead{
+	font-weight: bold;
+}
+table#kcTable td.leftTd{
+	padding-bottom: 10px;
+	text-align: right;
+	width: 100px;
+	height: 30px;
+}
+table#kcTable td.rightTd{
+	padding-bottom: 10px;
+	text-align: left;
+	min-width: 350px;
+	height: 30px;
+}
+table#editKcTable{
+	border-collapse: collapse;
+	display: none;
+}
+table#editKcTable tr.trHead{
+	background: aliceblue;
+}
+table#editKcTable td.td1{
+	border:1px solid;
+	text-align: center;
+	width: 100px;
+	height: 30px;
+}
+table#editKcTable td.td2{
+	border:1px solid;
+	text-align: center;
+	width: 260px;
+}
+table#editKcTable td.td3{
+	border:1px solid;
+	text-align: center;
+	width: 120px;
+}
+input.kuCun{
+	padding:0;
+	color: red;
+	width:120px;
+	height:24px;
+	font-size: 15px;
+	font-weight: bold;
+	text-align: right;
+	background-color: inherit;
+}
+p.bottom{
+	margin-bottom: 0;
+	text-align: center;
+}
+input.button{
+	cursor:pointer;
+}
+.highlight{
+	background-color: #ffe48d;
+}

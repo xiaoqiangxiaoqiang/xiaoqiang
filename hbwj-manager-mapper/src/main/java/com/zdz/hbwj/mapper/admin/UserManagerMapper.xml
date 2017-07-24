@@ -17,15 +17,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    <!-- 分页查询用户信息 -->
    <select id="findUserByCondition" resultMap="UserBean" 
        parameterType="java.util.HashMap">
-   			select * from sys_user 
+   			select * from sys_user t
    			 <where>
-		        <if test="user_name != null and user_name != ''">
-		            user_name like "%"#{user_name}"%"
-		        </if>
-		        <if test="user_parent != null and user_parent != ''">
-		            user_parent like "%"#{user_parent}"%"
+   			  <if test="user_parent != null and user_parent != ''">
+		         and  t.user_parent like "%"#{user_parent}"%"
 		        </if>
 		        
+		        <if test="user_name != null and user_name != ''">
+		         and  t.user_name LIKE CONCAT(CONCAT('%',#{user_name}),'%')
+		        </if>
             </where> limit #{start},#{end}
    </select>
    
@@ -33,13 +33,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    <select id="findUserCount" resultType="Integer" 
       parameterType="java.util.HashMap" >
    			
-   			select count(*) from sys_user
+   			select count(*) from sys_user t
    			<where>
 		        <if test="user_name != null and user_name != ''">
-		            user_name like "%"#{user_name}"%"
+		           and t.user_name LIKE CONCAT(CONCAT('%',#{user_name}),'%')
 		        </if>
 		        <if test="user_parent != null and user_parent != ''">
-		            user_parent like "%"#{user_parent}"%"
+		           and t.user_parent like "%"#{user_parent}"%"
 		        </if>
             </where>
    </select>

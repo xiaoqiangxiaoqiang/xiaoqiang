@@ -1,0 +1,59 @@
+html,body{
+	margin:0;
+	padding:0;
+}
+table#addTable,table#editTable{
+	background-color: #eff1f3;
+	display: none;
+	padding-top: 20px;
+	padding-bottom:10px;
+}
+td.leftTd{
+	position: relative;
+	width: 130px;
+	height: 50px;
+	font-size: 16px;
+	text-align: right
+}
+td.rightTd{
+	position: relative;
+	height: 50px;
+	width:300px;
+	text-align: left;
+	padding-left: 10px;
+}
+td.bottom{
+	height:40px;
+	text-align: center;
+}
+input.textin{
+	width: 220px;
+	height:25px;
+}
+input#code{
+	width: 110px;
+}
+input.button{
+	cursor: pointer;
+	width: 60px
+}
+p.error1{
+	position: absolute;
+	margin:0;
+	top: 42px;
+	left: 10px;
+	color: red;
+	display: none;
+}
+input#getCodeBtn{
+	cursor:not-allowed;
+}
+input#ygPhone{
+	/*height: 20px;*/
+	width:180px;
+	margin-right:5px;
+}
+input#ygSearch{
+	cursor: pointer;
+	vertical-align: middle;
+}

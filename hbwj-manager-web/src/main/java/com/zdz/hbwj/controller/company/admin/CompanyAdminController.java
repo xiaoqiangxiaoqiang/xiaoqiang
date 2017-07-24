@@ -42,13 +42,25 @@ public class CompanyAdminController {
 	@Autowired
 	private SysUserService sysUserService;
 
-	// 进入公司管理员页面
+	// 进入公司管理员首页
 	@RequestMapping("index")
 	public String enterAdmin(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		SysUser user = (SysUser) session.getAttribute("user");
 		request.setAttribute("user", user);
-		return "companyAdmin";
+		return "companyAdmin/companyAdmin";
+	}
+	
+	//进入公司管理员页面的员工管理页面
+	@RequestMapping("companyAdminEmp")
+	public String companyAdminEmp(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
+		return "companyAdmin/companyAdminEmp";
+	}
+	
+	//公司管理员进入商家店铺申请资料页面
+	@RequestMapping("companyAdminShoper")
+	public String companyAdminShoper(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
+		return "companyAdmin/companyAdminShoper";
 	}
 
 	// 分页查询公司员工以及用户的数量
@@ -94,7 +106,6 @@ public class CompanyAdminController {
 	}
 
 	// 添加公司员工
-
 	@RequestMapping("addComShop")
 	@ResponseBody
 	public void addComShop(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -149,7 +160,6 @@ public class CompanyAdminController {
 	}
 
 	// 修改公司员工密码
-	// 更新用户权限信息
 	@RequestMapping("updateComShop")
 	public void updateSysUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json; charset=utf-8");

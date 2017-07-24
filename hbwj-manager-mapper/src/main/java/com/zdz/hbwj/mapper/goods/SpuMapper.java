@@ -22,4 +22,11 @@ public interface SpuMapper {
 		//分页查询总的条数
 		public  int  findTSpuListCount(Map<String,Object> condition);
 		
+		//查询单个spu的信息
+		public  TSpu findTSpu(Map<String,Object> map);
+		
+		//通过spuId 查询spuInfo信息
+		public  TSpuInfo findTSpuInfo(Map<String,Object> map);
+		
+		
 }

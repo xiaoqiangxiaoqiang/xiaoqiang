@@ -86,9 +86,10 @@ public class LoginController {
 			     			return ;
 			     		}
 			     		//商家管理员页面
-			     		if(user.getStatus()==2){
+			     		if(user.getStatus()==2 ||user.getStatus()==4){
 			     			//重定向到商家管理页面  已经申请商家店铺
-			     			response.sendRedirect(path+"/hbwj/enter/shoper/index");
+			     			response.sendRedirect(path+"/hbwj/enter/shoper/reviewFail");
+			     			/*response.sendRedirect(path+"/hbwj/enter/shoper/index");*/
 			     			return ;
 			     		}
 			     		
@@ -98,22 +99,24 @@ public class LoginController {
 			     		 */
 			     		 
 			     		if(user.getStatus()==3){
-			     			response.sendRedirect(path+"/hbwj/enter/common/findReviewInfo");
+			     			//商家审核资料成功！
+			     			response.sendRedirect(path+"/hbwj/enter/shoper/index");
+			     			/*response.sendRedirect(path+"/hbwj/enter/common/findReviewInfo");*/
 			     			return ;
 			     		}
 			     	}			     	
 			     	if(list.contains("ROLE_SHOPEmp")){
-			     		if(user.getStatus()==4){
+			     		if(user.getStatus()==5){
 			     			//重定向到商家员工页面
 			     			response.sendRedirect(path+"/hbwj/enter/shopEmp/index");
 			     			return ;
 			     		}
 			     		
-			     		if(user.getStatus()==5){
+			     		/*if(user.getStatus()==6){
 			     			//重定向到商家员工无权限页面
 			     			response.sendRedirect(path+"/hbwj/shop/failEmp");
 			     			return ;
-			     		}
+			     		}*/
 			     		
 			     	  }
 				  }
@@ -128,4 +131,11 @@ public class LoginController {
 			return "error";
 		}
  
+	@RequestMapping("shoper/reviewFail")
+	public String reviewFail(ModelMap map){
+			//进入商家审核不通过页面
+			return "reviewResult";
+		}
+	
+	
 }

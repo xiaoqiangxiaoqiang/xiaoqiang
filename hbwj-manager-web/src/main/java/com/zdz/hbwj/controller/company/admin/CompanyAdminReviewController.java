@@ -20,7 +20,7 @@ import com.zdz.hbwj.pojo.shop.TShopReview;
 import com.zdz.hbwj.service.shop.ShopService;
 
 /**
- * 公司管理员审核查看商家的controller
+ * 公司管理员审核查看商家申请的店铺资料controller
  * 
  * @author Administrator
  *
@@ -32,9 +32,9 @@ public class CompanyAdminReviewController {
 	@Autowired
 	private ShopService shopService;
 
-	// 进入商家申请店铺页面
-	@RequestMapping("reviewShoper")
-	public String reviewShoper(HttpServletRequest request, HttpServletResponse response) {
+	//公司管理员进入商家申请店铺资料审核页面
+	@RequestMapping("authorityShoper")
+	public String authorityShoper(HttpServletRequest request, HttpServletResponse response) {
 		// 获取审核主键
 		String id = request.getParameter("id");
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -43,15 +43,15 @@ public class CompanyAdminReviewController {
 		try {
 			TShopReview review = shopService.findTShopReviewInfo(map);
 			request.setAttribute("review", review);
-			return "authorityShoper";
+			return "companyAdmin/authorityShoper";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 
 	}
-
 	
+	//公司管理员查询所有商家申请店铺的信息
 	@RequestMapping("findTShopReviewList")
 	public void findTShopReviewList(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("application/json; charset=utf-8");
@@ -119,9 +119,12 @@ public class CompanyAdminReviewController {
 			Map<String, Object> map1 = new HashMap<String, Object>();
 			map1.put("id", id);
 			map1.put("apply_status", 2);
+			Date date = new Date();
+			map1.put("passApply", date);
 			Map<String, Object> map2 = new HashMap<String, Object>();
 			map2.put("user_name", id);
-			map2.put("status", 2);
+			//审核通过用户的状态为3
+			map2.put("status",3);
 			shopService.updateShoperInfo(map1, map2);
 			// 审核提交成功
 			data.put("result", "0");
@@ -152,13 +155,14 @@ public class CompanyAdminReviewController {
 			// 更新商家店铺申请状态和此商家的状态
 			Map<String, Object> map1 = new HashMap<String, Object>();
 			map1.put("id", id);
-			map1.put("apply_status", 3);
+			map1.put("apply_status",3);
 			map1.put("reserved2", reserved2);
 			Date date = new Date();
 			map1.put("passApply", date);
 			Map<String, Object> map2 = new HashMap<String, Object>();
 			map2.put("user_name", id);
-			map2.put("status", 3);
+			//审核不通过时状态为4
+			map2.put("status", 4);
 			shopService.updateShoperInfo(map1, map2);
 			// 审核提交成功
 			data.put("result", "0");
@@ -173,5 +177,24 @@ public class CompanyAdminReviewController {
 		}
 
 	}
+	
+	//查看商家审核信息
+	@RequestMapping("viewShoper")
+	public String viewShoper(HttpServletRequest request,
+			HttpServletResponse response){
+		   // 获取审核主键
+				String id = request.getParameter("id");
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("id", id);
+				// 查询相应的主键的信息
+				try {
+					TShopReview review = shopService.findTShopReviewInfo(map);
+					request.setAttribute("review", review);
+					return "companyAdmin/authorityShoper";
+				} catch (Exception e) {
+					e.printStackTrace();
+					return null;
+				}
+	   }
 
 }

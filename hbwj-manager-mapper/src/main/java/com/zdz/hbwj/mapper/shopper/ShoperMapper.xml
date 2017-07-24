@@ -65,7 +65,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
    			select * from t_shop_review 
    			 <where>
 		        <if test="user_name != null and user_name != ''">
-		          and  id like "%"#{user_name}"%"
+		          and  id LIKE CONCAT(CONCAT('%',#{user_name}),'%')
 		        </if>
 		        <if test="apply_status != null">
 		          and  apply_status =#{apply_status}
@@ -81,7 +81,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
    			select count(*) from t_shop_review
    			<where>
 		        <if test="user_name != null and user_name != ''">
-		            id like "%"#{user_name}"%"
+		            id LIKE CONCAT(CONCAT('%',#{user_name}),'%')
 		        </if>
 		        <if test="apply_status != null">
 		          and  apply_status =#{apply_status}
@@ -93,12 +93,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
    <!-- 通过id去查询申请店铺的信息 -->
    <select id="findReviewInfo" parameterType="java.util.HashMap" 
    		resultType="com.zdz.hbwj.pojo.shop.TShopReview">
-   		select *from t_shop_review 
-   				<where>
-		        <if test="id != null and id!=''">
-		              id=#{id}
-		        </if>
-            </where>   		
+   		select * from t_shop_review where id=#{id}
    </select>
    
    <!-- 更新商家申请店铺状态 -->
@@ -112,14 +107,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
             <if test="reserved2!=null and reserved2 !='' ">
                 reserved2 = #{reserved2},         
             </if>
+            
              <if test="passApply!=null and passApply !='' ">
                 passApply = #{passApply},         
             </if>
         </set>
-   		<where>
-			 <if test="id != null and id!=''">
-			        id=#{id}
-			 </if>
-          </where>
+   		where  id=#{id}
    </update>
 </mapper>

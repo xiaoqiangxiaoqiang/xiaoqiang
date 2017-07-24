@@ -56,7 +56,7 @@ public class ShopReviewController {
 				HttpSession session =request.getSession();
 				SysUser user = (SysUser) session.getAttribute("user");
 				request.setAttribute("user", user);
-				return "authority";				
+				return "review/authority";				
 				}
 		
 	//商家店铺信息图片上传
@@ -199,7 +199,8 @@ public class ShopReviewController {
 			 //更新商家状态
 			 Map<String,Object> map1 = new HashMap<String,Object>();
 			 map1.put("user_name", id);
-			 map1.put("status",3);
+			 //商家申请资料的状态
+			 map1.put("status",2);
 			 sysUserService.updateUserInfo(map1);
 			 map.put("result","0");			
 	         String json = mapper.writeValueAsString(map);

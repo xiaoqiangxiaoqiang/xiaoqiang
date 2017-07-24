@@ -1,23 +1,24 @@
-html,body,p{
+html,body{
 	margin:0;
 	background-color: rgba(243, 245, 245, 0.4);
 }
+p{
+	margin:0;
+}
 div.main{
-	position:relative;
-	padding-bottom:40px;
+	/*margin:20px;*/
 }
 p.title{
 	position: relative;
 	text-align: center;
 	margin:10px 0;
-	font-size: 20px;
+	font-size: 22px;
 	font-weight: bold;
 	font-color:gray;
 }
 p.collapse{
 	display: none;
 	margin: auto;
-	text-align: center;
 	cursor: pointer;
 	color:blue;
 	font-size: 14px;
@@ -25,29 +26,23 @@ p.collapse{
 p.collapse:hover{
 	text-decoration: underline;
 }
+p.sp{
+	display: inline;
+}
 p#spSellProps_Btn{
 	display: show;
 }
-p.delNotes{
-	color:gray;
-	/*text-align: left;*/
-	font-size: 14px;
+ul#imgUl1,ul#imgUl2{
+	list-style-type:none;
+	padding:0;
+	margin:0;
 }
-p.sp{
-	margin-top:8px;
-	font-size:16px;
-}
-a.imgLink{
-	font-size: 14px;
-	color: #232121;
-}
-span.imgLink2{
-	color: red;
+li{
+	display: inline-block;
 }
 div.wrapDiv{
 	text-align: center;
 	margin-bottom: 35px;
-    position: relative;
 }
 div.wrap{
 	display: none;
@@ -69,10 +64,16 @@ table.table{
 }
 table#spInfo,table#spSellProps{
 	display: none;
+	border-collapse:collapse;
+}
+table#spSellProps tr:nth-child(1) td{
+	font-weight: bold;
 }
 table#spSellProps td{
-	font-size: 16px;
-	padding-left: 10px;
+	/*padding-left: 10px;*/
+	padding:10px 20px;
+	border:1px solid;
+	/*border-collapse: true;*/
 }
 table#spProp{
 	table-layout:fixed;
@@ -82,45 +83,51 @@ table tr td{
 	position: relative;
 }
 td.leftTd{
-	padding-left: 100px;
+	color:#6b6767;
+	font-size: 18px;
+	padding-left: 70px;
 	text-align: right;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 td.rightTd{
-	padding-right: 100px;
+	font-size: 18px;
+	padding-right: 70px;
 	padding-top: 10px;
-	padding-bottom: 20px;
+	padding-bottom: 10px;
 	text-align: left;
-}
-span.must{
-	font-size: 20px;
-	margin-right: 6px;
-	color: red;
-	vertical-align: top;
-}
-span.notes{
-	color:red;
-	font-size: small;
 }
 input.button{
 	cursor:pointer;
 }
-input#name{
-	width:260px;
-	height: 18px;
-}
 input#huoHao,input#brand{
+	font-size: 18px;
+	background: initial;
+	border:none;
 	height: 18px;
 	width: 230px;
 }
-input.price,input.number{
-	width:150px;
-	height: 18px;
+span#price1,span#price2{
+	background: initial;
+	color: red;
 }
-textarea#productName{
-	width: 300px;
+span#price1{
+	text-decoration: line-through;
+}
+textarea#name{
+	background: initial;
+	width: 350px;
 	resize: none;
+	font-size: 16px;
 }
 textarea#details{
+	background: initial;
+	width: 400px;
+	resize: none;
+	font-size: 16px;
+}
+textarea#failReason{
+	font-size: 16px;
 	width: 400px;
 	resize: none;
 }
@@ -147,14 +154,13 @@ td.value{
 }
 div.imgDiv{
 	margin:auto;
+	padding:10px 0;
 	border: 3px solid #9cafc7;
 	border-radius: 3px;
 	background:rgba(228, 237, 239, 0.76);
 	display: none;
-	padding-top: 20px;
-	padding-bottom: 20px;
 }
-div.imgWrap1{
+div.imgWrap{
 	position: relative;
 	border: 5px solid #1d5673;
 	display: inline-block;
@@ -162,90 +168,40 @@ div.imgWrap1{
 	width: 260px;
 	margin:5px;
 }
-img.img1{
+img.img{
 	cursor: pointer;
 	height: 180px;
 	width: 260px;
 }
 div.imgWrap2{
-	position: relative;
-	border: 5px solid #1d5673;
-	display: inline-block;
 	height: 600px;
 	width: 400px;
 	margin:5px;
+	border: 5px solid #1d5673;
 }
 img.img2{
 	cursor: pointer;
 	height: 600px;
 	width: 400px;
 }
-div#imgDiv2{
-    top: 20px;
-    position: absolute;
-    margin-bottom: 60px;
-}
-ul.imgUl{
-	list-style-type:none;
-	display:inline-block;
-	padding:0;
-	margin:0;
-}
-li.imgLi{
-	display:inline-block;
-}
-span.ziduan{
-	font-size:18px;
+div#reasonDiv{
+	display: none;
+	position: relative;
 }
 span.warming{
-	display: none;
 	position: absolute;
+	top:114px;
 	left:2px;
-	top:33px;
 	color: red;
-	font-size: 14px;
-}
-span.warming1{
-	top:60px;
-}
-span.warming2{
-	top:135px;
-}
-span.warming3{
-	top:32px;
-}
-/* 火狐浏览器 */
-@-moz-document url-prefix() {
-	span.warming{ 
-		top:40px; 
-	}
-	span.warming1{
-		top:92px;
-	}
-	span.warming2{
-		top:189px;
-	}
-}
-span#typeName{
-	font-size:14px;
-	text-decoration:underline;
-	font-weight:bold;
-}
-div.imgDel{
-	width:15px;
-	height:15px;
-	background:url('../images/cancel.png');
-	opacity: 0.6;
-	position: absolute;
-	top:3px;
-	right: 5px;
-	cursor: pointer;
+	font-size: 16px;
 	display: none;
 }
-div.imgDel:hover{
-	opacity: 1;
+@-moz-document url-prefix(){
+	span.warming{
+		top:141px;
+	}
 }
-div#bottom{
-	position:absolute;
-	bottom:20px;
+
+button{
+	cursor:pointer;
 }

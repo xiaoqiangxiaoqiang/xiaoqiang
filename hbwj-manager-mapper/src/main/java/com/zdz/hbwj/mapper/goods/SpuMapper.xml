@@ -23,6 +23,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
     <result column="reserved2" jdbcType="VARCHAR" property="reserved2" />
   </resultMap>
   
+  <!-- 查询SpuInfo -->
+  <resultMap id="SpuInfoBean" type="com.zdz.hbwj.pojo.goods.TSpuInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="spu_id" jdbcType="VARCHAR" property="spuId" />
+    <result column="product_info" jdbcType="VARCHAR" property="productInfo" />
+    <result column="product_param" jdbcType="VARCHAR" property="productParam" />
+    <result column="seller_name" jdbcType="VARCHAR" property="sellerName" />
+    <result column="shop_id" jdbcType="VARCHAR" property="shopId" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="shoper_name" jdbcType="VARCHAR" property="shoperName" />
+    <result column="updateTime" jdbcType="DATE" property="updatetime" />
+    <result column="property1" jdbcType="VARCHAR" property="property1" />
+    <result column="property2" jdbcType="VARCHAR" property="property2" />
+    <result column="property3" jdbcType="VARCHAR" property="property3" />
+    <result column="reserved1" jdbcType="VARCHAR" property="reserved1" />
+    <result column="reserved2" jdbcType="VARCHAR" property="reserved2" />
+    <result column="reserved3" jdbcType="VARCHAR" property="reserved3" />
+  </resultMap>
+  
   
   <!-- 查询商品的属性的模板 -->
   <select id="findProperties" parameterType="java.lang.Integer" 
@@ -104,5 +123,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		        </if>
             </where> 
   </select>
+  
+  <!-- 查询单个的spu的信息 -->
+  <select id="findTSpu" resultMap="TSpuBean"  
+      parameterType="java.util.HashMap" >
+      select *from t_spu t 
+  				 <where>
+		        <if test="spu_id != null and spu_id != ''">
+		          t.spu_id =#{spu_id}
+		        </if>
+            </where> 
+  </select>
+  
+  <!-- 查询单个spuInfo -->
+  <select id="findTSpuInfo" resultMap="SpuInfoBean" 
+      parameterType="java.util.HashMap" >
+      select *from t_spu_info t 
+  				 <where>
+		        <if test="spu_id != null and spu_id != ''">
+		          and  t.spu_id =#{spu_id}
+		        </if>
+            </where> 
+  </select>
+  
   
 </mapper>

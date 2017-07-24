@@ -21,4 +21,5 @@ public interface GoodsService {
 	
 	//分页查询总条数
     public int findTSpuCount(Map<String,Object> Condition);
+
 }

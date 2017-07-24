@@ -1,41 +1,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="/common/taglibs.jsp"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="zh-cmn-Hans">
 <head>
 <meta charset="UTF-8">
-<title>商品添加</title>
+<title>修改商品</title>
 
-<script type="text/javascript" src="${ctx}/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <!-- 添加easyUI -->
 <link rel="stylesheet" type="text/css"
-	href="${ctx}/css/tjShangPinIframe.css" />
-<link rel="stylesheet" type="text/css" href="${ctx}/css/viewer.min.css" />
+	href="${pageContext.request.contextPath}/css/tjShangPinIframe.css" />
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/viewer.min.css" />
 
 <link rel="stylesheet" type="text/css"
-	href="${ctx}/js/jquery-easyui-1.5.2/themes/default/easyui.css" />
+	href="${pageContext.request.contextPath}/js/jquery-easyui-1.5.2/themes/default/easyui.css" />
 <link rel="stylesheet" type="text/css"
-	href="${ctx}/js/jquery-easyui-1.5.2/themes/icon.css" />
+	href="${pageContext.request.contextPath}/js/jquery-easyui-1.5.2/themes/icon.css" />
 <script type="text/javascript"
-	src="${ctx}/js/jquery-easyui-1.5.2/jquery.min.js"></script>
+	src="${pageContext.request.contextPath}/js/jquery-easyui-1.5.2/jquery.min.js"></script>
 <script type="text/javascript"
-	src="${ctx}/js/jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
+	src="${pageContext.request.contextPath}/js/jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
 <script type="text/javascript"
-	src="${ctx}/js/jquery-easyui-1.5.2/locale/easyui-lang-zh_CN.js"></script>
-<script type="text/javascript" src="${ctx}/js/viewer-jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="${ctx}/css/sweetalert.css">
-<script type="text/javascript" src="${ctx}/js/sweetalert.min.js"></script>
+	src="${pageContext.request.contextPath}/js/jquery-easyui-1.5.2/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/viewer-jquery.min.js"></script>
 </head>
 <body>
 	<div class="main">
 		<p class="title">商品基本信息</p>
-		<input type="hidden" id="id" value="${review.id}">
-		<!-- 店主姓名-->
-		<input type="hidden" id="name" value="${review.name}">
-		<!-- 店铺名称 -->
-		<input type="hidden" id="shop_name" value="${review.shop_name}">
+		<!-- 商品的spuId -->
+		<input type="hidden" id="spuId" value="${spu.spuId}">
 		<div class="wrapDiv">
 			<div id="typeModal">
 				<div class="wrap">
@@ -50,18 +52,16 @@
 					<td class="leftTd"><label for="type"> <span
 							class="must">*</span><span class="ziduan" title="商品类别">商品类别：</span>
 					</label></td>
-					<td class="rightTd"><span id="typeName"></span> <input
-						type="button" id="selectType" class="button" value="选择类别">
-						<input type="hidden" id="typeId"> <span
-						class='warming warming3'>请选择商品类别</span></td>
+					<td class="rightTd"><span id="typeName">${spu.catId}</span> <input
+						type="hidden" id="typeId"> <span class='warming warming3'>请选择商品类别</span></td>
 				</tr>
 				<tr>
 
-					<td class="leftTd"><label for="name"> <span
+					<td class="leftTd"><label for="productName"> <span
 							class="must">*</span><span class="ziduan" title="商品主标题">商品名称：</span>
 					</label></td>
 					<td class="rightTd"><textarea id="productName" rows="3"
-							placeholder="商品主标题，请输入5至40位字符"></textarea> <span
+							placeholder="商品主标题，请输入5至40位字符">${spu.spuName}</textarea> <span
 						class='warming warming1'>长度在5至40位字符</span></td>
 				</tr>
 				<tr>
@@ -69,7 +69,7 @@
 							class="must">*</span><span class="ziduan" title="商品品牌">商品品牌：</span>
 					</label></td>
 					<td class="rightTd"><input type="text" id="brand"
-						placeholder="请输入商品品牌" /> <span class='warming'>商品品牌不能为空</span></td>
+						value="${spu.branch}" /> <span class='warming'>商品品牌不能为空</span></td>
 				</tr>
 				<tr>
 					<td class="leftTd"><label for="huoHao"> <span
@@ -77,7 +77,7 @@
 							title="当前页面所添加的颜色款式或尺码不同的同一商品，均为同一货号">商品货号：</span>
 					</label></td>
 					<td class="rightTd"><input type="text" id="huoHao"
-						placeholder="请输入商品货号" /> <span class='warming'>格式为数字或字母组成，至少4位字符</span>
+						value="${spu.productNum}" /> <span class='warming'>格式为数字或字母组成，至少4位字符</span>
 					</td>
 				</tr>
 				<tr>
@@ -85,30 +85,31 @@
 							class="must">*</span><span class="ziduan" title="商品原价">商品原价：</span></label>
 					</td>
 					<td class="rightTd"><input type="number" id="price1" min="0"
-						placeholder="请输入原价" />&ensp;元 <span class='warming'>请输入正确的价格</span>
-					</td>
+						value='<fmt:formatNumber type="number" value="${spu.oriprice/100}"
+								maxFractionDigits="2" minFractionDigits="2" />' />&ensp;元
+						<span class='warming'>请输入正确的价格</span></td>
 				</tr>
 				<tr>
 					<td class="leftTd"><label for="price2"><span
 							class="must">*</span><span class="ziduan" title="商品优惠价">商品现价：</span></label>
 					</td>
 					<td class="rightTd"><input type="number" id="price2" min="0"
-						placeholder="请输入优惠价" />&ensp;元 <span class='warming'>请输入正确的价格</span>
-					</td>
+						value='<fmt:formatNumber type="number" value="${spu.nowprice/100}"
+								maxFractionDigits="2" minFractionDigits="2" />' />&ensp;元
+						<span class='warming'>请输入正确的价格</span></td>
 				</tr>
 				<tr>
 					<td class="leftTd"><label for="details"><span
 							class="must">*</span><span class="ziduan" title="商品副标题">商品卖点：</span></label>
 					</td>
-					<td class="rightTd"><textarea id="details" rows="6"
-							placeholder="商品副标题，请输入商品优惠介绍、商品细节、卖点、特色等...至少20个字符"></textarea> <span
-						class='warming warming2'>至少20个字符</span></td>
+					<td class="rightTd"><textarea id="details" rows="8">${spu.sellPoint}</textarea>
+						<span class='warming warming2'>至少20个字符</span></td>
 				</tr>
 			</table>
 		</div>
 
 		<hr>
-		<p class="title">商品销售属性</p>
+		<p class="title">子商品列表</p>
 		<p class="title">
 			<a href="http://www.tuhaokuai.com/image?b2" target="_blank"
 				class="imgLink" title="在线压缩图片">支持<span class="imgLink2">JPG,JPEG,PNG,BMP</span>格式图片，单张图片大小不得超过<span
@@ -117,8 +118,61 @@
 		</p>
 		<br />
 		<div class="wrapDiv" id=wrapDiv1>
+			<!-- 获取sku的个数 -->
+			<input type="hidden" id="skuLen" value="${fn:length(list)}" />
+			<c:forEach items="${list}" var="sku" varStatus="status">
+				<input type='hidden' id='sku${status.index}'
+					value="${sku.reserved1}">
+			</c:forEach>
 			<p class="collapse" id="spSellProps_Btn">收起</p>
-			<table id="spSellProps" class="table"></table>
+			<table id="spSellProps" class="table">
+				<tr>
+					<td><img src="../../../images/edit_add.png"
+						onclick="addSp(event)" title="添加商品"
+						style="margin: 0 10px; cursor: pointer"></td>
+					<td>序号</td>
+					<c:if test="${not empty spuInfo.property1}">
+						<td class="sellProp">${spuInfo.property1}</td>
+					</c:if>
+					<c:if test="${not empty spuInfo.property2}">
+						<td class="sellProp">${spuInfo.property2}</td>
+					</c:if>
+					<c:if test="${not empty spuInfo.property3}">
+						<td class="sellProp">${spuInfo.property3}</td>
+					</c:if>
+					<td>商品库存(件)</td>
+					<td></td>
+				</tr>
+				<c:forEach items="${list}" var="sku" varStatus="status">
+					<tr>
+						<td><img src="../../../images/edit_remove.png"
+							onclick="removeSp(event)" title="删除商品"
+							style="margin: 0 10px; cursor: pointer"></td>
+						<td><input type="text" readonly="true" class="xuHao"
+							value="${status.index+1}"
+							style="max-width: 30px; padding-left: 10px; height: 18px" /></td>
+						<c:if test="${not empty sku.property1}">
+							<td><input type="text" class="spSellProp"
+								value="${sku.property1}" style="min-width: 260px; height: 18px;" />
+							</td>
+						</c:if>
+						<c:if test="${not empty sku.property2}">
+							<td><input type="text" class="spSellProp"
+								value="${sku.property2}" style="min-width: 260px; height: 18px;" />
+							</td>
+						</c:if>
+						<c:if test="${not empty sku.property3}">
+							<td><input type="text" class="spSellProp"
+								value="${sku.property3}" style="min-width: 260px; height: 18px;" />
+							</td>
+						</c:if>
+						<td><input type="number" class="kuCun" value="${sku.skuNum}"
+							style="max-width: 140px; height: 18px;" /></td>
+						<td><input type="button" class="upSpImg" value="上传图片"
+							title="上传图片" onclick="upSpImg(event)" /></td>
+					</tr>
+				</c:forEach>
+			</table>
 			<br />
 			<p class="collapse" id="imgDiv1_Btn">收起</p>
 			<div id="imgDiv1" class="imgDiv">
@@ -128,6 +182,7 @@
 
 		<hr>
 		<p class="title">商品参数</p>
+		<input type="hidden" id="props" value='${spuInfo.productParam}'>
 		<p class="title">
 			<input type="button" id="propBtn" class="button" value="添加参数">
 		</p>
@@ -160,6 +215,7 @@
 		<p class="title">
 			<input type="button" id="upBtn2" class="button" value="上传详细图">
 		</p>
+		<input type="hidden" id="imgStr" value="${spuInfo.productInfo}" />
 		<p class="title">
 			<a href="http://www.tuhaokuai.com/image?b2" target="_blank"
 				class="imgLink" title="在线压缩图片">支持<span class="imgLink2">JPG,JPEG,PNG,BMP</span>格式图片，单张图片大小不得超过<span
@@ -182,8 +238,6 @@
 							var width = $(document).width();
 							var mainHeight = $("div.main").height();
 							var mainWidth = $("div.main").width();
-							console.log(height + " ," + width + " ,"
-									+ mainHeight + " ," + mainWidth);
 							$("div#bottom").css({
 								'left' : (width - 55) / 2 + "px",
 								'top' : '20px'
@@ -197,11 +251,37 @@
 							maxNum = 0; //剩余上传张数
 							curRow = ''; //初始化当前编辑的行
 							upRows = []; //初始化商品属性上传数组
-							curImgDiv = "";//当前上传图片Div
+							curImgDiv = "imgDiv1";//初始化当前上传图片Div
 							sku = [];//sku数组
 							imgUrlArr1 = [];
 							imgUrlArr2 = [];
 							add = 1;//创建ul的id自动增加
+							sellProps = [];//销售属性
+							$("#spSellProps tr:eq(0) td.sellProp").each(function(){
+								sellProps.push($(this).html());
+							});
+							console.log(sellProps);
+							//更新子商品图片
+							for (var i = 0, len = $("#skuLen").val(); i < len; i++) {
+								addImg($("#sku" + i).val(), $(
+										"#spSellProps tr:eq(" + (i + 1) + ")")
+										.find("input.spSellProp")[0].value);
+							}
+							//克隆tr
+							trProp = $("#spSellProps tr").eq(1).clone();
+							trProp.find('input:not("input.upSpImg")').val("");
+							$("#spSellProps").show();
+							//更新商品详情图
+							curImgDiv = "imgDiv2";
+							imgUrlArrTemp = $("#imgStr").val().split(',');
+							console.log("初始详情图数组:"+imgUrlArrTemp);
+							for (var i = 0, len = imgUrlArrTemp.length; i < len; i++) {
+								addImg(imgUrlArrTemp[i], "商品详情图" + (i + 1));
+							}
+
+							//更新商品参数
+							var propsArr = JSON.parse($("#props").val());
+							showTable(propsArr, true);
 
 							//收起/显示图片预览框
 							$("body").on(
@@ -222,7 +302,6 @@
 									function(e) {
 										var event = $.event.fix(e);
 										var elem = $(event.target);
-										console.log(elem[0].nodeName);
 										elem[0].nodeName === "IMG" ? elem
 												.siblings("div.imgDel").show()
 												: elem.find("div.imgDel")
@@ -245,24 +324,24 @@
 										//获取到图片元素
 										var img = elem.next();
 										var imgUrl = img[0].src;
-										var imgWrap = img.parent();
+										var imgUl = img
+												.parentsUntil('ul.imgUl')
+												.parent();
+										var imgUls = $("#imgDiv2 ul.imgUl");
 										//当前图片索引
-										var index = imgWrap.index();
-										var imgDiv = $(imgWrap.parentsUntil(
-												'div.imgDiv').parent()[0]);
-										// console.log(imgDiv[0].id);
-										// console.log('索引为:'+index+"  title:"+img[0].title);
+										var index = imgUls.index(imgUl);
+										console.log('点击图片所在的index为：' + index);
+										console.log('点击图片所在的url为：' + imgUrl);
 										// 从数组中删除对应的Url
 										imgUrlArr2.splice(index, 1);
-										// console.log(imgUrlArr1);
-										//删除当前图片所在的imgWrap
-										imgWrap.off().parent().parent()
-												.remove();
+										console.log("详情图，删除索引"+index+"后的数组为:"+imgUrlArr2);
+										//删除当前图片所在的imgUl
+										imgUl.remove();
 										//如果图片全部删除，隐藏imgDiv和收起/展开按钮
-										if (imgDiv.children().length === 0) {
-											imgDiv.hide();
+										if (imgUls.length === 0) {
+											$("#imgDiv2").hide();
 										} else {
-											imgDiv.show();
+											$("#imgDiv2").show();
 										}
 										$("div#bottom").css(
 												'top',
@@ -270,76 +349,6 @@
 														+ "px");
 									});
 						})
-
-		//选择商品类别
-		$("#selectType").click(function() {
-			$("#typeModal div.wrap").show();
-			$("#typeTree").tree({
-				lines : true,
-				url : 'loadShopCategroy',
-				onClick : function(node) {
-					if (node.id == 1) {
-						$.messager.alert('提示', '请选择子分类');
-						return;
-					}
-					typeId = node.id;
-					typeName = node.text;
-				}
-			});
-			$("#btn1").linkbutton({
-				text : '确定',
-				onClick : function() {
-					//点击确认发送ajax请求去查询出相对应的模板
-					var url = "findModal"
-					var json = {};
-					json.catId = typeId;
-					doAjax(json, url, selectCallback);
-					$("#typeId").val(typeId);
-					$("#typeName").html(typeName);
-					showRight($("#selectType"));
-					$("#typeModal").window('close');
-				}
-			});
-
-			// ajax请求
-			function doAjax(json, url, callback) {
-				$.ajax({
-					type : 'POST',
-					url : url,
-					data : json,
-					dataType : 'JSON',
-					success : function(data) {
-						callback(data);
-					},
-					error : function() {
-					}
-				})
-			}
-
-			//成功回调的函数
-			function selectCallback(data) {
-				console.log(data);
-				sellProps = data;
-				addSellProps();
-			}
-
-			$("#btn2").linkbutton({
-				text : '取消',
-				onClick : function() {
-					$("#typeModal").window('close');
-				}
-			});
-			$("#typeModal").window({
-				title : '选择商品类别',
-				modal : true,
-				width : 400,
-				collapsible : false,
-				minimizable : false,
-				maximizable : false,
-				resizable : false,
-				shadow : false,
-			});
-		})
 
 		//根据传回来的url添加图片
 		function addImg(url, name) {
@@ -356,17 +365,17 @@
 				sku.push(json);
 				var length = sku.length;
 				html += '<p class="sp">商品' + length + '</p>';
+/* 				imgUrlArr1.push(url); */
 			} else {
-				imgUrlArr2.push(url);
+				console.log("imgUrlArr2添加前："+imgUrlArr2);
+ 				imgUrlArr2.push(url);
+ 				console.log("imgUrlArr2添加后："+imgUrlArr2);
 			}
-			;
 			html += '</div></li></ul>';
 			//将图片添加到对应imgDiv并显示
 			$(html).appendTo($("div#imgDiv" + str).show());
 			//显示收起/显示按钮
 			$("#" + curImgDiv + "_Btn").html("收起").show();
-			//将Url添加到数组
-			// curImgDiv==="imgDiv1"?imgUrlArr1.push(url):imgUrlArr2.push(url);
 			$("#ul" + add).viewer({
 				toolbar : false,
 				zoomRatio : 0.35,
@@ -408,6 +417,7 @@
 		function addSellProps() {
 			//销售属性个数
 			var propLength = sellProps.length;
+			console.log("addSellProps");
 			//每行td个数
 			var tdLength = propLength.length + 5;
 			if (propLength !== 0) {
@@ -434,7 +444,7 @@
 
 		//添加新商品
 		function addSp(e) {
-			$('#spSellProps tbody').append(trProp);
+			$('#spSellProps tbody').append(trProp.clone());
 			//更改序号
 			var xuhaoTd = $("#spSellProps tr:gt(0) td:nth-child(2)");
 			for (var i = 0; i < xuhaoTd.length; i++) {
@@ -448,10 +458,6 @@
 			var elem = eve.target;
 			var tr = $(elem).parentsUntil('tr').parent();
 			var index = tr.index();
-			if (index === 1) {
-				$.messager.alert("提示", "至少添加一款商品");
-				return;
-			}
 			//将sku数组里面对应的json删除
 			if (index <= sku.length) {
 				sku.splice(index - 1, 1);
@@ -462,7 +468,7 @@
 			});
 			tr.remove();
 			//将对应的预览图删除
-			$($('#imgDiv1 .imgWrap')[index - 1]).remove();
+			$($('#imgDiv1 ul')[index - 1]).remove();
 			//更改序号
 			var xuhaoTd = $("#spSellProps tr:gt(0) td:nth-child(2)");
 			var len1 = xuhaoTd.length;
@@ -470,7 +476,7 @@
 				$(xuhaoTd[i]).find('input.xuHao').val(i + 1);
 			}
 			//更改预览图名称
-			var imgP = $("#imgDiv1 .imgWrap p.sp");
+			var imgP = $("#imgDiv1 .imgWrap1 p.sp");
 			var len2 = imgP.length;
 			for (var j = 0; j < len2; j++) {
 				$(imgP[j]).html("商品" + (j + 1));
@@ -486,7 +492,6 @@
 			var length = sku.length;
 			if (index > length + 1) {
 				$.messager.alert('提示', "请先上传商品" + (length + 1) + "的图片");
-				$("#spSellProps").find('tr')[length + 1].scrollIntoView(true);
 				return;
 			}
 			//如果sku数组里面已经存在图片Url，那么就不能上传
@@ -513,7 +518,7 @@
 		//检测名称
 		$("#name").blur(checkName);
 		function checkName() {
-			var elem = $("#name");
+			var elem = $("#productName");
 			if (elem.val().length < 5 || elem.val().length > 40) {
 				showError(elem); //显示错误提示
 				return false;
@@ -558,14 +563,6 @@
 			} else if (style == "kuCun") {
 				checkKuCun(elem);
 			}
-			// switch(style){
-			// 	case 'spSellProp':
-			// 	checkSellProp(elem);
-			// 	break;
-			// 	case "kuCun":
-			// 	checkKuCun(elem);
-			// 	break;
-			// }
 		})
 
 		//检测价格
@@ -827,7 +824,6 @@
 								onClick : function() {
 									curRow = "";
 									$("#propModal").window('close');
-									console.log(upRows);
 								}
 							});
 						})
@@ -935,35 +931,36 @@
 		function save() {
 
 			//数据检测
-			/* 			switch (false) {
-			 case checkType():
-			 $("#selectType")[0].scrollIntoView(true);
-			 return;
-			 case checkBrand():
-			 $("#brand")[0].scrollIntoView(true);
-			 return;
-			 case checkHuoHao():
-			 $("#huoHao")[0].scrollIntoView(true);
-			 return;
-			 case checkName():
-			 $("#name")[0].scrollIntoView(true);
-			 return;
-			 case checkPrice($("#price1")):
-			 $("#price1")[0].scrollIntoView(true);
-			 return;
-			 case checkPrice($("#price2")):
-			 $("#price2")[0].scrollIntoView(true);
-			 return;
-			 case checkDetails():
-			 $("#details")[0].scrollIntoView(true);
-			 return;
-			 case checkProp():
-			 $("#propBtn")[0].scrollIntoView(true);
-			 return;
-			 case checkPhoto():
-			 return;
-			 } */
-
+			switch (false) {
+			case checkType():
+				$("#selectType")[0].scrollIntoView(true);
+				return;
+			case checkBrand():
+				$("#brand")[0].scrollIntoView(true);
+				return;
+			case checkHuoHao():
+				$("#huoHao")[0].scrollIntoView(true);
+				return;
+			case checkName():
+				$("#productName")[0].scrollIntoView(true);
+				return;
+			case checkPrice($("#price1")):
+				$("#price1")[0].scrollIntoView(true);
+				return;
+			case checkPrice($("#price2")):
+				$("#price2")[0].scrollIntoView(true);
+				return;
+			case checkDetails():
+				$("#details")[0].scrollIntoView(true);
+				return;
+			case checkProp():
+				$("#propBtn")[0].scrollIntoView(true);
+				return;
+			case checkPhoto():
+				return;
+			}
+			//初始化
+			imgUrlArr1=[];
 			var trs = $("#spSellProps tr:gt(0)");
 			//已添加的商品总数
 			var trsLength = trs.length;
@@ -975,14 +972,7 @@
 			}
 
 			//收集销售属性和主图url到spu
-			imgUrlArr1 = [];
 			var json = {};
-			//商家账号id 即电话号码
-			json.id = $("#id").val();
-			//店家的店家的姓名
-			json.shoper_name = $("#name").val();
-			//商家的店名
-			json.seller_name = $("#shop_name").val();
 			//遍历每行tr下面的字段，添加到对应sku的json
 			for (var i = 0; i < trsLength; i++) {
 				var inputs = $(trs[i]).find('input[type!="button"]');
@@ -994,6 +984,8 @@
 					if (val == "") {
 						showError($(inputs[j + 1]));
 						inputs[j + 1].scrollIntoView(true);
+						$.messager.alert('提示', '商品' + (i + 1) + '的'
+								+ sellProps[j] + '不能为空');
 						return;
 					}
 					//spu的属性数组收集属性
@@ -1042,11 +1034,12 @@
 				var kc = inputs[propLength + 1];
 				if (!checkKuCun($(kc))) {
 					kc.scrollIntoView(true);
+					$.messager.alert('提示', '请输入商品' + (i + 1) + '的正确库存');
 					return;
 				}
 				sku[i].kuCun = parseInt(kc.value);
 			}
-			json.typeId = typeId;//产品的分类id
+/* 			json.typeId = typeId;//产品的分类id */
 			json.huoHao = $("#huoHao").val();//商品货号
 			json.productName = $("#productName").val();//商品名称
 			json.pinPai = $("#brand").val();//商品品牌
@@ -1057,11 +1050,7 @@
 			json.imgUrl1 = imgUrlArr1.join(',');//商品详细图url拼接
 			json.imgUrl2 = imgUrlArr2.join(',');//商品详细图url拼接
 			json.sellProps = JSON.stringify(sellProps);//销售属性字段数组，选择商品类别时传过来的
-			var str1 = new Date().getTime();
-			var str2 = String(Math.random()).substring(6, 7);
-			var str3 = String(Math.random()).substring(6, 7);
-			var str4 = String(Math.random()).substring(6, 7);
-			json.spuId = str1 + str2 + str3 + str4;
+			json.spuId = $("#spuId").val();
 			//生成skuId;
 			var skuLength = sku.length;
 			for (var k = 0; k < skuLength; k++) {
@@ -1095,13 +1084,13 @@
 			json.sku = JSON.stringify(sku);
 			//将json的property1、property2……属性的数组值转成数组字符串
 			for (var z = 0; z < sellProps.length; z++) {
-				json["property"+(z+1)] = JSON.stringify(json["property"+(z+1)]);
+				json["property" + (z + 1)] = JSON.stringify(json["property"
+						+ (z + 1)]);
 			}
 			//发送ajax请求后台的的路径
-			var url = "addProduct";
-			doAjax(json, url, callback);
+			var url = "updateProduct";
 			console.log(json);
-
+			doAjax(json, url, callback);
 		}
 
 		//ajax请求服务器
@@ -1122,20 +1111,15 @@
 
 		// 成功回调函数
 		function callback(data) {
-			if(data.result=="0"){
-				return swal({
-					title:"添加成功",
-					confirmButtonText:"确定",
-				},function(isConfirm){				
-					window.history.go(-1);
-				});
-			}
-			
-			if(data.result=="1"){
-				return swal({
-					title:"添加失败",
-					confirmButtonText:"确定",
-				});
+			if (data.result == "0") {
+				$("#bottom").hide();
+				$.messager.alert("提示", "添加成功！");
+				return;
+			} else if (data.result == "1") {
+				$.messager.alert("提示", "添加失败！");
+				return;
+			} else {
+				$.messager.alert("提示", "系统异常，请稍后再试！");
 			}
 		}
 	</script>

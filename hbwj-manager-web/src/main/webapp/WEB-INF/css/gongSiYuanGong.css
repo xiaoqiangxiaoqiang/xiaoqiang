@@ -1,0 +1,174 @@
+html,body{
+	margin:0;
+	padding:0;
+	background-image: url(./../images/bg.png);
+	background-size:cover;
+	position: relative;
+	height: 100%;
+}
+h1,p{
+	padding:0;
+	margin:0;
+}
+header.pageTop{
+	background: blue;
+	height: 60px;
+	background: rgba(240,255,255,0.3);
+}
+div.headerMsg{
+	height: 70px;
+	color:aliceblue;
+	line-height: 70px;
+	text-align: center;
+	font-weight:bold;
+	font-size: 28px;
+}
+div.pageContent{
+	background-color: aliceblue;
+	border-radius: 5px;
+	position: relative;
+}
+aside.leftSide{
+	float: left;
+	width:10%;
+	display: inline-block;
+}
+article.content{
+	width: 89.8%;
+	display: inline-block;
+}
+li.menuLi{
+	list-style-type: none;
+	text-align: center;
+	height: 30px;
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 30px;
+	background: #e0ecff;
+	margin-bottom: 1px;
+	border: 2px solid #e0ecff;
+	border-radius: 3px;
+	color: #2b4354;
+}
+button.leftBtn{
+	width: 100%;
+	height: 40px;
+	margin:1px auto;
+	font-size: 17px;
+	cursor: pointer;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	background-color: #E0ECFF;
+	border:1px solid #95B8E7;
+}
+button.leftBtn:hover::after{
+	content:"";
+	font-size: 18px;
+	font-weight:bold;
+}
+button.leftBtn:active{
+	background-color:white;
+}
+
+div.headerUser{
+	text-align: right;
+}
+div.headerText{
+	line-height: 30px;
+	height: 30px;
+	color: aliceblue;
+	font-size:18px;
+}
+a.exit{
+	color: #b9a0a0;
+	text-decoration: none;
+	margin-left: 25px;
+}
+a.exit:hover{
+	color: #d0cccc;
+}
+div.searchWrap{
+	height:40px;
+	line-height: 40px;
+}
+div.searchDiv{
+	font-size: 16px;
+	line-height: 40px;
+	margin:0 10px;
+	display: inline-block;	
+}
+div.tabsFrame{
+	width: 100%;
+	border:1px solid white;
+}
+table#dg{
+	margin-top: 1px;
+}
+div.textForm{
+	display: none;
+	width: 360px;
+	margin: 0 auto;
+	padding: 15px 10px 0 10px;
+	border:1px dotted gray;
+	border-radius: 3px;
+	background: lightslategrey;	
+}
+div.inputFormHead{
+	text-align: right;
+	margin-top: 2px;
+	margin-right: 2px;
+}
+div.item{
+	margin: 18px 30px;
+	text-align: left;
+}
+div.divBtn{
+	text-align: center;
+	margin-bottom: 15px;
+	margin-top: 20px;
+}
+div.divHeadTitle{
+	text-align: center;
+	border-bottom: 2px solid aliceblue;
+}
+a.headClose{
+	padding-top: 2px;
+	display: inline-block;
+	position: absolute;
+	top: 2px;
+	right: 2px;
+}
+a.headClose:active{
+	border:1px dotted gray;
+}
+div#textForm label{
+	font-size: 16px;
+	color: aliceblue;
+	font-weight: bold;
+}
+input.textin{
+	border:1px solid gray;
+	width:220px;
+	height: 24px;
+	border-radius: 4px;
+}
+button.button{
+	width: 50px;
+	margin: auto 5px;
+	font-weight: bold;
+}
+
+footer.footer{
+	width: 100%;
+	position: absolute;
+	bottom:0;
+	left:0;
+	height: 60px;
+	text-align: center;
+}
+
+div.footerMsg{
+	text-align: center;
+	color: #999;
+	font-size: 14px;
+}

@@ -33,16 +33,15 @@ public class CompanyEmpController {
 	@Autowired
 	private ShopService shopService;
 
-	//进入公司员工页面
+	//进入公司管理员首页
 	@RequestMapping(value = "index")
 	public String enterEmp(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		SysUser user = (SysUser) session.getAttribute("user");
 		request.setAttribute("user", user);
-		return "companyEmp";
+		return "companyEmp/companyEmp";
 	}
 	
-	//进入商家店铺申请审核页面
 		@RequestMapping(value="reviewShoper")
 		public String reviewShoper(HttpServletRequest request,
 				HttpServletResponse response){
@@ -63,6 +62,11 @@ public class CompanyEmpController {
 		}
 		
 		
+		//公司员工进入商家店铺申请列表页面
+		@RequestMapping("companyEmpReview")
+		public String  companyEmpReview(){
+			return "companyEmp/companyAdminShoper";
+		}
 		//查询商家审核信息分页数据
 		@RequestMapping(value="findTShopReviewList")
 		public void findTShopReviewList(HttpServletRequest request,
@@ -76,6 +80,12 @@ public class CompanyEmpController {
 			try {
 			     //获取查询条件
 			String user_name = request.getParameter("user_name");
+			String status = request.getParameter("apply_status");
+			if(status==null || status==""){
+				map.put("apply_status",null);
+			}else {
+				map.put("apply_status",status);
+			}
 			map.put("user_name",user_name);
 			condition.put("user_name",user_name);
 				//获取dataGrid 的传输的参数的当前页
@@ -107,6 +117,25 @@ public class CompanyEmpController {
 			
 		}
 		
+		//公司管理员进入商家店铺资料审核页面
+		@RequestMapping("ReviewAuthority")
+		public String  ReviewAuthority(HttpServletRequest request,
+				HttpServletResponse response){
+			Map<String, Object> map = new HashMap<String, Object>();
+			// 获取审核主键
+			String id = request.getParameter("id");
+			map.put("id", id);
+			// 查询相应的主键的信息
+			try {
+				TShopReview review = shopService.findTShopReviewInfo(map);
+				request.setAttribute("review", review);
+				return "companyEmp/authorityShoper";
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			
+		}
 		
 		//商家店铺申请审核通过
 		@RequestMapping(value="reviewApply")
@@ -176,6 +205,26 @@ public class CompanyEmpController {
 				   data.put("result", "1");
 				   String json = mapper.writeValueAsString(data);
 				   out.write(json);
+			}
+			
+		}
+		
+		//查看商家店铺审核信息
+		@RequestMapping("viewAuthorityInfo")
+		public String  viewAuthorityInfo(HttpServletRequest request,
+				HttpServletResponse response){
+			// 获取审核主键
+			String id = request.getParameter("id");
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("id", id);
+			// 查询相应的主键的信息
+			try {
+				TShopReview review = shopService.findTShopReviewInfo(map);
+				request.setAttribute("review", review);
+				return "companyEmp/viewAthority";
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
 			}
 			
 		}
