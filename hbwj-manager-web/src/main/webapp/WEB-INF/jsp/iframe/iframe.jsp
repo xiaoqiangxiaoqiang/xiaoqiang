@@ -10,10 +10,10 @@
 	<link rel="stylesheet" href="${ctx}/js/upload/zyupload-1.0.0.min.css" type="text/css">
 </head>
 <body>
-	<input type="hidden"  id ="up" value="${user_parent}"/> 
+	<input type="hidden"  id ="up" value="${user_name}"/> 
 	<div id="imgUpload" class="zyupload"></div>
 	<script type="text/javascript" src="${ctx}/js/jquery-3.2.1.min.js"></script>	
-	<script type="text/javascript" src="${ctx}/js/upload/zyupload.basic-1.0.0.min.js"></script>
+	<script type="text/javascript" src="${ctx}/js/upload/zyupload.basic-1.0.0.min2.js"></script>
 	
 	<script>
 		$(document).ready(function(){
@@ -28,9 +28,9 @@
 					height           :   "",                 	  // 高度
 					itemWidth        :   "200px",                 // 文件项的宽度
 					itemHeight       :   "150px",                 // 文件项的高度
-					url              :   "./up.php",              // 上传文件的路径
+					url              :   "upLoadPicture?user_name="+$("#up").val(),              // 上传文件的路径
 					fileType         :   ["jpg","png","bmp","jpeg"],// 上传文件的类型
-					fileSize         :   2*1024*1024,                // 上传文件的大小
+					fileSize         :   5*1024*1024,                // 上传文件的大小
 					multiple         :   true,                    // 是否可以多个文件上传
 					dragDrop         :   false,                   // 是否可以拖动上传文件
 					tailor           :   false,                   // 是否可以裁剪图片

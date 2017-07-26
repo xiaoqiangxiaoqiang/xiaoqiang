@@ -62,23 +62,25 @@ public class ShopReviewController {
 	//商家店铺信息图片上传
 	@RequestMapping("upLoadPicture")
 	@ResponseBody
-	public PictureResult loadPicture(HttpServletResponse response,
-			HttpServletRequest request ,MultipartFile uploadFiles) throws IOException{
+	public Map<String,Object> loadPicture(HttpServletResponse response,
+			HttpServletRequest request ,MultipartFile file) throws IOException{
 		
+		Map<String,Object> map = new HashMap<String, Object>();
 		String result = null;
 		try {
 			
 			//上传文件的实现
-			if(uploadFiles.isEmpty()){
+			if(file.isEmpty()){
 				return null ;
 			}
+			String up = request.getParameter("user_name");
 			//上传文件以日期为单位分开存放
-			String filepath = "/"+new SimpleDateFormat("yyyy").format(
+			String filepath = "/"+up +"/"+new SimpleDateFormat("yyyy").format(
 					new Date())+"/"+new SimpleDateFormat("MM").format(new Date())+"/"
 					+ new SimpleDateFormat("dd").format(new Date());
 			
 			//获取原始文件名
-			String originaFileName = uploadFiles.getOriginalFilename();
+			String originaFileName = file.getOriginalFilename();
 			
 			//扩展新的文件名
 			String newFileName = IDUtils.genImageName()+
@@ -87,17 +89,17 @@ public class ShopReviewController {
 			//将图片存入到ftp服务器上
 			FtpUtil.uploadFile(host, port, username, password,
 					basePath, filepath,
-					newFileName, uploadFiles.getInputStream());
-			 result = filepath +"/"+newFileName;
-			
+					newFileName, file.getInputStream());
+			 result =filepath +"/"+newFileName;
 			//会显图片
-				PictureResult data = new PictureResult(0,"http://"+host+result,"上传成功");
-			return data;
+			map.put("file",newFileName);
+			map.put("url","http://"+host+result);
+			
 		} catch (Exception e) {
+			map.put("result","1");
 			e.printStackTrace();
-			return null;
 		}
-		
+		return map;
 		
 	}	
 	
@@ -137,6 +139,13 @@ public class ShopReviewController {
 		
 	}	
 	
+	//进入上传图片的iFrame
+	@RequestMapping("enterIframe")
+	public String  enterIframe(HttpServletRequest request){
+		String user_name = request.getParameter("user_name");
+		request.setAttribute("user_name",user_name);
+		return "iframe/iframe";
+	}
 	
 	//商家证件审核
 	@RequestMapping("Apply")

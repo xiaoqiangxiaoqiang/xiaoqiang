@@ -33,6 +33,7 @@
 <body>
 	<div class="main">
 		<p class="title">商品基本信息</p>
+		
 		<input type="hidden" id="id" value="${review.id}">
 		<!-- 店主姓名-->
 		<input type="hidden" id="name" value="${review.name}">

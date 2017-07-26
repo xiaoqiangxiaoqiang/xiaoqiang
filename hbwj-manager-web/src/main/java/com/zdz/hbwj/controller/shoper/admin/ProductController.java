@@ -142,46 +142,50 @@ public class ProductController {
 	}
 	
 	//商家店员上传商品图片
-		@RequestMapping("uploadPicture1")
-		@ResponseBody
-		public Map<String,Object> uploadPicture(HttpServletRequest request,
-				HttpServletResponse response, MultipartFile file) throws IOException{
-			Map<String,Object> map = new HashMap<String, Object>();
-			String result = null;
-			try {
-				
-				//上传文件的实现
-				if(file.isEmpty()){
-					return null ;
-				}
-				String up = request.getParameter("user_name");
-				//上传文件以日期为单位分开存放
-				String filepath = "/"+up +"/"+new SimpleDateFormat("yyyy").format(
-						new Date())+"/"+new SimpleDateFormat("MM").format(new Date())+"/"
-						+ new SimpleDateFormat("dd").format(new Date());
-				
-				//获取原始文件名
-				String originaFileName = file.getOriginalFilename();
-				
-				//扩展新的文件名
-				String newFileName = IDUtils.genImageName()+
-						originaFileName.substring(originaFileName.lastIndexOf("."));
-				
-				//将图片存入到ftp服务器上
-				FtpUtil.uploadFile(host, port, username, password,
-						basePath, filepath,
-						newFileName, file.getInputStream());
-				 result ="/shoper"+ filepath +"/"+newFileName;
-				//会显图片
-				map.put("file",newFileName);
-				map.put("url","http://"+host+result);
-				
-			} catch (Exception e) {
-				map.put("result","1");
-				e.printStackTrace();
+	@RequestMapping("upLoadPicture")
+	@ResponseBody
+	public Map<String,Object> loadPicture(HttpServletResponse response,
+			HttpServletRequest request ,MultipartFile file) throws IOException{
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		String result = null;
+		try {
+			
+			//上传文件的实现
+			if(file.isEmpty()){
+				return null ;
 			}
-			return map;
+			String up = request.getParameter("user_name");
+			//上传文件以日期为单位分开存放
+			String filepath = "/"+up +"/"+new SimpleDateFormat("yyyy").format(
+					new Date())+"/"+new SimpleDateFormat("MM").format(new Date())+"/"
+					+ new SimpleDateFormat("dd").format(new Date());
+			
+			//获取原始文件名
+			String originaFileName = file.getOriginalFilename();
+			
+			//扩展新的文件名
+			String newFileName = IDUtils.genImageName()+
+					originaFileName.substring(originaFileName.lastIndexOf("."));
+			
+			//将图片存入到ftp服务器上
+			FtpUtil.uploadFile(host, port, username, password,
+					basePath, filepath,
+					newFileName, file.getInputStream());
+			 result =filepath +"/"+newFileName;
+			//会显图片
+			map.put("file",newFileName);
+			map.put("url","http://"+host+result);
+			
+		} catch (Exception e) {
+			map.put("result","1");
+			e.printStackTrace();
 		}
+		return map;
+		
+		
+	}	
+		
 		
 		//商家店铺选择类型
 		@SuppressWarnings({ "unchecked", "rawtypes", "null" })
