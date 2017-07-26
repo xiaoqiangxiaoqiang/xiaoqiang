@@ -16,6 +16,8 @@
 </head>
 <body>
 	<div id="modalTable">
+	<!-- 获取商家的电话号码 -->
+	<input type="hidden" id="reserved1" value="${user_name}"/>
 	</div>
 	<table id="shangpinTable"></table>
 	<div id="editKc">
@@ -93,13 +95,13 @@
 					}},
 					{field : 'pdc_setting',title : '商品操作',width : '10%',align : 'center',resizable:true,
 					formatter: function(value,row,index){
-						return '<input type="button" value="提交审核" onclick="submit()">';  
+						return '<input type="button" value="提交审核" onclick="submit(event)">';  
 					}}]],
 					autoRowHeight : true,
 					striped : true,
 					loadMsg : "<span style='color:red;'>正在加载数据....</span>",
 					pagination : true,
-					// queryParams:{},
+					queryParams:{"reserved1":$("#reserved1").val()},
 					singleSelect : true,
 					checkOnSelect : true,
 					selectOncheck : true,
@@ -144,6 +146,18 @@
 							editKuCun();
 						}
 					}, '-', {
+						text : '上架商品',
+						iconCls : 'icon-up',
+						handler : function() {
+							shangJia();
+						}
+					},'-', {
+						text : '下架商品',
+						iconCls : 'icon-down',
+						handler : function() {
+							xiaJia();
+						}
+					} ,'-', {
 						text : '申诉商品',
 						iconCls : 'icon-man',
 						handler : function() {
@@ -158,9 +172,12 @@
 					} , '-', {
 						text : '<div class="searchDiv">'+
 						'<input type="text" id="spName" placeholder="输入商品名称或商品货号"/>'+
-						'<select id="spStatus"><option value="0">请选择商品状态</option>'+
-						'<option value="1">审核通过</option><option value="2">审核未通过</option>'+
-						'<option value="3">未审核</option></select>'+
+						'<select id="spStatus"><option value="">请选择商品状态</option>'+
+						'<option value="0">正常</option><option value="1">审核中</option>'+
+						'<option value="2">审核通过</option><option value="3">审核未通过</option>'+
+						'<option value="4">已上架</option><option value="5">已下架</option>'+
+						'<option value="6">违规</option><option value="7">违规待审</option>'+
+						'<option value="8">申诉失败</option><option value="9">申诉成功</option></select>'+
 						'<input type="button" value="搜索" id="spSearch" onclick="spSearch()"/></div>',
 						iconCls : 'icon-search',
 					} ],
@@ -176,14 +193,18 @@
 })
 
  		//提交审核
- 		function submit(){
- 			if(curRow.status!=0){
- 				$.messager.alert('提示','商品当前状态不能进行审核');
+ 		function submit(e){
+			var eve=$.event.fix(e);
+			var curTr=$(eve.target).parentsUntil("tr.datagrid-row").parent();
+			var index=curTr.index();
+			var row =$('#shangpinTable').datagrid('getData').rows[index];;
+ 			if(row.status!=0){
+ 				$.messager.alert('提示','商品当前状态不能提交审核');
  				return;
  			}
  			$.messager.confirm('提示','确定提交审核？',function(r){
  				if (r){
- 					doAjax(row.spuId,"",submitCallback);
+ 					doAjax({'spuId':curRow.spuId},"reviewProduct",submitCallback);
  				}
  			});					
  		}
@@ -260,11 +281,15 @@
  		//提交审核回调
  		function submitCallback(data){
  			//提交审核成功
- 			if(data.result=="1"){
+ 			if(data.result=="0"){
  				$.messager.alert('提示','已提交审核，请等待审核结果');
  				$("#shangpinTable").datagrid('reload');
- 			}else{
+ 				return;
+ 			}else if(data.result=="1"){
  				$.messager.alert('提示','提交审核失败，请重新提交');
+ 				return;
+ 			}else{
+ 				$.messager.alert('提示','系统异常 稍后重试！');
  			}
  		}
 
@@ -309,7 +334,7 @@
 			//curUrl 编写当前的额路径
 			//调用父窗口的方法打开一个新的iframe，并传递商品编号参数
 			var curUrl ="../product/updateProduct";
-			window.parent.openTag("查看商品"+curRow.spuName.substring(0,4)+"..",true,curUrl,curRow.spuId);
+			window.parent.openTag("修改商品"+curRow.spuName.substring(0,4)+"..",true,curUrl,curRow.spuId);
 		}
 
 		//修改库存
@@ -320,20 +345,21 @@
 			}
 			//获取当前选中商品的id
 			var spuId=curRow.spuId;
-			// $.ajax({  
-			// 	type : "post",  
-			// 	url : "",  
-			// 	data : {'pdc_id':pdc_id},  
-			// 	async : false,  
-			// 	success : function(data){  
-			// 		editKcCallback(data);
-			// 	},
-			// 	error:function(e){
-			// 		alert("数据加载出错");
-			// 	},
-			// }); 
-			data={'sku':[{'property1':'长款','property2':'32','kuCun':66,'skuId':"111"},{'property1':'长款','property2':'30','kuCun':18,'skuId':"222"},{'property1':'短款','property2':'29','kuCun':29,'skuId':"333"}],
-			'sellProps':["款式","尺码"]};
+			var catId = curRow.catId
+			 $.ajax({  
+			 	type : "post",  
+			 	url : "updateProductData",  
+			 	data : {'spuId':spuId,"catId":catId},  
+			 	async : false,  
+				success : function(data){  
+			 		editKcCallback(data);
+			 	},
+			 	error:function(e){
+					alert("数据加载出错");
+				},
+			});  
+			/* data={'sku':[{'property1':'长款','property2':'32','kuCun':66,'skuId':"111"},{'property1':'长款','property2':'30','kuCun':18,'skuId':"222"},{'property1':'短款','property2':'29','kuCun':29,'skuId':"333"}],
+			'sellProps':["款式","尺码"]}; */
 			editKcCallback(data)
 		}
 
@@ -406,8 +432,21 @@
 				skuArr.push(sku);
 			}
 			json.spuId=curRow.spuId;
-			json.sku=skuArr;
-			console.log(json);
+			json.sku=JSON.stringify(skuArr);
+			doAjax(json,"updateProductNum",editCallBack);
+			
+		}
+		
+		function editCallBack(data){
+			if(data.result=="0"){
+				$.messager.alert("提示","修改成功");
+				$('#shangpinTable').datagrid("reload");
+			}else if(data.result=="1"){
+				$.messager.alert("提示","修改失败");
+			} else{
+				$.messager.alert("提示","系统异常 稍后重试！");
+			}
+			
 		}
 
 		//修改库存取消
@@ -416,16 +455,78 @@
 			$("#editKc").window('close');
 		}
 
+		//上架商品
+		function shangJia(){
+			if(curRow==""){
+				$.messager.alert("提示","请先选择要上架的商品");
+				return;
+			}
+			if(curRow.status!="2"){
+				$.messager.alert("提示","审核未通过，此商品不能上架");
+				return;
+			}
+			$.messager.confirm('提示','确定上架该商品？',function(r){
+				if (r){
+					doAjax({'spuId':curRow.spuId},"",shangJiaCallback);
+				}
+			});
+		}
+		
+		function shangJiaCallback(data){
+			if(data.result=="0"){
+				$.messager.alert("提示","上架成功");
+				return;
+			}else if(data.result=="1"){
+				$.messager.alert("提示","上架失败");
+				return;
+			}else{
+				$.messager.alert("提示","系统异常");
+			}
+		}
+		
+		//下架商品
+		function xiaJia(){
+			if(curRow==""){
+				$.messager.alert("提示","请先选择要下架的商品");
+				return;
+			}
+			if(curRow.status!="4"){
+				$.messager.alert("提示","失败，只有已上架商品才能下架");
+				return;
+			}
+			$.messager.confirm('提示','确定下架该商品？',function(r){
+				if (r){
+					doAjax({'spuId':curRow.spuId},"",xiaJiaCallback);
+				}
+			});
+		}
+		
+		function xiaJiaCallback(data){
+			if(data.result=="0"){
+				$.messager.alert("提示","下架成功");
+				return;
+			}else if(data.result=="1"){
+				$.messager.alert("提示","下架失败");
+				return;
+			}else{
+				$.messager.alert("提示","系统异常");
+			}
+		}
+		
 		//申诉商品
 		function shenSu(){
 			if(curRow==""){
 				$.messager.alert("提示","请先选择要申诉的商品");
 				return;
 			}
+			if(curRow.status!="6"){
+				$.messager.alert("提示","失败，此商品不能进行申诉");
+				return;
+			}
 			$.messager.confirm('提示','确定对该商品进行申诉？',function(r){
 				if (r){
 					//ajax异步删除
-					doAjax(curRow,"",shenSuCallback);
+					doAjax({'spuId':curRow.spuId},"",shenSuCallback);
 				}
 			});
 		}
@@ -450,40 +551,43 @@
 			$.messager.confirm('提示','确定删除该商品？',function(r){
 				if (r){
 					//ajax异步删除
-					doAjax(curRow,"",delCallback);
+					doAjax({'spuId':curRow.spuId},"deleteProduct",delCallback);
 				}
 			});
 		}
 
 		//删除后的回调函数
 		function delCallback(data){
-			if(data.result=="1"){
+			if(data.result=="0"){
 				$.messager.alert("提示","删除成功");
 				//取消选中
 				curRow="";
 				$('#shangpinTable').datagrid("unselectAll");
 				//重新加载数据
 				$('#shangpinTable').datagrid("reload");
-			}else{
+			}else if(data.result=="1"){
 				$.messager.alert("提示","删除失败");
+			} else{
+				$.messager.alert("提示","系统异常 稍后重试！");
 			}
 		}
 
 		//商品搜索
 		function spSearch(){
 			//判空
-			var serachStr=$("#spName").val();
-			if(serachStr==""){
-				$.messager.alert("提示","请先输入检索字段");
+			var searchStr=$("#spName").val();
+			//货号正则检测
+			if(!(/^([0-9a-zA-Z]+)$/).test(searchStr)){
+				$.messager.alert("提示","请输入正确的货号，格式为数字和英文字母");
 				return;
 			}
 			//搜索json
 			var json={};
-			json.searchStr=searchStr;
-			//货号正则检测
-			(/^([0-9a-zA-Z]+)$/).test(elem.val())?json.isHuoHao=true:json.isHuoHao=false;
+			json.product_num=searchStr;
 			json.status=$("#spStatus").val();
-
+			$("#shangpinTable").datagrid('options').queryParams=json;
+			$("#shangpinTable").datagrid('reload');
+			$("#shangpinTable").datagrid('options').queryParams={};
 		}
 
 		//保存添加

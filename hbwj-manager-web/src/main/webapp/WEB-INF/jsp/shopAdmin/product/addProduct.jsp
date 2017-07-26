@@ -1048,6 +1048,10 @@
 				}
 				sku[i].kuCun = parseInt(kc.value);
 			}
+			if(imgUrlArr1==""){
+				$.messager.alert("提示","请先添加子商品");
+				return;
+			}
 			json.typeId = typeId;//产品的分类id
 			json.huoHao = $("#huoHao").val();//商品货号
 			json.productName = $("#productName").val();//商品名称

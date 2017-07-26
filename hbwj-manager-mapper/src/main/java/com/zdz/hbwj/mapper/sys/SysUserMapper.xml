@@ -5,20 +5,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.zdz.hbwj.mapper.sys.SysUserMapper">
    
     <resultMap type="com.zdz.hbwj.pojo.sys.SysUser" id="UserBean">
-        <result property="user_id" column="user_id"/>
+        <result property="user_id" column="user_id" />
         <result property="user_name" column="user_name"/>
         <result property="user_pwd" column="user_pwd"/>
         <result property="user_parent" column="user_parent"/>
         <result property="status" column="status"/>
-        <result property="createTime" column="createTime"/>
-        <result property="updateTime" column="updateTime"/>
+        <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
     
     <!-- 注册用户 -->
     <insert id="insertSysUser" useGeneratedKeys="true" keyProperty="user_id"
         parameterType="com.zdz.hbwj.pojo.sys.SysUser" >          
        insert into sys_user(user_id,user_name,user_pwd,user_parent,status,createTime,updateTime)
-       		values(#{user_id},#{user_name},#{user_pwd},#{user_parent},#{status},#{createTime},#{updateTime});            
+       		values(#{user_id},#{user_name},#{user_pwd},#{user_parent},#{status},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP});            
     </insert>
     
     <!-- 添加员工权限 -->
@@ -48,6 +48,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	 		where user_name=#{user_name}
     </update>
     
-    
-     
 </mapper>

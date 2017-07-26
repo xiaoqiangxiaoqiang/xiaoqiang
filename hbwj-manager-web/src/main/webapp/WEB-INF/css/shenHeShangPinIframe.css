@@ -28,6 +28,10 @@ p.collapse:hover{
 }
 p.sp{
 	display: inline;
+	font-size:16px;
+}
+p.max{
+	font-size:16px;
 }
 p#spSellProps_Btn{
 	display: show;
@@ -63,6 +67,7 @@ table.table{
 	padding-bottom: 10px;
 }
 table#spInfo,table#spSellProps{
+	font-size:16px;
 	display: none;
 	border-collapse:collapse;
 }

@@ -163,10 +163,10 @@ function addPanel(title,url,arg) {
 		frame="ReviewAuthority?id="+arg;
 		break;
 		case "查看商品":
-		frame="chaKanShangPinIframe.html";
+		frame="companyEmpProductManager?id="+arg;
 		break;
 		case "审核商品":
-		frame="shenHeShangPinIframe.html";
+		frame="authorityProduct?id="+arg;
 		break;
 		default:
 		return;

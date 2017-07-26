@@ -86,7 +86,7 @@
 					</td>
 					<td class="rightTd"><input type="number" id="price1" min="0"
 						value='<fmt:formatNumber type="number" value="${spu.oriprice/100}"
-								maxFractionDigits="2" minFractionDigits="2" />' />&ensp;元
+							groupingUsed="false"	maxFractionDigits="2" minFractionDigits="2" />' />&ensp;元
 						<span class='warming'>请输入正确的价格</span></td>
 				</tr>
 				<tr>
@@ -95,7 +95,7 @@
 					</td>
 					<td class="rightTd"><input type="number" id="price2" min="0"
 						value='<fmt:formatNumber type="number" value="${spu.nowprice/100}"
-								maxFractionDigits="2" minFractionDigits="2" />' />&ensp;元
+							groupingUsed="false"	maxFractionDigits="2" minFractionDigits="2" />' />&ensp;元
 						<span class='warming'>请输入正确的价格</span></td>
 				</tr>
 				<tr>
@@ -1039,6 +1039,10 @@
 				}
 				sku[i].kuCun = parseInt(kc.value);
 			}
+			if(imgUrlArr1==""){
+				$.messager.alert("提示","请先添加子商品");
+				return;
+			}
 /* 			json.typeId = typeId;//产品的分类id */
 			json.huoHao = $("#huoHao").val();//商品货号
 			json.productName = $("#productName").val();//商品名称
@@ -1088,7 +1092,7 @@
 						+ (z + 1)]);
 			}
 			//发送ajax请求后台的的路径
-			var url = "updateProduct";
+			var url = "updateProductInfo";
 			console.log(json);
 			doAjax(json, url, callback);
 		}
@@ -1113,10 +1117,10 @@
 		function callback(data) {
 			if (data.result == "0") {
 				$("#bottom").hide();
-				$.messager.alert("提示", "添加成功！");
+				$.messager.alert("提示", "修改成功！");
 				return;
 			} else if (data.result == "1") {
-				$.messager.alert("提示", "添加失败！");
+				$.messager.alert("提示", "修改失败！");
 				return;
 			} else {
 				$.messager.alert("提示", "系统异常，请稍后再试！");

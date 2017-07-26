@@ -28,5 +28,18 @@ public interface SpuMapper {
 		//通过spuId 查询spuInfo信息
 		public  TSpuInfo findTSpuInfo(Map<String,Object> map);
 		
+		//修改spu
+		public void updateSpuById(TSpu  spu);
 		
+		//修改spuInfo
+		public void updateSpuInfoById(TSpuInfo spuInfo);
+		
+		//删除spu
+		public void deleteSpuById(Map<String,Object> map);
+		
+		//删除spuInfo
+		public void deleteSpuInfo(Map<String,Object> map);
+		
+		//通过map去跟新spu
+		public void updateSpuByMap(Map<String,Object> map);
 }

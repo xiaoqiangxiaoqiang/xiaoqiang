@@ -45,4 +45,71 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
 		      </if>
             </where> 
   </select>
+  
+  <!-- 跟新sku -->
+  <update id="updateSkuById" parameterType="com.zdz.hbwj.pojo.goods.TSku">
+    update t_sku
+    <set>     
+      <if test="skuNum != null">
+        sku_num = #{skuNum,jdbcType=INTEGER},
+      </if>
+      <if test="skuAmount != null">
+        sku_amount = #{skuAmount,jdbcType=INTEGER},
+      </if>
+      <if test="uptime != null">
+        upTime = #{uptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="property1 != null">
+        property1 = #{property1,jdbcType=VARCHAR},
+      </if>
+      <if test="property2 != null">
+        property2 = #{property2,jdbcType=VARCHAR},
+      </if>
+      <if test="property3 != null">
+        property3 = #{property3,jdbcType=VARCHAR},
+      </if>
+      <if test="reserved1 != null">
+        reserved1 = #{reserved1,jdbcType=VARCHAR},
+      </if>
+      <if test="reserved2 != null">
+        reserved2 = #{reserved2,jdbcType=VARCHAR},
+      </if>
+      <if test="reserved3 != null">
+        reserved3 = #{reserved3,jdbcType=VARCHAR},
+      </if>
+    </set>
+        where spu_id = #{spuId,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 删除sku -->
+  <delete id="deleteSku" parameterType="java.util.HashMap">
+  	delete  from t_sku where spu_id = #{spuId,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- 更sku的库存信息 -->
+  <update id="updateProductNum"  parameterType="java.util.HashMap" >
+  		update  t_sku  
+  			<set>
+  			   <if test="skuNum != null">
+                sku_num = #{skuNum,jdbcType=INTEGER},
+              </if>
+  			</set>
+  		   <where>
+  		   		<if test="skuId != null and skuId!='' ">
+                   sku_id = #{skuId,jdbcType=VARCHAR}
+               </if>
+  		   		<if test="spuId != null and spuId!='' ">
+                  and spu_id = #{spuId,jdbcType=VARCHAR}
+               </if>
+  		   
+  		   </where> 
+  </update>
+  
+  
 </mapper>

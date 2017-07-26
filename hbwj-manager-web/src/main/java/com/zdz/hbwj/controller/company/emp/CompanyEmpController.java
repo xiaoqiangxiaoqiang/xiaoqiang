@@ -65,7 +65,7 @@ public class CompanyEmpController {
 		//公司员工进入商家店铺申请列表页面
 		@RequestMapping("companyEmpReview")
 		public String  companyEmpReview(){
-			return "companyEmp/companyAdminShoper";
+			return "companyEmp/companyEmpShoper";
 		}
 		//查询商家审核信息分页数据
 		@RequestMapping(value="findTShopReviewList")
@@ -228,5 +228,8 @@ public class CompanyEmpController {
 			}
 			
 		}
+		
+		
+		
 	
 }

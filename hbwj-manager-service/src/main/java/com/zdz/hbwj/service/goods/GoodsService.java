@@ -22,4 +22,15 @@ public interface GoodsService {
 	//分页查询总条数
     public int findTSpuCount(Map<String,Object> Condition);
 
+    //修改商品信息
+    public void updateShoperInfo(TSpu spu, TSpuInfo spuInfo);
+    
+    //删除TSpu商品信息
+    public void deleteTSpu (Map<String,Object> map);
+    
+    //更新TSpu信息
+    public void updateTSpuByMap(Map<String,Object> map);
+    
+    //跟新库存信息
+    public void updateTSkuInfo(List<Map<String,Object>> list);
 }

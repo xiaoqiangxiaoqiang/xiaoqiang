@@ -89,7 +89,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
   		select * from t_spu t
    			 <where>
 		        <if test="reserved1 != null and reserved1 != ''">
-		          and  t.reserved1 like "%"#{reserved1}"%"
+		          and  t.reserved1 =#{reserved1}
 		        </if>
 		        <if test="status != null">
 		          and t.status =#{status}
@@ -110,7 +110,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
   		select count(*) from t_spu t
    			 <where>
 		        <if test="reserved1 != null and reserved1 != ''">
-		          and  t.reserved1 like "%"#{reserved1}"%"
+		          and  t.reserved1 =#{reserved1}
 		        </if>
 		        <if test="status != null">
 		          and   t.status =#{status}
@@ -146,5 +146,130 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
             </where> 
   </select>
   
+  
+  <!-- 更新spu -->
+  <update id="updateSpuById" parameterType="com.zdz.hbwj.pojo.goods.TSpu">
+    update t_spu
+    <set>
+      <if test="branch != null">
+        branch = #{branch,jdbcType=VARCHAR},
+      </if>
+      <if test="spuName != null">
+        spu_name = #{spuName,jdbcType=VARCHAR},
+      </if>
+      <if test="catId != null">
+        cat_id = #{catId,jdbcType=INTEGER},
+      </if>
+      <if test="sellAmount != null">
+        sell_amount = #{sellAmount,jdbcType=INTEGER},
+      </if>
+      <if test="sellPoint != null">
+        sell_point = #{sellPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="productNum != null">
+        product_num = #{productNum,jdbcType=VARCHAR},
+      </if>
+      <if test="oriprice != null">
+        oriPrice = #{oriprice,jdbcType=BIGINT},
+      </if>
+      <if test="nowprice != null">
+        nowPrice = #{nowprice,jdbcType=BIGINT},
+      </if>
+      <if test="productImages != null">
+        product_images = #{productImages,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reserved1 != null">
+        reserved1 = #{reserved1,jdbcType=VARCHAR},
+      </if>
+      <if test="reserved2 != null">
+        reserved2 = #{reserved2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where spu_id = #{spuId,jdbcType=VARCHAR}
+  </update>
+  
+  
+  <!-- 更新spuInfo -->
+  <update id="updateSpuInfoById" parameterType="com.zdz.hbwj.pojo.goods.TSpuInfo">
+    update t_spu_info
+    <set>
+      <if test="productInfo != null">
+        product_info = #{productInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="productParam != null">
+        product_param = #{productParam,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerName != null">
+        seller_name = #{sellerName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shoperName != null">
+        shoper_name = #{shoperName,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=DATE},
+      </if>
+      <if test="property1 != null">
+        property1 = #{property1,jdbcType=VARCHAR},
+      </if>
+      <if test="property2 != null">
+        property2 = #{property2,jdbcType=VARCHAR},
+      </if>
+      <if test="property3 != null">
+        property3 = #{property3,jdbcType=VARCHAR},
+      </if>
+      <if test="reserved1 != null">
+        reserved1 = #{reserved1,jdbcType=VARCHAR},
+      </if>
+      <if test="reserved2 != null">
+        reserved2 = #{reserved2,jdbcType=VARCHAR},
+      </if>
+      <if test="reserved3 != null">
+        reserved3 = #{reserved3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where  spu_id= #{spuId,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 删除spu的信息 -->
+  <delete id="deleteSpuById" parameterType="java.util.HashMap">
+  		 delete from t_spu where spu_id = #{spuId,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- 删除spuInfo -->
+  <delete id="deleteSpuInfo" parameterType="java.util.HashMap">
+  		 delete from t_spu_info where spu_id = #{spuId,jdbcType=VARCHAR}
+  </delete>
+  
+  <!--通过map去更新spu信息 -->
+  <update id="updateSpuByMap" parameterType="java.util.HashMap">
+  		 update t_spu 
+  		 <set>
+  		 	<if test="status != null and status!='' ">
+             status = #{status,jdbcType=INTEGER},
+             </if>
+             <if test="updatetime != null">
+             updateTime = #{updatetime,jdbcType=TIMESTAMP},
+             </if>
+  		 </set>
+  		 where spu_id =#{spuId}
+  </update>
   
 </mapper>

@@ -111,7 +111,7 @@
 		<p class="title">营业执照</p>
 		<div class="wrapDiv">
 			<div class="imgDiv">
-				<p>单击图片放大预览</p>
+				<p class="max">单击图片放大预览</p>
 				<ul id="imgUl2" class="imgUl"></ul>
 			</div>
 		</div>
