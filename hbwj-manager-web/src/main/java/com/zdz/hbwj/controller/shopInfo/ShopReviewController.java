@@ -39,11 +39,17 @@ import com.zdz.hbwj.util.PictureResult;
 @Controller
 @RequestMapping(value="/hbwj/shop/")
 public class ShopReviewController {
-	private static String host = "192.168.40.134";
-	private static Integer port =21;
-	private static String username ="admin";
-	private static String password ="admin";
-	private static String  basePath="/home/admin/images";
+	private static final String host = "39.108.193.149";
+	private static final Integer port =21;
+	private static final String username ="guest";
+	private static final String password ="guest";
+	private static String  basePath="/store";
+	
+//	private static String host = "192.168.40.134";
+//	private static Integer port =21;
+//	private static String username ="admin";
+//	private static String password ="admin";
+//	private static String  basePath="/home/admin/images/company";
 	
     @Autowired 
     private ShopService shopService;
@@ -75,10 +81,11 @@ public class ShopReviewController {
 			}
 			String up = request.getParameter("user_name");
 			//上传文件以日期为单位分开存放
-			String filepath = "/"+up +"/"+new SimpleDateFormat("yyyy").format(
+			/*String filepath = "/"+up +"/"+new SimpleDateFormat("yyyy").format(
 					new Date())+"/"+new SimpleDateFormat("MM").format(new Date())+"/"
 					+ new SimpleDateFormat("dd").format(new Date());
-			
+			*/
+			String filepath="/a";
 			//获取原始文件名
 			String originaFileName = file.getOriginalFilename();
 			
@@ -90,10 +97,10 @@ public class ShopReviewController {
 			FtpUtil.uploadFile(host, port, username, password,
 					basePath, filepath,
 					newFileName, file.getInputStream());
-			 result =filepath +"/"+newFileName;
+			 result ="/store"+filepath +"/"+newFileName;
 			//会显图片
 			map.put("file",newFileName);
-			map.put("url","http://"+host+result);
+			map.put("url","http://"+host+":8080"+result);
 			
 		} catch (Exception e) {
 			map.put("result","1");

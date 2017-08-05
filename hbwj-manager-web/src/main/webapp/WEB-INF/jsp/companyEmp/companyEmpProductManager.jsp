@@ -31,7 +31,7 @@
 			$("#shangpinTable").datagrid({
 				width:width,
 				height:height,
-					// url:"",
+					url:"findTSpuList",
 					method : "post",
 					columns:[
 								[
@@ -73,7 +73,8 @@
 								{field : 'status',title : '商品状态',width : '8%',align : 'center',resizable:true,
 								formatter: function(value,row,index){
 									return returnStatus(value);  
-								}}]],
+								}}, 
+								{field : 'reserved2',title : '不通过的原因',width : '',align : 'center',resizable:true,}]],
 					autoRowHeight : true,
 					striped : true,
 					loadMsg : "<span style='color:red;'>正在加载数据....</span>",
@@ -219,8 +220,9 @@
 				$.messager.alert("提示","请先选择要查看的商品");
 				return;
 			}
+			alert(curRow.spuId);
 			//调用父窗口的方法打开一个新的iframe，并传递商品编号参数
-			window.parent.openTag("查看商品"+curRow.pdc_name.substring(0,4)+"..",true,"",curRow.pdc_id);
+			window.parent.openTag("查看商品"+curRow.spuName.substring(0,4)+"..",true,"",curRow.spuId);
 		}
 
 		//审核商品
@@ -228,12 +230,12 @@
 			if(curRow==""){
 				$.messager.alert("提示","请先选择要审核的商品");
 				return;
-			}else if(curRow.status!=""){
+			}else if(curRow.status!=1){
 				$.messager.alert("提示","此商品已经审核");
 				return;
 			}
 			//调用父窗口的方法打开一个新的iframe，并传递商品编号参数
-			window.parent.openTag("审核商品"+curRow.pdc_name.substring(0,4)+"..",true,'',curRow.pdc_id);
+			window.parent.openTag("审核商品"+curRow.spuName.substring(0,4)+"..",true,'',curRow.spuId);
 		}
 
 		//商品搜索

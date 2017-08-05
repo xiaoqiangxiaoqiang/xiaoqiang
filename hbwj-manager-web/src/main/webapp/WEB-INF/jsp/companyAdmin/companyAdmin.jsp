@@ -17,6 +17,9 @@
     <script type="text/javascript" src="${ctx}/js/jquery-easyui-1.5.2/locale/easyui-lang-zh_CN.js"></script>
 </head>
 <body>
+ <!--[if lt IE 9]>
+    <p class="notSupportP">您当前ie版本过低，部分网页功能无法正常显示，建议升级至较新版本（<a href='https://support.microsoft.com/zh-cn/help/17621/internet-explorer-downloads/' target="_blank" class="notSupportA">ie9以上</a>）或更换至其他浏览器（如<a href='http://www.google.cn/intl/zh-CN/chrome/browser/desktop/index.html' target="_blank" class="notSupportA">谷歌chrome</a>、<a href='http://se.360.cn/' target="_blank" class="notSupportA">360浏览器</a>等）。</p>
+     <![endif]-->
 	<header class="header">
 		<div class="headerMsg">货比五家商家后台管理系统</div>
 		<div class="headerUser">
@@ -53,6 +56,27 @@
 	<script>
 		$(document).ready(
 			function() {
+				 var win = window;
+				 var doc = win.document;
+				 var input = doc.createElement ("input");
+
+				 var ie = (function (){
+				 //"!win.ActiveXObject" is evaluated to true in IE11
+				 if (win.ActiveXObject === undefined) return null;
+				 if (!win.XMLHttpRequest) return 6;
+				 if (!doc.querySelector) return 7;
+				 if (!doc.addEventListener) return 8;
+				 if (!win.atob) return 9;
+				 //"!doc.body.dataset" is faster but the body is null when the DOM is not
+				 //ready. Anyway, an input tag needs to be created to check if IE is being
+				 //emulated
+				 if (!input.dataset) return 10;
+				 return 11;
+				 })();
+				 if(ie==8||ie==7||ie==6){
+				     alert("您当前ie"+ie+"版本过低，部分网页无法正常显示，建议升级至较新版本（ie9以上）或更换其他较新浏览器");
+				 }
+
 		//datagrid的高度：窗口的高度-头尾的高度160px
 		height = (document.body.clientHeight- 160) * 0.9+50;
 		width = $("div.tabsFrame").width();

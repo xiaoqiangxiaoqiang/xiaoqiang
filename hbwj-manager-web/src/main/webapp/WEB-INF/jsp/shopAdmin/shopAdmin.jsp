@@ -17,6 +17,9 @@
 	<script type="text/javascript" src="${ctx}/js/sjgly.js"></script>
 </head>
 <body>
+<!--[if lt IE 9]>
+    <p class="notSupportP">您当前ie版本过低，部分网页功能无法正常显示，建议升级至较新版本（<a href='https://support.microsoft.com/zh-cn/help/17621/internet-explorer-downloads/' target="_blank" class="notSupportA">ie9以上</a>）或更换至其他浏览器（如<a href='http://www.google.cn/intl/zh-CN/chrome/browser/desktop/index.html' target="_blank" class="notSupportA">谷歌chrome</a>、<a href='http://se.360.cn/' target="_blank" class="notSupportA">360浏览器</a>等）。</p>
+     <![endif]-->
 	<header class="header">
 		<div class="headerMsg">货比五家商家后台管理系统</div>
 		<div class="headerUser">

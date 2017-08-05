@@ -1,3 +1,4 @@
+
 html{
 	width:100%;
 	height:100%;
@@ -126,3 +127,14 @@ a.accept:hover{
 a.accept:active{
 	color:;
 }
+p.notSupportP{
+	font-size:16px;
+	color:black;
+        text-align:center;
+        background-color:yellow;
+        padding:5px 0;
+        }
+        
+        a.notSupportA{
+       color:red;     
+        }

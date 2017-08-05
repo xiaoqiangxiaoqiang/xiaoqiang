@@ -1,6 +1,26 @@
 $(document).ready(
 
 function() {
+	var win = window;
+	 var doc = win.document;
+	 var input = doc.createElement ("input");
+
+	 var ie = (function (){
+	 //"!win.ActiveXObject" is evaluated to true in IE11
+	 if (win.ActiveXObject === undefined) return null;
+	 if (!win.XMLHttpRequest) return 6;
+	 if (!doc.querySelector) return 7;
+	 if (!doc.addEventListener) return 8;
+	 if (!win.atob) return 9;
+	 //"!doc.body.dataset" is faster but the body is null when the DOM is not
+	 //ready. Anyway, an input tag needs to be created to check if IE is being
+	 //emulated
+	 if (!input.dataset) return 10;
+	 return 11;
+	 })();
+	 if(ie==8||ie==7||ie==6){
+	     alert("您当前ie"+ie+"版本过低，部分网页无法正常显示，建议升级至较新版本（ie9以上）或更换其他较新浏览器");
+	 }
 	// datagrid的高度：窗口的高度-头尾的高度160px
 	height = (document.body.clientHeight - 160) * 0.95 + 40;
 	width = $("div.tabsFrame").width();

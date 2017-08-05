@@ -195,3 +195,14 @@ span#shopCate{
 	font-size:18px;
 	color:cornsilk;
 }
+p.notSupportP{
+	font-size:16px;
+	color:black;
+        text-align:center;
+        background-color:yellow;
+        padding:5px 0;
+        }
+        
+        a.notSupportA{
+       color:red;     
+        }

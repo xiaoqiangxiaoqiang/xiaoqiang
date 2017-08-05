@@ -1,4 +1,25 @@
 $(document).ready(function(){
+	var win = window;
+	 var doc = win.document;
+	 var input = doc.createElement ("input");
+
+	 var ie = (function (){
+	 //"!win.ActiveXObject" is evaluated to true in IE11
+	 if (win.ActiveXObject === undefined) return null;
+	 if (!win.XMLHttpRequest) return 6;
+	 if (!doc.querySelector) return 7;
+	 if (!doc.addEventListener) return 8;
+	 if (!win.atob) return 9;
+	 //"!doc.body.dataset" is faster but the body is null when the DOM is not
+	 //ready. Anyway, an input tag needs to be created to check if IE is being
+	 //emulated
+	 if (!input.dataset) return 10;
+	 return 11;
+	 })();
+	 if(ie==8||ie==7||ie==6){
+	     alert("您当前ie"+ie+"版本过低，部分网页无法正常显示，建议升级至较新版本（ie9以上）或更换其他较新浏览器");
+	 }
+	 
 	isRightPhone=false;
 			// 绑定显示注册框事件
 			$("#registerBtn").on("click",showRegister);
@@ -30,7 +51,7 @@ $(document).ready(function(){
 			//绑定发送验证码事件
 			$("#getCodeBtn").on("click",getCode);
 			
-			//默认不可获取验证码
+			
 			// $("#accept").on("click",accept);
 			noClick();
 			if($.cookie("isRem")=="true"){
@@ -38,13 +59,15 @@ $(document).ready(function(){
 				$("#username").val($.cookie("username"));
 				$("#password").val($.cookie("password"));
 			}
+			
+			$("#remember").on('click',saveCookie);
 		})
 		
 	/**
 	 * 写好的js代码	
 	 */
 		
-function check(){
+/*function check(){
 	var elem=$("#username");
 	var user=elem.val();
 	if(user.length<6){
@@ -53,7 +76,8 @@ function check(){
 	}
 	saveCookie();
 	return true;
-};
+};*/
+
 function saveCookie(){
 	if($("#remember").prop("checked")){
 		var usernameStr=$("#username").val();
@@ -100,10 +124,9 @@ function checkPhone(){
 	}else{
 		showRight(elem);
 		doAjax({"phoneNum":tel},"findFalse",resetBtn);
-	}
-
-	
+	}	
 };
+
 //ajax请求服务器
 function doAjax(json,url,callback){
 	$.ajax({
@@ -183,6 +206,7 @@ function resetBtn(data){
 	//0:用户不存在 
 	if(data.result=="0"){
 		canClick();
+		return;
 	}
     //1:用户存在 已经注册
 	if(data.result=="1"){
@@ -193,8 +217,7 @@ function resetBtn(data){
 //说明该手机已经被注册
 function noClick(){
 	var btn=$("#getCodeBtn");
-	btn.css("cursor","not-allowed");
-	btn.attr("disabled","disabled");
+	btn.css("cursor","not-allowed").attr("disabled","disabled");
 	showError($("#phoneNum"),"该手机已被注册");
 	isRightPhone=false;
 }
@@ -209,20 +232,42 @@ function canClick(){
 
 //点击获取验证码
 function getCode(){
-	//发送验证码代码...
-	pos=59;
-	noClick();
 	var elem=$("#getCodeBtn");
-	timeInt=setInterval(interval(elem),900);//定义定时器
+	var phone = $("#phoneNum").val();
+	if(phone==null || phone==''){
+		elem.css("cursor","not-allowed").attr("disabled","disabled");
+		return;
+	}
+	//发送验证码代码...
+	doAjax({"phone":phone},"sendCode",codeBack);
+	pos=3;
+    elem.css("cursor","not-allowed").attr("disabled","disabled");
+    timeInt=setInterval(function(){interval(elem)},980);//定义定时器	
+}
+
+function codeBack(data){
+	if(data.result==0){
+		//表示获取验证码成功
+	var code = data.code;
+	console.log(code);
+	$("#code1").val(code);
+	phone1=$("#phoneNum").val();
+	return;
+	}
+	if(data.result==1){
+		//如果验证码错误
+		showError($("#getCodeBtn"),"获取失败  稍后重试！");
+		return false;
+	}
+	
 }
 
 //是否接受服务协议
 function checkAccept(){
-	if(!$("#accept").prop("checked")){
-//		showError($("#acceptA"),"请先阅读该条款");
-		return false;
+	if(!$("#accept").prop("checked")){		
+		return alert('请先仔细阅读服务条款');
 	}else{
-//		showRight($("#acceptA"));
+		showRight($("#acceptA"));
 		return true;
 	}
 }
@@ -242,7 +287,6 @@ function interval(elem){
 
 //校对验证码
 function checkCode(){
-
 	//如果验证码错误
 	showError($("#getCodeBtn"),"验证码错误");
 	return false;
@@ -253,9 +297,13 @@ function register(){
 	if(!isRightPhone||!checkPs()||!checkPs2()||!checkAccept()){
 		return;
 	}
+	if($("#code1").val()!=$("#code").val()||phone1!=$("#phoneNum").val()){
+		return alert("验证码错误");
+	}
 	var json={};
 	json.phone=$("#phoneNum").val();
 	json.password=$("#passwordReg").val();
+	json.code=$("#code").val();
 	doAjax(json,"register",regCallback)
 }
 

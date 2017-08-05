@@ -26,7 +26,7 @@
 					height           :   "",                 	  // 高度
 					itemWidth        :   "200px",                 // 文件项的宽度
 					itemHeight       :   "150px",                 // 文件项的高度
-					url              :   "uploadPicture1?user_name="+$("#up").val(),              // 上传文件的路径
+					url              :   "upLoadPicture?user_name="+$("#up").val(),              // 上传文件的路径
 					fileType         :   ["jpg","png","bmp","jpeg"],// 上传文件的类型
 					fileSize         :   2*1024*1024,                // 上传文件的大小
 					multiple         :   true,                    // 是否可以多个文件上传

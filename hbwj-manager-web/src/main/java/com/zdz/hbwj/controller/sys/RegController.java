@@ -22,6 +22,7 @@ import com.zdz.hbwj.pojo.sys.SysUser;
 import com.zdz.hbwj.pojo.sys.UserRole;
 import com.zdz.hbwj.service.admin.UserManagerService;
 import com.zdz.hbwj.service.sys.SysUserService;
+import com.zdz.hbwj.util.CodeUtil;
 import com.zdz.hbwj.util.Md5Tool;
 
 /***
@@ -56,6 +57,29 @@ public class RegController {
 				
 		
 	}
+	
+	//获取手机验证码
+	@RequestMapping("sendCode")
+	@ResponseBody
+	public Map<String,Object> sendCode(HttpServletRequest request){
+		Map<String,Object> map = new HashMap<String,Object>();
+		//获取手机号码
+		String phone = request.getParameter("phone");
+		try {
+			//发送请求获取验证码
+			String code = CodeUtil.sendSMSCode(phone);
+			//将验证码返回给前端
+			map.put("result", 0);
+			map.put("code",code);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			//系统异常 获取失败
+		    map.put("result",1);
+		}
+		return map;		
+	}
+	
 	
 	//商家注册
 	@RequestMapping("register")

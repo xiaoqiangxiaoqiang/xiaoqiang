@@ -46,11 +46,17 @@ import net.sf.json.JSONObject;
 @RequestMapping(value="hbwj/enter/product/")
 public class ProductController {
 
-	private static final String host = "192.168.40.134";
+	private static final String host = "39.108.193.149";
+	private static final Integer port =21;
+	private static final String username ="guest";
+	private static final String password ="guest";
+	private static final String  basePath="/products";
+	
+	/*private static final String host = "192.168.40.134";
 	private static final Integer port =21;
 	private static final String username ="admin";
 	private static final String password ="admin";
-	private static final String  basePath="/home/admin/images/shoper";
+	private static final String  basePath="/home/admin/images/shoper";*/
 	
 	@Autowired 
     private ShopService shopService;
@@ -66,10 +72,6 @@ public class ProductController {
 	private  SpuMapper spuMapper;
 	@Autowired
 	private  SkuMapper skuMapper;
-	
-	
-	
-	
 	
 	//商家管理员进入商品管理的页面
 	@RequestMapping("shoperGoodsManager")
@@ -172,10 +174,10 @@ public class ProductController {
 			FtpUtil.uploadFile(host, port, username, password,
 					basePath, filepath,
 					newFileName, file.getInputStream());
-			 result =filepath +"/"+newFileName;
+			 result = "/products"+filepath +"/"+newFileName;
 			//会显图片
 			map.put("file",newFileName);
-			map.put("url","http://"+host+result);
+			map.put("url","http://"+host+":8080"+result);
 			
 		} catch (Exception e) {
 			map.put("result","1");

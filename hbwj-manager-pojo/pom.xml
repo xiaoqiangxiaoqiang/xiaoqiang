@@ -6,6 +6,5 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>hbwj-manager-pojo</artifactId>
-  
-  
+  <version>0.0.1-SNAPSHOT</version>
 </project>
