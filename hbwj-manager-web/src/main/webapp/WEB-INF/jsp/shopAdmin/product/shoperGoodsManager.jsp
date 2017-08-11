@@ -232,7 +232,7 @@
  			var title="";
  			switch(parseInt(value)){
  				case 0:
- 				status="正常";
+ 				status="待提交审核";
  				title="商品上传成功，请提交进行审核";
  				break;
  				case 1:
@@ -467,7 +467,7 @@
 			}
 			$.messager.confirm('提示','确定上架该商品？',function(r){
 				if (r){
-					doAjax({'spuId':curRow.spuId},"",shangJiaCallback);
+					doAjax({'spuId':curRow.spuId},"upProduct",shangJiaCallback);
 				}
 			});
 		}
@@ -475,6 +475,7 @@
 		function shangJiaCallback(data){
 			if(data.result=="0"){
 				$.messager.alert("提示","上架成功");
+				$("#shangpinTable").datagrid('reload');
 				return;
 			}else if(data.result=="1"){
 				$.messager.alert("提示","上架失败");
@@ -488,6 +489,7 @@
 		function xiaJia(){
 			if(curRow==""){
 				$.messager.alert("提示","请先选择要下架的商品");
+				$("#shangpinTable").datagrid('reload');
 				return;
 			}
 			if(curRow.status!="4"){
@@ -496,7 +498,7 @@
 			}
 			$.messager.confirm('提示','确定下架该商品？',function(r){
 				if (r){
-					doAjax({'spuId':curRow.spuId},"",xiaJiaCallback);
+					doAjax({'spuId':curRow.spuId},"downProduct",xiaJiaCallback);
 				}
 			});
 		}
@@ -526,14 +528,14 @@
 			$.messager.confirm('提示','确定对该商品进行申诉？',function(r){
 				if (r){
 					//ajax异步删除
-					doAjax({'spuId':curRow.spuId},"",shenSuCallback);
+					doAjax({'spuId':curRow.spuId},"complainProduct",shenSuCallback);
 				}
 			});
 		}
 
 		//申诉回调函数
 		function shenSuCallback(data){
-			if(data.result=="1"){
+			if(data.result=="0"){
 				$.messager.alert('提示','提交申诉成功,我们将尽快处理');
 					//重新加载
 					$("#shangpinTable").datagrid('reload');

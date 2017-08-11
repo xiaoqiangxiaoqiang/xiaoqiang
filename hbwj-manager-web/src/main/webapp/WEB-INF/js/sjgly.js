@@ -130,12 +130,12 @@ function addPanel(title, curUrl, arg) {
 	var frame = "";
 	switch (title.substring(0, 4)) {
 	case "员工管理":
-		frame = curUrl;
+		frame = curUrl+"?user_name=" + $("#loginUser").html();
 		str = '<div class="searchWrap"><div class="searchDiv">手机号：<input type="text" class="search" id="user_name" value="" placeholder="请输入手机号码">'
 				+ '</div><input type="button" onclick="doSearch()" value="搜索"></div>';
 		break;
 	case "商品管理":
-		frame = curUrl;
+		frame = curUrl+"?user_name=" + $("#loginUser").html();
 		str = '<div class="searchWrap"><div class="searchDiv">手机号：<input type="text" class="search" value="" placeholder="请输入手机号码"></div>';
 		str += '<div class="searchDiv">商家状态:<select><option value="0">正常</option><option value="1">商铺审核通过</option>'
 				+ '<option value="2">商铺审核未通过</option></select></div><input class="class" type="button" value="搜索"></div>';
@@ -147,7 +147,7 @@ function addPanel(title, curUrl, arg) {
 		frame = curUrl;
 		break;
 	case "添加商品":
-		frame = curUrl;
+		frame = curUrl+"?user_name=" + $("#loginUser").html();
 		break;
 	case "查看商品":
 		frame = curUrl + "?spu_id=" + arg;

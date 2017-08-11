@@ -36,38 +36,4 @@
 	<mvc:resources location="/WEB-INF/css/" mapping="/css/**"/>
 	<mvc:resources location="/WEB-INF/images/" mapping="/images/**"/>
 	
-	<!--配置拦截器, 多个拦截器,顺序执行 -->  
-<mvc:interceptors> 
-	<!-- 公司管理员的拦截器 -->   
-     <mvc:interceptor>    
-        <mvc:mapping path="/hbwj/enter/admin/*" />        
-        <bean class="com.zdz.hbwj.interceptor.CompanyInterceptor"></bean>    
-     </mvc:interceptor>
-     
-     <!-- 公司员工的拦截器 -->
-      <mvc:interceptor>    
-        <mvc:mapping path="/hbwj/enter/emp/*" />        
-        <bean class="com.zdz.hbwj.interceptor.EmpInterceptor"></bean>    
-     </mvc:interceptor> 
-     
-      <!-- 商家店主的管理员拦截器 -->
-     <mvc:interceptor>    
-        <mvc:mapping path="/hbwj/enter/shoper/*" />        
-        <bean class="com.zdz.hbwj.interceptor.ShopInterceptor"></bean>    
-     </mvc:interceptor>
-        
-      <!-- 商家员工拦截器 -->
-     <mvc:interceptor>    
-        <mvc:mapping path="/hbwj/enter/shopEmp/*" />        
-        <bean class="com.zdz.hbwj.interceptor.ShopEmpInterceptor"></bean>    
-     </mvc:interceptor>
-     
-     <!-- 商家注册审核的页面拦截-->
-     <mvc:interceptor>    
-        <mvc:mapping path="/hbwj/shop/Authority" />        
-        <bean class="com.zdz.hbwj.interceptor.AuthorityInterceptor"></bean>    
-     </mvc:interceptor> 
-       
-    <!-- 当设置多个拦截器时，先按顺序调用preHandle方法，然后逆序调用每个拦截器的postHandle和afterCompletion方法 -->  
-</mvc:interceptors> 
 </beans>

@@ -39,9 +39,15 @@ public class ShoperAdminController {
 
 	// 进入商家管理员页面
 	@RequestMapping("index")
-	public String enterManager(HttpServletRequest request, HttpServletResponse response) {
+	public String index(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String path = request.getContextPath();
+		//获取请求参数
+		String user_name =request.getParameter("user_name");
 		HttpSession session = request.getSession();
-		SysUser user = (SysUser) session.getAttribute("user");
+		SysUser user = (SysUser) session.getAttribute(user_name);
+		if(user==null || user.equals("")){
+			response.sendRedirect(path+"/hbwj/enter/noRight");
+		}
 		request.setAttribute("user", user);
 		return "shopAdmin/shopAdmin";
 	}
@@ -49,9 +55,15 @@ public class ShoperAdminController {
 	//商家管理员进入员工管理功能页面
 	@RequestMapping("shoperEmpManager")
 	public String shoperEmpManager(HttpServletRequest request,
-			HttpServletResponse response){
+			HttpServletResponse response) throws IOException{
+		String path = request.getContextPath();
+		//获取请求参数
+		String user_name =request.getParameter("user_name");
 		HttpSession session = request.getSession();
-		SysUser user = (SysUser) session.getAttribute("user");
+		SysUser user = (SysUser) session.getAttribute(user_name);
+		if(user==null || user.equals("")){
+			response.sendRedirect(path+"/hbwj/enter/noRight");
+		}
 		user.setUser_pwd("");
 		request.setAttribute("user", user);
 		return "shopAdmin/shoperEmpManger";

@@ -44,8 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <!-- 更新用户状态信息 -->
     <update id="updateSysUserInfo"  parameterType="java.util.Map">
-    	 update sys_user set status=#{status} 
-    	 		where user_name=#{user_name}
+    	 update sys_user set status=#{status} where user_name=#{user_name}
     </update>
     
 </mapper>

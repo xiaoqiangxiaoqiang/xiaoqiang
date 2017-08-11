@@ -35,9 +35,15 @@ public class CompanyEmpController {
 
 	//进入公司管理员首页
 	@RequestMapping(value = "index")
-	public String enterEmp(HttpServletRequest request, HttpServletResponse response) {
+	public String enterEmp(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String path = request.getContextPath();
+		//获取请求参数
+		String user_name =request.getParameter("user_name");
 		HttpSession session = request.getSession();
-		SysUser user = (SysUser) session.getAttribute("user");
+		SysUser user = (SysUser) session.getAttribute(user_name);
+		if(user==null || user.equals("")){
+			response.sendRedirect(path+"/hbwj/enter/noRight");
+		}
 		request.setAttribute("user", user);
 		return "companyEmp/companyEmp";
 	}
@@ -155,7 +161,7 @@ public class CompanyEmpController {
 			   map1.put("apply_status",2);
 			   Map<String,Object> map2 = new HashMap<String,Object>();
 			   map2.put("user_name",id);
-			   map2.put("status",2);
+			   map2.put("status",3);
 			   shopService.updateShoperInfo(map1, map2);
 			   //审核提交成功
 			   data.put("result", "0");
@@ -193,7 +199,7 @@ public class CompanyEmpController {
 			   map1.put("passApply",date);
 			   Map<String,Object> map2 = new HashMap<String,Object>();
 			   map2.put("user_name",id);
-			   map2.put("status",3);
+			   map2.put("status",4);
 			   shopService.updateShoperInfo(map1, map2);
 			   //审核提交成功
 			   data.put("result", "0");

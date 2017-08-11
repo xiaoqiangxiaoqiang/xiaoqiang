@@ -8,7 +8,7 @@
 	<meta charset="UTF-8">
 	<title>货比五家——登录注册页面</title>
 	<link rel="stylesheet" type="text/css" href="${ctx}/css/sweetalert.css">
-	<link rel="stylesheet" type="text/css" href="${ctx}/css/dengLuZhuCe.css">
+	<link rel="stylesheet" type="text/css" href="${ctx}/css/style.css">
 	<link type="image/x-icon" rel="shortcut icon" href="${ctx}/images/logo.jpg" />
 	<script type="text/javascript" src="${ctx}/js/jquery-1.8.3.min.js"></script>
 	<script type="text/javascript" src="${ctx}/js/jquery.cookie.js"></script>
@@ -27,10 +27,10 @@
 	</header>
 	<article>
 		<div class="imgDiv">
-			<img src="${ctx}/images/bgLeft.jpg" class="leftImg" alt="货比五家">
+			<img src="${ctx}/images/index/bgLeft.jpg" class="leftImg" alt="货比五家">
 		</div>
 
-		<form class="login" id="login" action="${ctx}/hbwj/enter/login"  method="post" >
+		<form class="login" id="login" action="${ctx}/hbwj/enter/userLogin"  method="post" >
 			<p>用户登录</p>
 
 			<div class="item">
@@ -41,7 +41,7 @@
 			<div class="item">
 				<label for="password">密码</label><br/>
 				<input type="password" class="textin" name="password" id="password" placeholder="请输入6至16位密码"/><br/>
-				<a href="" class="forgetPw">忘记密码？</a>
+				<a href="${ctx}/enter/forget" class="forgetPw">忘记密码？</a>
 			</div>
 
 			<div class="item">

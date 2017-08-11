@@ -44,25 +44,31 @@ public class CompanyAdminController {
 
 	// 进入公司管理员首页
 	@RequestMapping("index")
-	public String enterAdmin(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
+	public String enterAdmin(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		String path = request.getContextPath();
+		//获取请求参数
+		String user_name =request.getParameter("user_name");
 		HttpSession session = request.getSession();
-		SysUser user = (SysUser) session.getAttribute("user");
+		SysUser user = (SysUser) session.getAttribute(user_name);
+		if(user==null || user.equals("")){
+			response.sendRedirect(path+"/hbwj/enter/noRight");
+		}
 		request.setAttribute("user", user);
 		return "companyAdmin/companyAdmin";
 	}
 	
 	//进入公司管理员页面的员工管理页面
 	@RequestMapping("companyAdminEmp")
-	public String companyAdminEmp(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
+	public String companyAdminEmp(HttpServletRequest request, HttpServletResponse response) {
 		return "companyAdmin/companyAdminEmp";
 	}
 	
 	//公司管理员进入商家店铺申请资料页面
 	@RequestMapping("companyAdminShoper")
-	public String companyAdminShoper(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
+	public String companyAdminShoper( HttpServletRequest request, HttpServletResponse response) {
 		return "companyAdmin/companyAdminShoper";
 	}
-
 	// 分页查询公司员工以及用户的数量
 	@RequestMapping("findUserList")
 	public void findUserList(HttpServletRequest request, HttpServletResponse response) throws IOException {

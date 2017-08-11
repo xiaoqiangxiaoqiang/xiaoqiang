@@ -68,6 +68,9 @@
 				}},
 				{field : 'passApply',title : '审核时间',width : '160',align : 'center',resizable:true,
 				formatter:function(value,row,index){
+					if(value==null|| value==""){
+						return "";
+					}
 						return returnTime(value,row,index);
 				}},
 

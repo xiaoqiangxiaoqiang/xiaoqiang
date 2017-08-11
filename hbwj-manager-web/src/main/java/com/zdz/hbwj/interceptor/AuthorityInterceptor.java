@@ -20,6 +20,11 @@ public class AuthorityInterceptor implements HandlerInterceptor{
 		 HttpSession session =request.getSession();
 		 SysUser  user =  (SysUser) session.getAttribute("user");
 		 if(user!=null){
+			 
+			 
+			 
+			 
+			 
 			 return true;
 		 }else{
 			 //如何用户session 超时或者不存在则让其返回到登录页面 			 

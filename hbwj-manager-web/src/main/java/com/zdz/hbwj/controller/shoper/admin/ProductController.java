@@ -76,9 +76,15 @@ public class ProductController {
 	//商家管理员进入商品管理的页面
 	@RequestMapping("shoperGoodsManager")
 	public String shoperGoodsManager(HttpServletRequest request,
-			HttpServletResponse response){
-		HttpSession session =request.getSession();
-		SysUser user = (SysUser) session.getAttribute("user");
+			HttpServletResponse response) throws IOException{
+		String path = request.getContextPath();
+		//获取请求参数
+		String user_name =request.getParameter("user_name");
+		HttpSession session = request.getSession();
+		SysUser user = (SysUser) session.getAttribute(user_name);
+		if(user==null || user.equals("")){
+			response.sendRedirect(path+"/hbwj/enter/noRight");
+		}
 		request.setAttribute("user_name", user.getUser_name());
 		return "shopAdmin/product/shoperGoodsManager";
 	}
@@ -106,8 +112,10 @@ public class ProductController {
 	@RequestMapping("lookIframe")
 	public String  lookIframe(HttpServletRequest request,
 			HttpServletResponse response){
+		//获取到商家的主键
+		String user_name = request.getParameter("user_name");
 		HttpSession session =request.getSession();
-		SysUser user = (SysUser) session.getAttribute("user");
+		SysUser user = (SysUser) session.getAttribute(user_name);
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("id", user.getUser_name());
 	 	TShopReview review = shopMapper.findReviewInfo(map);
@@ -119,9 +127,8 @@ public class ProductController {
 	@RequestMapping("loadIframe")
 	public String  loadIframe(HttpServletRequest request,
 			HttpServletResponse response){
-		HttpSession session =request.getSession();
-		SysUser user = (SysUser) session.getAttribute("user");
-		request.setAttribute("user_name", user.getUser_name());
+		String user_name = request.getParameter("user_name");
+		request.setAttribute("user_name", user_name);
 		return "iframe/iframe1";
 	}
 	
@@ -305,7 +312,7 @@ public class ProductController {
 				  spu.setProductImages(product_images);
 				//商品排序 后台有功能进行商品的添加排序 将商品放置在哪个地方显示的位置 默认位置为0 依次递增
 				  spu.setSort(0);
-			  	//产品的状态 初始值添加进去为 0:表示 商家只上传商品 还未提交审核   1:表示待审核 ：2：审核通过 3：审核不通过
+			  	//产品的状态 初始值添加进去为 0:表示 待提交   1:表示待审核 ：2：审核通过 3：审核不通过
 				  spu.setStatus(0);
 				//上传时间
 				  Date date  = new Date();
@@ -554,8 +561,6 @@ public  void  findProductList(HttpServletRequest request,
 				//上传时间
 				  Date date  = new Date();
 				  spu.setCreatetime(date);
-				  
-				  
 				  /**
 				   * 创建spuInfo 附属信息表 二次加载时所用的表
 				   */
@@ -765,6 +770,7 @@ public  void  findProductList(HttpServletRequest request,
 	
 		//修改商品库存
 		@RequestMapping("updateProductNum")
+		@ResponseBody
 		public void updateProductNum(HttpServletRequest request,
 				HttpServletResponse response) throws IOException{
 			response.setContentType("application/json; charset=utf-8");
@@ -804,5 +810,80 @@ public  void  findProductList(HttpServletRequest request,
 			 out.write(result);
 		}
 		
+		//商品上架
+		@RequestMapping("upProduct")
+		@ResponseBody
+		public  Map<String,Object>  upProduct(HttpServletRequest request){
+			Map<String,Object> result = new HashMap<>();
+			//获取商品的spu_id
+			String spuId = request.getParameter("spuId");
+			//通过spuId 去更新商品的状态信息
+			Map<String,Object> map = new HashMap<>();
+			map.put("spuId", spuId);
+			map.put("status", 4);
+			map.put("updatetime", new Date());
+			try {
+				goodsService.updateTSpuByMap(map);
+				//表示上架成功
+				result.put("result","0");
+			} catch (Exception e) {
+				e.printStackTrace();
+				//表示上架操作是吧
+				result.put("result", "1");
+			}
+			return result;
+		}
+		
+		
+		    //商品下架
+				@RequestMapping("downProduct")
+				@ResponseBody
+				public  Map<String,Object>  downProduct(HttpServletRequest request){
+					Map<String,Object> result = new HashMap<>();
+					//获取商品的spu_id
+					String spuId = request.getParameter("spuId");
+					//通过spuId 去更新商品的状态信息
+					Map<String,Object> map = new HashMap<>();
+					map.put("spuId", spuId);
+					map.put("status", 5);
+					map.put("updatetime", new Date());
+					try {
+						goodsService.updateTSpuByMap(map);
+						//表示上架成功
+						result.put("result","0");
+					} catch (Exception e) {
+						e.printStackTrace();
+						//表示上架操作是吧
+						result.put("result", "1");
+					}
+					return result;
+				}
 
+				
+		//商品申诉
+		 @RequestMapping("complainProduct")
+		 @ResponseBody
+	      public Map<String,Object>	complainProduct(HttpServletRequest request){
+			 Map<String,Object> result = new HashMap<>();
+				//获取商品的spu_id
+				String spuId = request.getParameter("spuId");
+				//通过spuId 去更新商品的状态信息
+				Map<String,Object> map = new HashMap<>();
+				map.put("spuId", spuId);
+				map.put("status", 6);
+				map.put("updatetime", new Date());
+				try {
+					goodsService.updateTSpuByMap(map);
+					//表示上架成功
+					result.put("result","0");
+				} catch (Exception e) {
+					e.printStackTrace();
+					//表示上架操作是吧
+					result.put("result", "1");
+				}
+				return result;
+		 
+			 
+	 }
+				
 }

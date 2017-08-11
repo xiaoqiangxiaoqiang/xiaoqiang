@@ -68,6 +68,9 @@
 								}}, 
 								{field : 'updatetime',title : '更新时间',width : '11%',align : 'center',resizable:true,
 								formatter:function(value,row,index){
+									if(value==null||value==""){
+										return "";
+									}
 									return returnTime(value,row,index);
 								} }, 
 								{field : 'status',title : '商品状态',width : '8%',align : 'center',resizable:true,
@@ -153,11 +156,11 @@
  			var title="";
  			switch(parseInt(value)){
  				case 0:
- 				status="正常";
+ 				status="已上传产品";
  				title="商品上传成功，请提交进行审核";
  				break;
  				case 1:
- 				status="审核中";
+ 				status="待审核中";
  				title="正在审核中，请等待审核结果";
  				break;
  				case 2:

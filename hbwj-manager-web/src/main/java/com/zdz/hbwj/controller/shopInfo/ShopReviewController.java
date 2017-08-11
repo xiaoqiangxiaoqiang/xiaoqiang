@@ -57,13 +57,29 @@ public class ShopReviewController {
     private SysUserService sysUserService ;
 	//进入商家店铺申请页面
 	@RequestMapping("Authority")
-	public String enterAuthority(HttpServletRequest request,
+	public String Authority(HttpServletRequest request,
+			HttpServletResponse response) throws IOException{
+		String path = request.getContextPath();
+		//获取请求参数
+		String user_name =request.getParameter("user_name");
+		HttpSession session = request.getSession();
+		SysUser user = (SysUser) session.getAttribute(user_name);
+		if(user==null || user.equals("")){
+			response.sendRedirect(path+"/hbwj/enter/noRight");
+		}
+				request.setAttribute("user", user);
+				return "review/authority";				
+				}
+	//商家以2状态的身份进入可以查看到目前店铺的审核状态
+	@RequestMapping("reviewDetail")
+	public String reviewDetail(HttpServletRequest request,
 			HttpServletResponse response){
 				HttpSession session =request.getSession();
 				SysUser user = (SysUser) session.getAttribute("user");
 				request.setAttribute("user", user);
-				return "review/authority";				
+				return "review/reviewDetail";				
 				}
+	
 		
 	//商家店铺信息图片上传
 	@RequestMapping("upLoadPicture")

@@ -388,7 +388,7 @@
 			});
 			//再新建一个iframe到模态窗口中
 			$(
-					'<div id="uploadModal"><iframe src="loadIframe" scrolling="yes" width="100%" height="600" frameborder=0></iframe></div>')
+					'<div id="uploadModal"><iframe src="loadIframe?user_name='+$("#id").val()+'" scrolling="yes" width="100%" height="600" frameborder=0></iframe></div>')
 					.appendTo(document.body);
 			//打开模态窗口
 			$("#uploadModal").window({

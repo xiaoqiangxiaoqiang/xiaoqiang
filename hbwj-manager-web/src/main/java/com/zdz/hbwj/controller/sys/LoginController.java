@@ -1,11 +1,10 @@
 package com.zdz.hbwj.controller.sys;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -14,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zdz.hbwj.pojo.sys.SysUser;
-import com.zdz.hbwj.service.admin.UserManagerService;
 import com.zdz.hbwj.service.sys.SysUserService;
 import com.zdz.hbwj.util.Md5Tool;
 
@@ -31,99 +28,137 @@ public class LoginController {
 	@Autowired
 	private SysUserService sysUserService;
 	
-	@RequestMapping("login")
-	public void login(HttpServletRequest request,
-			HttpServletResponse response) throws IOException{
-				
-				//获取访问的根路径
-		        String path = request.getContextPath();
-		        //处理post请求乱码
-				response.setContentType("application/json; charset=utf-8");
-		        //获取用户名
-			    String username =request.getParameter("username");
-				//获取密码
-			    String userpwd = Md5Tool.getMd5(request.getParameter("password"));
-			    //通过用户名去查找密码
-			    SysUser user = sysUserService.findSysUser(username);
-			
-			//判断用户名和密码的正确性
-			if(user==null||user.equals("")){
-				//判断用户不存在
-	     		response.sendRedirect(path+"/hbwj/enter/index?param=0");
-	     		return;
-			}else{
-				//密码如果不存在
-				if(!userpwd.equals(user.getUser_pwd())){
-					//员工管理页
-		     		response.sendRedirect(path+"/hbwj/enter/index?param=1");
-		     		return;
-				}
-				//用户名和密码都存在
-				if(username.equals(user.getUser_name())&&userpwd.equals(user.getUser_pwd())){
-					//通过用户名查询用户所对应的权限					
-					List <String> list =sysUserService.findRoles(username);
-					HttpSession session =request.getSession();
-					user.setUser_pwd("");
-					//将用户信息存入session中
-					session.setAttribute("user", user);
-					//将用户的角色存入到session中
-			     	session.setAttribute("roles", list);
-			     	if(list.contains("ROLE_COMAdmin")){
-			     		//公司管理员页面	     		
-			     		response.sendRedirect(path+"/hbwj/enter/admin/index");
-			     		return ;
-			     	}
-			     	if(list.contains("ROLE_COMEmp")){
-			     		//公司员工管理页面
-			     		response.sendRedirect(path+"/hbwj/enter/emp/index");
-			     		return ;
-			     	}
-			     	if(list.contains("ROLE_SHOPAdmin")){
-			     		//商家管理员页面  未申请店铺的上家
-			     		if(user.getStatus()==1){
-			     			//重定向到商家审核页面
-			     			response.sendRedirect(path+"/hbwj/shop/Authority");
-			     			return ;
-			     		}
-			     		//商家管理员页面
-			     		if(user.getStatus()==2 ||user.getStatus()==4){
-			     			//重定向到商家管理页面  已经申请商家店铺
-			     			response.sendRedirect(path+"/hbwj/enter/shoper/reviewFail");
-			     			/*response.sendRedirect(path+"/hbwj/enter/shoper/index");*/
-			     			return ;
-			     		}
-			     		
-			     		/**
-			     		 * 商家提交的商户入驻的资料审核不通过页面 状态为3表示 商家已经填写了申请审核的资料
-			     		 * 即在此登录景区只可以查看相应的状态
-			     		 */
-			     		 
-			     		if(user.getStatus()==3){
-			     			//商家审核资料成功！
-			     			response.sendRedirect(path+"/hbwj/enter/shoper/index");
-			     			/*response.sendRedirect(path+"/hbwj/enter/common/findReviewInfo");*/
-			     			return ;
-			     		}
-			     	}			     	
-			     	if(list.contains("ROLE_SHOPEmp")){
-			     		if(user.getStatus()==5){
-			     			//重定向到商家员工页面
-			     			response.sendRedirect(path+"/hbwj/enter/shopEmp/index");
-			     			return ;
-			     		}
-			     		
-			     		/*if(user.getStatus()==6){
-			     			//重定向到商家员工无权限页面
-			     			response.sendRedirect(path+"/hbwj/shop/failEmp");
-			     			return ;
-			     		}*/
-			     		
-			     	  }
-				  }
-			  }
-
-         }
 	
+	    //进入登录页面
+		@RequestMapping("login")
+		public String index(ModelMap map,HttpServletRequest request,
+					HttpServletResponse response){
+		     String num = request.getParameter("param");
+		     if(num==null || num.equals("")){
+		    	  return "index/login";
+		     }else{
+		    	 if(num.equals("0")){
+		    		 request.setAttribute("massage", "用户名不存在");
+		    		 return "index/login";	    		 
+		    	 }else if(num.equals("1")){
+		    		 request.setAttribute("message", "密码不正确");    		
+		    		 return "index/login";
+		    	 }else{
+		    		 return null;
+		    	 }
+		     }
+		}
+	
+	//用户提交用户名密码正式进入首页
+	@RequestMapping("userLogin")
+	public void userLogin(HttpServletRequest request,
+			HttpServletResponse response) throws IOException, ServletException{
+		
+		//获取更路经
+		String path =request.getContextPath();
+		//获取用户名
+		String username =request.getParameter("username");
+		//获取密码
+		String userpwd = Md5Tool.getMd5(request.getParameter("password"));
+		//查询该用户是否存在
+		SysUser user = sysUserService.findSysUser(username);
+		//判断用户名和密码的正确性
+		if(user==null||user.equals("")){
+			//判断用户不存在
+			request.setAttribute("message", "用户名不存在");
+			request.getRequestDispatcher("/WEB-INF/jsp/index/login.jsp").forward(request, response);
+     		return ;
+		}else{
+			if(username.equals(user.getUser_name())&&userpwd.equals(user.getUser_pwd())){
+				//通过用户名查询用户所对应的权限					
+				List <String> list =sysUserService.findRoles(username);
+				//获取httpSession
+				HttpSession session =request.getSession();
+				//将密码设置为空
+				user.setUser_pwd("");
+				//将用户信息保存到session中
+				session.setAttribute(user.getUser_name(), user);
+				System.out.println(session.getAttribute(user.getUser_name()));
+				//将用户的角色存入到session中
+		     	session.setAttribute("roles", list);
+		     	//进入公司管理员页面
+		     	if(list.contains("ROLE_COMAdmin")){
+		     		//公司管理员首页
+		     		response.sendRedirect(path+"/hbwj/enter/admin/index?user_name="+user.getUser_name());
+		     		return ;
+		     	     }
+		     	//进入公司员工页面
+		     	if(list.contains("ROLE_COMEmp")){
+		     		//公司员工首页
+		     		response.sendRedirect(path+"/hbwj/enter/emp/index?user_name="+user.getUser_name());
+		     		return ;
+		     		 }
+		     	//进入商家管理员页面
+		     	if(list.contains("ROLE_SHOPAdmin")){
+		     		//商家管理员 申请店铺主页 1:商家只注册账号
+		     		if(user.getStatus()==1){
+		     			//进入商家店铺申请主页
+		     			response.sendRedirect(path+"/hbwj/shop/Authority?user_name="+user.getUser_name());
+		     			return ;
+		     		}
+		     		/*
+		     		 * 商家管理员审核失败 2:商家已提交店铺审核资料 处于待审核 4:审核不通过
+		     		 * 当商家以2的状态进入会进入到审核信息查看页面  以4:状态进入也是进入查看页面 
+		     		 * 此时是可以查看审核不通过的详细信息 同时可以再次进行修改审核信息重新提交
+		     		 */
+		     		if(user.getStatus()==2 ){
+		     			//重定向到商家管理页面  已经申请商家店铺
+		     			response.sendRedirect(path+"/hbwj/enter/shoper/reviewDetail?user_name="+user.getUser_name());
+		     			return ;
+		     		}
+		     		
+		     		//店铺资料审核成功
+		     		if(user.getStatus()==3){
+		     			//审核成功 则进入商家管理页面首页
+		     			response.sendRedirect(path+"/hbwj/enter/shoper/index?user_name="+user.getUser_name());
+		     			return ;
+		     		}
+		     		//店铺资料审核不成功
+		     		if(user.getStatus()==4){
+		     			//店铺资料审核不成功时重新提价审核页面
+		     			response.sendRedirect(path+"/hbwj/enter/shoper/reApply?user_name="+user.getUser_name());
+		     			return ;
+		     		}
+		     		//进入商家员工主页
+		     		if(user.getStatus()==5){
+		     			//商家员工主页
+		     			response.sendRedirect(path+"/hbwj/enter/shopEmp/index?user_name="+user.getUser_name());
+		     			return ;
+		     		}
+			}
+		  }else{
+				//输入密码有误
+				request.setAttribute("message", "输入密码有误");
+				request.getRequestDispatcher("/WEB-INF/jsp/index/login.jsp").forward(request, response);
+				return ;
+			}
+		}
+	}
+	
+	   //进入忘记密码页面
+		@RequestMapping("forget")
+		public String forget(ModelMap map){			
+				return "index/forget";
+			}
+	
+		//进入忘记密码页面
+		@RequestMapping("rule")
+		public String rule(){			
+			return "index/rule";
+		}
+		
+	
+	
+	//重定向到无权限的页面
+		@RequestMapping("noRight")
+		public String noRight(){			
+			return "other/noRight";
+		}
 		
 	//重定向到错误的页面
 	@RequestMapping("enter/error")

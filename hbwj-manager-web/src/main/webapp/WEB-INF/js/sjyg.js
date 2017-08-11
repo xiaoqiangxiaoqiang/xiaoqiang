@@ -214,7 +214,7 @@ function addPanel(title) {
     //添加商品
 function addUser(){
 	//重定向到商品添加页面
-	window.location.href = "addShop";
+	window.location.href ="addShop";
 }
 
 
